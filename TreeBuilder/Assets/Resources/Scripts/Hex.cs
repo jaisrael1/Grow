@@ -9,6 +9,7 @@ public class Hex : MonoBehaviour {
 	public float realX;
 	public float realY;
 	public bool occupied;
+	public int hexType;
 
 	public CircleCollider2D collider;
 
@@ -21,12 +22,13 @@ public class Hex : MonoBehaviour {
 	public Hex hexFrom;
 	public Branch branchEntering;
 
-	public void init (int coordX, int coordY, float realX, float realY, Controller c){
+	public void init (int coordX, int coordY, float realX, float realY, int hexType, Controller c){
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.realX = realX;
 		this.realY = realY;
 		controller = c;
+		this.hexType = hexType;
 
 		collider = this.gameObject.AddComponent<CircleCollider2D>();
 		collider.radius = Mathf.Sqrt(3)/4f - 0.05f;

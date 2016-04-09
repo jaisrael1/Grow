@@ -4,6 +4,9 @@ using System.Collections;
 public class Controller : MonoBehaviour {
 
 
+	public static float ORB_BASE_PROB = 10f;
+	public static float WATER_BASE_PROB = 30f;
+
 	public Hex mouseOver;
 	public bool placing;
 	public Hex placingFrom; 
@@ -96,7 +99,7 @@ public class Controller : MonoBehaviour {
 		GameObject hexObject = new GameObject ();
 		Hex hex = hexObject.AddComponent<Hex> ();
 		hex.transform.position = new Vector3 (actX, actY, 0);
-		hex.init (x,y,actX,actY,this);
+		hex.init (x,y,actX,actY, 0, this);
 		return hex;
 		
 	}
@@ -113,7 +116,46 @@ public class Controller : MonoBehaviour {
 		float dist = Mathf.Sqrt (Mathf.Pow (end.realX - start.realX, 2) + Mathf.Pow (end.realY - start.realY, 2));
 		return (dist < 1f);
 	}
-	/*
+
+    private int calculateType(int x, int y)
+    {
+        float wProb = getWaterProb(x, y);
+        float oProb = getOrbProb(x, y);
+        float r = Random.Range(5f, 100f);
+        if (wProb > r)
+        {
+            return 2;
+        }
+        r = Random.Range(5f, 100f);
+        if (oProb > r)
+        {
+            return 3;
+        }
+        else {
+            return 1;
+        }
+
+    }
+
+    private float getOrbProb(int x, int y)
+    {
+        if (y == WORLD_HEIGHT - 1)
+        {
+            return 0;
+        }
+        return ORB_BASE_PROB * (1 - y * y / (WORLD_HEIGHT * WORLD_HEIGHT));
+    }
+
+    private float getWaterProb(int x, int y)
+    {
+        if (y == WORLD_HEIGHT - 1)
+        {
+            return 0;
+        }
+        return WATER_BASE_PROB * y / WORLD_HEIGHT;
+    }
+
+    /*
 	void OnGUI () {
 		if (GUI.Button (new Rect (10,10,100,30), "CALC HEIGHT")) {
 			treeHeight = root2.findHeight(0);
