@@ -135,7 +135,7 @@ public class Controller : MonoBehaviour {
 		GameObject hexObject = new GameObject ();
 		Hex hex = hexObject.AddComponent<Hex> ();
 		hex.transform.position = new Vector3 (actX, actY, 0);
-		hex.init (x,y,actX,actY, 0, this);
+		hex.init (x, y, actX, actY, this);
 		return hex;
 		
 	}
