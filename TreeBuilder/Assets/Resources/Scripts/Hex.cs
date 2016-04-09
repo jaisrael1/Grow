@@ -21,12 +21,22 @@ public class Hex : MonoBehaviour {
 	public Hex hexFrom;
 	public Branch branchEntering;
 
+	public const int GROUND = 1;
+	public const int AIR = 2;
+	public int type;
+
 	public void init (int coordX, int coordY, float realX, float realY, Controller c){
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.realX = realX;
 		this.realY = realY;
 		controller = c;
+
+		if (coordY < 0) { 
+			type = GROUND;
+		} else {
+			type = AIR;
+		}
 
 		collider = this.gameObject.AddComponent<CircleCollider2D>();
 		collider.radius = Mathf.Sqrt(3)/4f - 0.05f;

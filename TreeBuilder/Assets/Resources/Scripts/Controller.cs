@@ -13,9 +13,10 @@ public class Controller : MonoBehaviour {
 	public Branch currentBranch;
 	public int treeHeight;
 
-	public Hex[][] hexArray;
+	public const int WORLD_HEIGHT = 80; // the number of vertical tiles
+	public const int WORLD_WIDTH = 40;   // number of horizontal tiles 
 
-	//her'es a comment
+	public Hex[,] hexArray;
 
 	void Start () {
 		populateTiles ();
@@ -93,20 +94,20 @@ public class Controller : MonoBehaviour {
 	}
 
 	void populateTiles(){
-		//hexArray = new Hex[50] [100];
-		for (int i = -5; i < 6; i++) {
-			for (int j = -1; j < 6; j++) {
+		hexArray = new Hex[WORLD_WIDTH, WORLD_HEIGHT];
+		for (int i = -WORLD_WIDTH/2; i < WORLD_WIDTH/2; i++) {
+			for (int j = -WORLD_HEIGHT/2; j < WORLD_HEIGHT/2; j++) {
 				Hex h = placeHex (i, j);
-				if (i == 0 && j == -1) {
+				hexArray[i + WORLD_WIDTH/2, j + WORLD_HEIGHT/2] = h;
+				if (i == 0 && j == 0) {
 					root = h;
 					h.occupied = true;
 				}
-				if (i == 0 && j == 0) {
+				if (i == 0 && j == -1) {
 					root2 = h;
 					h.occupied = true;
 				}
 			}
-
 		}
 		GameObject branchObject = new GameObject ();
 		branchObject.AddComponent<LineRenderer> ();
@@ -118,9 +119,12 @@ public class Controller : MonoBehaviour {
 
 
 	Hex placeHex(int x, int y){
-		
-		float actX = (float)x * 0.75f;
-		float actY = (float)y * Mathf.Sqrt(3)/2f;
+
+		int cartX = x;
+		int cartY = -y;
+
+		float actX = (float)cartX * 0.75f;
+		float actY = (float)cartY * Mathf.Sqrt(3)/2f;
 		if (x % 2 != 0) {
 			actY += Mathf.Sqrt(3)/4f;
 		}
@@ -138,7 +142,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	bool checkFinish(Hex start, Hex end){
-		return (!end.occupied && checkAdjacent (start, end));
+		return (!end.occupied && 
+			    checkAdjacent (start, end) &&
+				start.type == end.type);
 	}
 
 	bool checkAdjacent(Hex start, Hex end){
