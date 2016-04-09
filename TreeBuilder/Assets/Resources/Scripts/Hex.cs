@@ -22,15 +22,11 @@ public class Hex : MonoBehaviour {
 	public Hex hexFrom;
 	public Branch branchEntering;
 
-<<<<<<< HEAD
 	public const int GROUND = 1;
 	public const int AIR = 2;
 	public int type;
 
 	public void init (int coordX, int coordY, float realX, float realY, Controller c){
-=======
-	public void init (int coordX, int coordY, float realX, float realY, int hexType, Controller c){
->>>>>>> a7ff43afc2fb0e177c53f039679d0ed5efb239fb
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.realX = realX;
