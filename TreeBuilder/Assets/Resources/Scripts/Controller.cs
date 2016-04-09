@@ -37,21 +37,21 @@ public class Controller : MonoBehaviour {
 		float mouseY = worldPos.y;
 		worldPos.z = 0;
 
-		if (Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f) {
+		if (Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f && Input.mousePosition.x < Camera.main.pixelWidth) {
 			Camera.main.transform.Translate(new Vector3(0.1f, 0, 0));
 		}
 
 
-		if (Input.mousePosition.x < Camera.main.pixelWidth / 10f) {
+		if (Input.mousePosition.x < Camera.main.pixelWidth / 10f && Input.mousePosition.x > 0) {
 			Camera.main.transform.Translate (new Vector3 (-0.1f, 0, 0));
 		}
 
 
-		if (Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f) {
+		if (Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f && Input.mousePosition.y < Camera.main.pixelHeight) {
 			Camera.main.transform.Translate (new Vector3 (0, 0.1f, 0));
 		}
 
-		if (Input.mousePosition.y < Camera.main.pixelHeight / 10f) {
+		if (Input.mousePosition.y < Camera.main.pixelHeight / 10f && Input.mousePosition.y > 0) {
 			Camera.main.transform.Translate (new Vector3 (0, -0.1f, 0));
 		}
 
