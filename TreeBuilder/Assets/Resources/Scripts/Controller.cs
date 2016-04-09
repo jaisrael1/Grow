@@ -13,6 +13,8 @@ public class Controller : MonoBehaviour {
 	public Branch currentBranch;
 	public int treeHeight;
 
+	public Hex[][] hexArray;
+
 	//her'es a comment
 
 	void Start () {
@@ -24,13 +26,42 @@ public class Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (Input.GetButton("Vertical")){
+			if (!(Camera.main.orthographicSize < 0.5f && Input.GetAxis("Vertical") < 0)) {
+				Camera.main.orthographicSize += 0.1f * Input.GetAxis ("Vertical");
+			}
+		}
+
+		Vector3 worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		float mouseX = worldPos.x;
+		float mouseY = worldPos.y;
+		worldPos.z = 0;
+
+		if (Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f) {
+			Camera.main.transform.Translate(new Vector3(0.1f, 0, 0));
+		}
+
+
+		if (Input.mousePosition.x < Camera.main.pixelWidth / 10f) {
+			Camera.main.transform.Translate (new Vector3 (-0.1f, 0, 0));
+		}
+
+
+		if (Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f) {
+			Camera.main.transform.Translate (new Vector3 (0, 0.1f, 0));
+		}
+
+		if (Input.mousePosition.y < Camera.main.pixelHeight / 10f) {
+			Camera.main.transform.Translate (new Vector3 (0, -0.1f, 0));
+		}
+
 		if (Input.GetMouseButtonDown (0)) {
-			
+			/*
 			Vector3 worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			float mouseX = worldPos.x;
 			float mouseY = worldPos.y;
 			worldPos.z = 0;
-
+			*/
 			if (!placing) {
 				if (mouseOver != null && checkStart (mouseOver)) {
 					placingFrom = mouseOver;
@@ -62,6 +93,7 @@ public class Controller : MonoBehaviour {
 	}
 
 	void populateTiles(){
+		//hexArray = new Hex[50] [100];
 		for (int i = -5; i < 6; i++) {
 			for (int j = -1; j < 6; j++) {
 				Hex h = placeHex (i, j);
