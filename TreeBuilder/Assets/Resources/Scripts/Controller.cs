@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Collections.Generic;
 
 public class Controller : MonoBehaviour {
 
@@ -72,7 +74,6 @@ public class Controller : MonoBehaviour {
 			}
 		}
 		if (Input.GetMouseButtonUp(0)){
-
 			if (placing){
 				Hex end = mouseOver;
 				if (end != null && checkFinish (placingFrom, end)) {
@@ -86,18 +87,22 @@ public class Controller : MonoBehaviour {
 				placing = false;
 			}
 		}
-		/*
-		 * Some stuff for debugging
+
+		/* debugging stuff
 		if (Input.GetMouseButtonUp(0)) { 
+
 			Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 	
 			float mouseX = worldPos.x;
 			float mouseY = worldPos.y;
 			print("you just clicked at "+mouseX+" "+mouseY);
+
 			if (mouseOver != null) {
 				print (mouseOver.coordX+" "+mouseOver.coordY);
+				//print(mouseOver.Equals(hexArray[mouseOver.coordX + WORLD_WIDTH / 2, mouseOver.coordY + WORLD_HEIGHT /2]));
 			}
 		}
 		*/
+
 	}
 
 	void populateTiles(){
@@ -107,7 +112,6 @@ public class Controller : MonoBehaviour {
 				hexArray[i + WORLD_WIDTH/2, j + WORLD_HEIGHT/2] = placeHex (i, j);
 			}
 		}
-
 		GameObject rootHexObject = new GameObject ();
 		root = rootHexObject.AddComponent<Hex> ();
 		root.transform.position = new Vector3 (0, -Mathf.Sqrt(3)/4f, 0);
@@ -161,7 +165,8 @@ public class Controller : MonoBehaviour {
 		float dist = Mathf.Sqrt (Mathf.Pow (end.realX - start.realX, 2) + Mathf.Pow (end.realY - start.realY, 2));
 		return (dist < 1f);
 	}
-
+		
+	/*
     private int calculateType(int x, int y)
     {
         float wProb = getWaterProb(x, y);
