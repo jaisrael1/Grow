@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-<<<<<<< HEAD
-=======
 using System;
->>>>>>> origin/master
 using System.Collections.Generic;
 
 public class Controller : MonoBehaviour {
@@ -112,7 +109,6 @@ public class Controller : MonoBehaviour {
 			}
 		}
 
-<<<<<<< HEAD
         sunDisplay = "Sunlight: " + sunEnergy;
 		/*
 		 * Some stuff for debugging
@@ -203,17 +199,17 @@ public class Controller : MonoBehaviour {
 		return (dist < 1f);
 	}
 		
-	/*
+	
     private int calculateType(int x, int y)
     {
         float wProb = getWaterProb(x, y);
         float oProb = getOrbProb(x, y);
-        float r = Random.Range(5f, 100f);
+        float r = UnityEngine.Random.Range(5f, 100f);
         if (wProb > r)
         {
             return 2;
         }
-        r = Random.Range(5f, 100f);
+        r = UnityEngine.Random.Range(5f, 100f);
         if (oProb > r)
         {
             return 3;
