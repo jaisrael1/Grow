@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Controller : MonoBehaviour {
 
@@ -18,7 +19,17 @@ public class Controller : MonoBehaviour {
 	public Branch currentBranch;
 	public int treeHeight;
 
-	public const int WORLD_HEIGHT = 80; // the number of vertical tiles
+    //GameObject hexFolder;
+    //List<Hex> hexes;
+
+    GameObject lightFolder;
+    List<Light> lights;
+
+    public int sunEnergy = 10;
+    string sunDisplay;
+
+
+    public const int WORLD_HEIGHT = 80; // the number of vertical tiles
 	public const int WORLD_WIDTH = 50;   // number of horizontal tiles 
 
 	public Hex[,] hexArray;
@@ -27,7 +38,18 @@ public class Controller : MonoBehaviour {
 		populateTiles ();
 		placing = false;
 		treeHeight = 0;
-	}
+
+        //Folder to store all hexes
+        /*hexFolder = new GameObject();
+        hexFolder.name = "Hexes";
+        hexes = new List<Hex>();*/
+
+        //SunDrops
+        lightFolder = new GameObject();
+        lightFolder.name = "Sundrops";
+        lights = new List<Light>();
+        InvokeRepeating("sunGenerator", 0f, 0.5f);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -86,6 +108,8 @@ public class Controller : MonoBehaviour {
 				placing = false;
 			}
 		}
+
+        sunDisplay = "Sunlight: " + sunEnergy;
 		/*
 		 * Some stuff for debugging
 		if (Input.GetMouseButtonUp(0)) { 
@@ -143,7 +167,14 @@ public class Controller : MonoBehaviour {
 		Hex hex = hexObject.AddComponent<Hex> ();
 		hex.transform.position = new Vector3 (actX, actY, 0);
 		hex.init (x, y, actX, actY, this);
-		return hex;
+
+        //Tried to put all the hexes in a folder, didnt work for some reason
+
+        /*hexes.Add(hex);
+        hex.name = "Hex " + hexes.Count;
+        hex.transform.parent = hexFolder.transform;*/
+
+        return hex;
 		
 	}
 
@@ -200,14 +231,48 @@ public class Controller : MonoBehaviour {
         return WATER_BASE_PROB * y / WORLD_HEIGHT;
     }
 
-    /*
+    void sunGenerator()
+    {
+        System.Random random = new System.Random();
+        float x = random.Next(-WORLD_WIDTH/2, WORLD_WIDTH/2);
+        createSun(0.75f * x, (WORLD_HEIGHT/2)*Mathf.Sqrt(3) / 2f);
+    }
+
+    void createSun(float x, float y)
+    {
+        GameObject lightObject = new GameObject();
+        Light newLight = lightObject.AddComponent<Light>();
+        newLight.init(x, y, this);
+
+        BoxCollider2D box = lightObject.AddComponent<BoxCollider2D>();         //Colliders
+        box.size = new Vector2(0.5f, 0.5f);
+        lightObject.SetActive(true);
+        box.isTrigger = true;
+
+        Rigidbody2D rig = lightObject.AddComponent<Rigidbody2D>();
+        rig.isKinematic = true;
+
+        lights.Add(newLight);
+        newLight.name = "Sundrop " + lights.Count;
+        newLight.transform.parent = lightFolder.transform;
+    }
+
+    void addSunEnergy(float scale)
+    {
+        int value = (int)(scale * 10);
+        sunEnergy += value;
+    }
+
+    
 	void OnGUI () {
-		if (GUI.Button (new Rect (10,10,100,30), "CALC HEIGHT")) {
+        /*if (GUI.Button (new Rect (10,10,100,30), "CALC HEIGHT")) {
 			treeHeight = root2.findHeight(0);
 			print (treeHeight);
-		}
-	}
-	*/
+		}*/
+        GUI.contentColor = Color.yellow;
+        GUI.Label(new Rect(Screen.width -100, Screen.height/2, 100, 20), sunDisplay);
+    }
+	
 
 }
 

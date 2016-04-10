@@ -12,7 +12,7 @@ public class Joint : MonoBehaviour {
 
 		//transform.parent = branch.hexEnd.transform;				
 		transform.localPosition = branch.hexEnd.transform.position;//new Vector3(0,0,0);		
-		name = "Tree Joint Model";									
+		//name = "Tree Joint Model";									
 
 		mat = GetComponent<Renderer>().material;
 		mat.shader = Shader.Find ("Transparent/Diffuse");

@@ -63,8 +63,19 @@ public class Branch : MonoBehaviour {
 
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		joint = modelObject.AddComponent<Joint>();
-		joint.init(this);	
-	}
+		joint.init(this);
+        modelObject.tag = "joint";
+        modelObject.name = "joint";
+        
+        //Removing the default mesh collider so I can add my own
+        DestroyImmediate(modelObject.GetComponent<MeshCollider>());
+
+        //Adding colliders to the branch joints
+        BoxCollider2D box = modelObject.AddComponent<BoxCollider2D>();         
+        box.size = new Vector2(0.5f, 0.5f);
+        modelObject.SetActive(true);
+        box.isTrigger = true;
+    }
 
 	public void raiseWidth(){
 		if (widthStart < 0.45f) {
