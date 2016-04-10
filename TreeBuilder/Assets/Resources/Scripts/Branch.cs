@@ -16,29 +16,39 @@ public class Branch : MonoBehaviour {
 
 	Joint joint;
 
+	public Color branchColor = new Color (0.95f, 0.64f, 0.37f);
+
 	// Use this for initialization
 	public void init(Hex hexStart, Controller controller){
+
 		this.controller = controller;
 		this.hexStart = hexStart;
 		placedYet = false;
-
+		if (hexStart.coordX == null) {
+			placedYet = true;
+		}
 		mat = gameObject.GetComponent<LineRenderer> ().material;
 		mat.shader = Shader.Find ("Transparent/Diffuse");
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_square");	
-		mat.color = new Color (0.6f,0.4f,0.3f);	
+		if (hexStart.type == Hex.AIR) {
+			mat.color = branchColor;	
+		}
 		mat.renderQueue = 5001;
 
 		lr = gameObject.GetComponent<LineRenderer> ();
 		lr.material = mat;
-		//lr.SetColors (new Color (1, 1, 1), new Color (1, 1, 1, 1));
+
 		lr.SetPosition (0, hexStart.transform.position);
 		lr.SetPosition (1, hexStart.transform.position);
 	
-
 		widthStart = 0.085f;
 		widthEnd   = 0.07f;
 		lr.SetWidth (widthStart, widthEnd);
 
+	}
+
+	void Start(){
+		//placedYet = true;
 	}
 
 	public void confirm(Hex hexEnd){
@@ -46,6 +56,10 @@ public class Branch : MonoBehaviour {
 		lr.SetPosition (1, hexEnd.transform.position);
 		placedYet = true;
 		lr.SetWidth (widthStart, widthEnd);
+
+		if (hexEnd.type == Hex.AIR) {
+			mat.color = branchColor;
+		}
 
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		joint = modelObject.AddComponent<Joint>();
@@ -65,7 +79,7 @@ public class Branch : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (!placedYet) {
+		if (!placedYet && controller != null) {
 			worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			float mouseX = worldPos.x;
 			float mouseY = worldPos.y;

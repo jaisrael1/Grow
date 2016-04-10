@@ -10,14 +10,16 @@ public class Controller : MonoBehaviour {
 	public Hex mouseOver;
 	public bool placing;
 	public Hex placingFrom; 
+	//public Hex airRoot;
+	//public Hex groundRoot;
 	public Hex root;
-	public Hex root2;
-	public Branch rootBranch;
+	public Branch airRootBranch;
+	public Branch groundRootBranch;
 	public Branch currentBranch;
 	public int treeHeight;
 
 	public const int WORLD_HEIGHT = 80; // the number of vertical tiles
-	public const int WORLD_WIDTH = 40;   // number of horizontal tiles 
+	public const int WORLD_WIDTH = 50;   // number of horizontal tiles 
 
 	public Hex[,] hexArray;
 
@@ -30,42 +32,32 @@ public class Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		//CAMERA STUFF
 		if (Input.GetButton("Vertical")){
 			if (!(Camera.main.orthographicSize < 0.5f && Input.GetAxis("Vertical") < 0)) {
 				Camera.main.orthographicSize += 0.1f * Input.GetAxis ("Vertical");
 			}
 		}
-
-		Vector3 worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		float mouseX = worldPos.x;
-		float mouseY = worldPos.y;
-		worldPos.z = 0;
-
 		if (Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f && Input.mousePosition.x < Camera.main.pixelWidth) {
 			Camera.main.transform.Translate(new Vector3(0.1f, 0, 0));
 		}
-
-
 		if (Input.mousePosition.x < Camera.main.pixelWidth / 10f && Input.mousePosition.x > 0) {
 			Camera.main.transform.Translate (new Vector3 (-0.1f, 0, 0));
 		}
-
-
 		if (Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f && Input.mousePosition.y < Camera.main.pixelHeight) {
 			Camera.main.transform.Translate (new Vector3 (0, 0.1f, 0));
 		}
-
 		if (Input.mousePosition.y < Camera.main.pixelHeight / 10f && Input.mousePosition.y > 0) {
 			Camera.main.transform.Translate (new Vector3 (0, -0.1f, 0));
 		}
 
+		//BRANCH-DRAWING STUFF
 		if (Input.GetMouseButtonDown (0)) {
-			/*
 			Vector3 worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			float mouseX = worldPos.x;
 			float mouseY = worldPos.y;
 			worldPos.z = 0;
-			*/
+
 			if (!placing) {
 				if (mouseOver != null && checkStart (mouseOver)) {
 					placingFrom = mouseOver;
@@ -94,42 +86,57 @@ public class Controller : MonoBehaviour {
 				placing = false;
 			}
 		}
+		/*
+		 * Some stuff for debugging
+		if (Input.GetMouseButtonUp(0)) { 
+			Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 	
+			float mouseX = worldPos.x;
+			float mouseY = worldPos.y;
+			print("you just clicked at "+mouseX+" "+mouseY);
+			if (mouseOver != null) {
+				print (mouseOver.coordX+" "+mouseOver.coordY);
+			}
+		}
+		*/
 	}
 
 	void populateTiles(){
 		hexArray = new Hex[WORLD_WIDTH, WORLD_HEIGHT];
 		for (int i = -WORLD_WIDTH/2; i < WORLD_WIDTH/2; i++) {
 			for (int j = -WORLD_HEIGHT/2; j < WORLD_HEIGHT/2; j++) {
-				Hex h = placeHex (i, j);
-				hexArray[i + WORLD_WIDTH/2, j + WORLD_HEIGHT/2] = h;
-				if (i == 0 && j == 0) {
-					root = h;
-					h.occupied = true;
-				}
-				if (i == 0 && j == -1) {
-					root2 = h;
-					h.occupied = true;
-				}
+				hexArray[i + WORLD_WIDTH/2, j + WORLD_HEIGHT/2] = placeHex (i, j);
 			}
 		}
+
+		GameObject rootHexObject = new GameObject ();
+		root = rootHexObject.AddComponent<Hex> ();
+		root.transform.position = new Vector3 (0, -Mathf.Sqrt(3)/4f, 0);
+		root.rootInit (0, Mathf.Sqrt(3)/4f, this);
+
 		GameObject branchObject = new GameObject ();
 		branchObject.AddComponent<LineRenderer> ();
-		rootBranch = branchObject.AddComponent<Branch> ();
-		rootBranch.init (root, this);
-		rootBranch.confirm (root2);
-		root.addBranch (root2, rootBranch);
-	}
+		airRootBranch = branchObject.AddComponent<Branch> ();
+		airRootBranch.init (root, this);
+		root.addBranch( hexArray[WORLD_WIDTH / 2, WORLD_HEIGHT / 2], airRootBranch);
+		airRootBranch.confirm(hexArray[WORLD_WIDTH/2,WORLD_HEIGHT/2]);
 
+		GameObject branchObject2 = new GameObject ();
+		branchObject2.AddComponent<LineRenderer> ();
+		groundRootBranch = branchObject2.AddComponent<Branch> ();
+		groundRootBranch.init (root, this);
+		root.addBranch( hexArray[WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1], groundRootBranch);
+		groundRootBranch.confirm(hexArray[WORLD_WIDTH/2,WORLD_HEIGHT/2 - 1]);
+	}
 
 	Hex placeHex(int x, int y){
 
 		int cartX = x;
-		int cartY = -y;
+		int cartY = y;
 
 		float actX = (float)cartX * 0.75f;
 		float actY = (float)cartY * Mathf.Sqrt(3)/2f;
 		if (x % 2 != 0) {
-			actY += Mathf.Sqrt(3)/4f;
+			actY -= Mathf.Sqrt(3)/4f;
 		}
 		
 		GameObject hexObject = new GameObject ();
@@ -141,7 +148,7 @@ public class Controller : MonoBehaviour {
 	}
 
 	bool checkStart(Hex start){
-		return (start.occupied && start != root);
+		return (start.occupied);
 	}
 
 	bool checkFinish(Hex start, Hex end){

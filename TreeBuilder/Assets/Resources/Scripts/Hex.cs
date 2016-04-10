@@ -15,6 +15,7 @@ public class Hex : MonoBehaviour {
 
 	public Controller controller;
 	public HexModel model;
+	public TileModel tileModel;
 
 	public ArrayList hex_edges;
 	public ArrayList branches_leaving;
@@ -25,6 +26,8 @@ public class Hex : MonoBehaviour {
 	public const int GROUND = 1;
 	public const int AIR = 2;
 	public int type;
+	public bool isRoot;
+
 
 	public void init (int coordX, int coordY, float realX, float realY, Controller c){
 		this.coordX = coordX;
@@ -32,7 +35,6 @@ public class Hex : MonoBehaviour {
 		this.realX = realX;
 		this.realY = realY;
 		controller = c;
-		this.hexType = hexType;
 
 		if (coordY < 0) { 
 			type = GROUND;
@@ -40,30 +42,40 @@ public class Hex : MonoBehaviour {
 			type = AIR;
 		}
 
-		collider = this.gameObject.AddComponent<CircleCollider2D>();
-		collider.radius = Mathf.Sqrt(3)/4f - 0.05f;
+		collider = this.gameObject.AddComponent<CircleCollider2D> ();
+		collider.radius = Mathf.Sqrt (3) / 4f - 0.05f;
 		collider.isTrigger = true;
 
-		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-		model = modelObject.AddComponent<HexModel>();
-		model.init(this);	
+		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		model = modelObject.AddComponent<HexModel> ();
+		model.init (this);	
 
 		hex_edges = new ArrayList ();
 		branches_leaving = new ArrayList ();
 		occupied = false;
+
+		if (type == GROUND) {
+			var modelObject2 = GameObject.CreatePrimitive (PrimitiveType.Quad);
+			tileModel = modelObject2.AddComponent<TileModel> ();
+			tileModel.init (this);	
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public void rootInit(float realX, float realY, Controller c){
+		this.realX = realX;
+		this.realY = realY;
+		controller = c;
+		hex_edges = new ArrayList ();
+		branches_leaving = new ArrayList ();
+		occupied = true;
 	}
 
 	public void addBranch(Hex hexTo, Branch b){
-		hex_edges.Add (hexTo);
-		branches_leaving.Add (b);
-		hexTo.hexFrom = this;
-		hexTo.occupied = true;
-		hexTo.branchEntering = b;
+			hex_edges.Add (hexTo);
+			branches_leaving.Add (b);
+			hexTo.hexFrom = this;
+			hexTo.occupied = true;
+			hexTo.branchEntering = b;
 	}
 
 	public void updateWidth(){
