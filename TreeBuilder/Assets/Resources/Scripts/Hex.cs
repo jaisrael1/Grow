@@ -102,11 +102,13 @@ public class Hex : MonoBehaviour {
 
 	void OnMouseEnter(){
 		controller.mouseOver = this;
+		model.mat.color = new Color (1, 1, 1, 0.5f);
 	}
 
 	void OnMouseExit(){
-		if (controller.mouseOver = this) {
+		if (controller.mouseOver.Equals(this)) {
 			controller.mouseOver = null;
 		}
+		model.mat.color = new Color (1, 1, 1, 0.25f);
 	}
 }

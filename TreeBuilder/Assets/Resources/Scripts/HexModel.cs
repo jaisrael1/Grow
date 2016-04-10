@@ -4,7 +4,7 @@ using System.Collections;
 public class HexModel : MonoBehaviour {
 
 	Hex hex;
-	Material mat;
+	public Material mat;
 
 	// Use this for initialization
 	public void init(Hex h){
@@ -19,7 +19,7 @@ public class HexModel : MonoBehaviour {
 		mat.renderQueue = 5000;
 		mat.shader = Shader.Find ("Transparent/Diffuse");
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/tile");	
-		mat.color = new Color(1,1,1);											
+		mat.color = new Color(1,1,1,0.25f);											
 
 	}
 	
