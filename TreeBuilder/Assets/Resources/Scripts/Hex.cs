@@ -79,6 +79,9 @@ public class Hex : MonoBehaviour
 		hexTo.hexFrom = this;
 		hexTo.occupied = true;
 		hexTo.branchEntering = b;
+		if (controller.initialized) {
+			controller.audioM.source1.PlayOneShot (controller.audioM.clip2);
+		}
 	}
 
 	public void updateWidth ()

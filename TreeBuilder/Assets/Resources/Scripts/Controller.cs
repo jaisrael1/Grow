@@ -9,6 +9,8 @@ public class Controller : MonoBehaviour {
 	public static float ORB_BASE_PROB = 10f;
 	public static float WATER_BASE_PROB = 30f;
 
+	public bool initialized;
+
 	public Hex mouseOver;
 	public bool placing;
 	public Hex placingFrom; 
@@ -38,6 +40,7 @@ public class Controller : MonoBehaviour {
 	public Hex[,] hexArray;
 
 	void Start () {
+		initialized = false;
 		populateTiles ();
 		placing = false;
 		treeHeight = 0;
@@ -58,6 +61,7 @@ public class Controller : MonoBehaviour {
         lightFolder.name = "Sundrops";
         lights = new List<Light>();
         InvokeRepeating("sunGenerator", 0f, 0.5f);
+		initialized = true;
     }
 	
 	// Update is called once per frame
