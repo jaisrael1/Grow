@@ -30,6 +30,7 @@ public class Controller : MonoBehaviour {
     string sunDisplay;
 
 	public AudioManager audioM;
+	public GameObject audioObject;
 
     public const int WORLD_HEIGHT = 80; // the number of vertical tiles
 	public const int WORLD_WIDTH = 50;   // number of horizontal tiles 
@@ -41,7 +42,7 @@ public class Controller : MonoBehaviour {
 		placing = false;
 		treeHeight = 0;
 
-		GameObject audioObject = new GameObject ();
+		audioObject = new GameObject ();
 		audioObject.name = "audio manager";
 		audioObject.AddComponent<AudioSource>();
 		audioM = audioObject.AddComponent<AudioManager> ();
