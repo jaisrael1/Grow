@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour {
 		source1 = GetComponent<AudioSource>();
 		source2 = GetComponent<AudioSource>();
 		clip1 = Resources.Load<AudioClip>("Sounds/Sun Draft");
-		clip2 = Resources.Load<AudioClip>("Sounds/Orb Draft");
+		clip2 = Resources.Load<AudioClip>("Sounds/branching");
 		//source1.clip = clip1;
 		source1.loop = false;
 		source1.PlayOneShot(clip1);
