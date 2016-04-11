@@ -31,6 +31,7 @@ public class Light : MonoBehaviour {
         if (col.gameObject.tag == "joint") {
             m.SendMessage("addSunEnergy", this.transform.localScale.x);
             this.transform.localScale = this.transform.localScale * 0.7f;
+			m.audioM.source1.PlayOneShot(m.audioM.clip1);
         }
     }
 }

@@ -29,6 +29,7 @@ public class Controller : MonoBehaviour {
     public int sunEnergy = 10;
     string sunDisplay;
 
+	public AudioManager audioM;
 
     public const int WORLD_HEIGHT = 80; // the number of vertical tiles
 	public const int WORLD_WIDTH = 50;   // number of horizontal tiles 
@@ -39,6 +40,12 @@ public class Controller : MonoBehaviour {
 		populateTiles ();
 		placing = false;
 		treeHeight = 0;
+
+		GameObject audioObject = new GameObject ();
+		audioObject.name = "audio manager";
+		audioObject.AddComponent<AudioSource>();
+		audioM = audioObject.AddComponent<AudioManager> ();
+		audioM.init (this);
 
         //Folder to store all hexes
         /*hexFolder = new GameObject();
