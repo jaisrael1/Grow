@@ -22,8 +22,8 @@ public class Controller : MonoBehaviour {
 	public Branch currentBranch;
 	public int treeHeight;
 	public int currentCost;
-    //GameObject hexFolder;
-    //List<Hex> hexes;
+    GameObject hexFolder;
+	//List<GameObject> hexes;
 
     GameObject lightFolder;
     List<Light> lights;
@@ -44,6 +44,7 @@ public class Controller : MonoBehaviour {
 
 	void Start () {
 		initialized = false;
+		hexFolder = new GameObject();
 		populateTiles ();
 		placing = false;
 		treeHeight = 0;
@@ -55,9 +56,9 @@ public class Controller : MonoBehaviour {
 		audioM.init (this);
 
         //Folder to store all hexes
-        /*hexFolder = new GameObject();
+
         hexFolder.name = "Hexes";
-        hexes = new List<Hex>();*/
+		//hexes = new List<GameObject>();
 
         //SunDrops
         lightFolder = new GameObject();
@@ -197,9 +198,9 @@ public class Controller : MonoBehaviour {
 
         //Tried to put all the hexes in a folder, didnt work for some reason
 
-        /*hexes.Add(hex);
-        hex.name = "Hex " + hexes.Count;
-        hex.transform.parent = hexFolder.transform;*/
+        //hexes.Add(hexObject);
+        hexObject.name = "Hex";
+        hexObject.transform.parent = hexFolder.transform;
 
         return hex;
 		
