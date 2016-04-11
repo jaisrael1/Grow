@@ -72,6 +72,14 @@ public class Hex : MonoBehaviour
 		occupied = true;
 	}
 
+	public int findHeight(){
+		if (hexFrom.Equals(controller.root)){
+			return 1;
+		} else {
+			return 1 + hexFrom.findHeight();
+		}
+	}
+
 	public void addBranch (Hex hexTo, Branch b)
 	{
 		hex_edges.Add (hexTo);

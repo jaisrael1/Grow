@@ -21,12 +21,15 @@ public class Controller : MonoBehaviour {
 	public Branch groundRootBranch;
 	public Branch currentBranch;
 	public int treeHeight;
-
+	public int currentCost;
     //GameObject hexFolder;
     //List<Hex> hexes;
 
     GameObject lightFolder;
     List<Light> lights;
+
+	public const int COST_LIN = 1;
+	public const float COST_EX = 1.1f;
 
     public int sunEnergy = 10;
     string sunDisplay;
@@ -103,9 +106,13 @@ public class Controller : MonoBehaviour {
 					Branch branch = branchObject.AddComponent<Branch> ();
 					branch.init (placingFrom, this);
 					currentBranch = branch;
+
+					currentCost = findCost (placingFrom);
+					print ("the cost of that would be " + currentCost);
 				}
 			}
 		}
+
 		if (Input.GetMouseButtonUp(0)){
 			if (placing){
 				Hex end = mouseOver;
@@ -113,11 +120,13 @@ public class Controller : MonoBehaviour {
 					placingFrom.addBranch (end, currentBranch);
 					currentBranch.confirm (end);
 					end.updateWidth ();
+					sunEnergy -= currentCost;
 				} else {
 					Destroy (currentBranch.gameObject);
 				}
 				currentBranch = null;
 				placing = false;
+				currentCost = 0;
 			}
 		}
 
@@ -203,7 +212,8 @@ public class Controller : MonoBehaviour {
 	bool checkFinish(Hex start, Hex end){
 		return (!end.occupied && 
 			    checkAdjacent (start, end) &&
-				start.type == end.type);
+				start.type == end.type &&
+				sunEnergy >= currentCost);
 	}
 
 	bool checkAdjacent(Hex start, Hex end){
@@ -282,6 +292,9 @@ public class Controller : MonoBehaviour {
         sunEnergy += value;
     }
 
+	public int findCost(Hex h){
+		return ((int)Mathf.Pow (h.findHeight (), COST_EX) * COST_LIN);
+	}
     
 	void OnGUI () {
         /*if (GUI.Button (new Rect (10,10,100,30), "CALC HEIGHT")) {
