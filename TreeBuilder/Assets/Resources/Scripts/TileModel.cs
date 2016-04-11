@@ -6,7 +6,6 @@ public class TileModel : MonoBehaviour {
 	Hex hex;
 	Material mat;
 
-	// Use this for initialization
 	public void init(Hex h){
 
 		hex = h;

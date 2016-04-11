@@ -16,8 +16,7 @@ public class LightModel : MonoBehaviour {
         mat.shader = Shader.Find("Sprites/Default");
         mat.mainTexture = Resources.Load<Texture2D>("Textures/sun image");
         mat.color = new Color(1, 1, 1);
-        
-                                             
+		mat.renderQueue = 5002;                            
         
     }
 	

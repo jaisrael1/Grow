@@ -19,7 +19,7 @@ public class Light : MonoBehaviour {
 	void Update () {
         this.transform.Translate(new Vector3(0, -0.03f));
         this.transform.localScale = this.transform.localScale * 0.999f;
-        if(this.transform.position.y < -0.5 || this.transform.localScale.x < 0.1)
+        if(/*this.transform.position.y < -0.5 ||*/ this.transform.localScale.x < 0.1)
         {
             Destroy(this.gameObject);
         }
@@ -35,4 +35,10 @@ public class Light : MonoBehaviour {
 			m.audioM.source1.PlayOneShot(m.audioM.clip1);
         }
     }
+
+	void OnTriggerStay2D(Collider2D col){
+		if (col.gameObject.tag == "ground_hex") {
+			this.transform.localScale = this.transform.localScale * 0.7f;
+		}
+	}
 }

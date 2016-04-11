@@ -2,10 +2,11 @@
 using System.Collections;
 
 
-public class Hex : MonoBehaviour {
+public class Hex : MonoBehaviour
+{
 
-	public int   coordX;
-	public int   coordY;
+	public int coordX;
+	public int coordY;
 	public float realX;
 	public float realY;
 	public bool occupied;
@@ -29,18 +30,14 @@ public class Hex : MonoBehaviour {
 	public bool isRoot;
 
 
-	public void init (int coordX, int coordY, float realX, float realY, Controller c){
+	public void init (int coordX, int coordY, float realX, float realY, Controller c)
+	{
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.realX = realX;
 		this.realY = realY;
 		controller = c;
 
-		if (coordY < 0) { 
-			type = GROUND;
-		} else {
-			type = AIR;
-		}
 
 		collider = this.gameObject.AddComponent<CircleCollider2D> ();
 		collider.radius = Mathf.Sqrt (3) / 4f - 0.05f;
@@ -54,14 +51,19 @@ public class Hex : MonoBehaviour {
 		branches_leaving = new ArrayList ();
 		occupied = false;
 
-		if (type == GROUND) {
+		if (coordY < 0) { 
+			type = GROUND;
+			this.gameObject.tag = "ground_hex";
 			var modelObject2 = GameObject.CreatePrimitive (PrimitiveType.Quad);
 			tileModel = modelObject2.AddComponent<TileModel> ();
 			tileModel.init (this);	
+		} else {
+			type = AIR;
 		}
 	}
 
-	public void rootInit(float realX, float realY, Controller c){
+	public void rootInit (float realX, float realY, Controller c)
+	{
 		this.realX = realX;
 		this.realY = realY;
 		controller = c;
@@ -70,27 +72,30 @@ public class Hex : MonoBehaviour {
 		occupied = true;
 	}
 
-	public void addBranch(Hex hexTo, Branch b){
-			hex_edges.Add (hexTo);
-			branches_leaving.Add (b);
-			hexTo.hexFrom = this;
-			hexTo.occupied = true;
-			hexTo.branchEntering = b;
+	public void addBranch (Hex hexTo, Branch b)
+	{
+		hex_edges.Add (hexTo);
+		branches_leaving.Add (b);
+		hexTo.hexFrom = this;
+		hexTo.occupied = true;
+		hexTo.branchEntering = b;
 	}
 
-	public void updateWidth(){
+	public void updateWidth ()
+	{
 		if (hexFrom != null) {
 			branchEntering.raiseWidth ();
 			hexFrom.updateWidth ();
 		}
 	}
 
-	public int findHeight(int h){
+	public int findHeight (int h)
+	{
 		if (hex_edges.Count != branches_leaving.Count) {
 			print ("Edges assigned incorrectly!");
 		}
 		int max = h;
-		foreach (Hex i in hex_edges){
+		foreach (Hex i in hex_edges) {
 			int thisHeight = i.findHeight (h + 1);
 			if (thisHeight > max) {
 				max = thisHeight;
@@ -100,13 +105,15 @@ public class Hex : MonoBehaviour {
 	}
 
 
-	void OnMouseEnter(){
+	void OnMouseEnter ()
+	{
 		controller.mouseOver = this;
 		model.mat.color = new Color (1, 1, 1, 0.5f);
 	}
 
-	void OnMouseExit(){
-		if (controller.mouseOver.Equals(this)) {
+	void OnMouseExit ()
+	{
+		if (controller.mouseOver.Equals (this)) {
 			controller.mouseOver = null;
 		}
 		model.mat.color = new Color (1, 1, 1, 0.25f);
