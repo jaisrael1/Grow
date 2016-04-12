@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour {
 
 
 	public static float ORB_BASE_PROB = 10f;
-	public static float WATER_BASE_PROB = 30f;
+	public static float WATER_BASE_PROB = 50f;
 
 	public bool initialized;
 
@@ -28,11 +28,16 @@ public class Controller : MonoBehaviour {
     GameObject lightFolder;
     List<Light> lights;
 
+	GameObject waterFolder;
+
 	public const int COST_LIN = 1;
 	public const float COST_EX = 1.1f;
 
     public int sunEnergy = 10;
     string sunDisplay;
+
+	public int waterEnergy = 10;
+	string waterDisplay;
 
 	public AudioManager audioM;
 	public GameObject audioObject;
@@ -47,6 +52,8 @@ public class Controller : MonoBehaviour {
 		populateTiles ();
 		placing = false;
 		treeHeight = 0;
+
+		addWaterToWorld ();
 
 		audioObject = new GameObject ();
 		audioObject.name = "audio manager";
@@ -64,7 +71,13 @@ public class Controller : MonoBehaviour {
         lightFolder.name = "Sundrops";
         lights = new List<Light>();
         InvokeRepeating("sunGenerator", 0f, 0.5f);
+
+		//Water
+		waterFolder = new GameObject();
+		waterFolder.name = "Waterdrops";
+
 		initialized = true;
+
     }
 	
 	// Update is called once per frame
@@ -120,7 +133,11 @@ public class Controller : MonoBehaviour {
 					placingFrom.addBranch (end, currentBranch);
 					currentBranch.confirm (end);
 					end.updateWidth ();
-					sunEnergy -= currentCost;
+					if (end.type == Hex.GROUND) {
+						sunEnergy -= currentCost;
+					} else {
+						waterEnergy -= currentCost;
+					}
 				} else {
 					Destroy (currentBranch.gameObject);
 				}
@@ -131,6 +148,7 @@ public class Controller : MonoBehaviour {
 		}
 
         sunDisplay = "Sunlight: " + sunEnergy;
+		waterDisplay = "Water: " + waterEnergy;
 		/*
 		 * Some stuff for debugging
 =======
@@ -210,10 +228,17 @@ public class Controller : MonoBehaviour {
 	}
 
 	bool checkFinish(Hex start, Hex end){
-		return (!end.occupied && 
-			    checkAdjacent (start, end) &&
+		if (start.type == Hex.AIR) {
+			return (!end.occupied &&
+			checkAdjacent (start, end) &&
+			start.type == end.type &&
+			waterEnergy >= currentCost);
+		} else {
+			return (!end.occupied &&
+				checkAdjacent (start, end) &&
 				start.type == end.type &&
 				sunEnergy >= currentCost);
+		}
 	}
 
 	bool checkAdjacent(Hex start, Hex end){
@@ -222,10 +247,10 @@ public class Controller : MonoBehaviour {
 	}
 		
 	
-    private int calculateType(int x, int y)
+    private int calculateType(Hex h)
     {
-        float wProb = getWaterProb(x, y);
-        float oProb = getOrbProb(x, y);
+        float wProb = getWaterProb(h);
+        float oProb = getOrbProb(h);
         float r = UnityEngine.Random.Range(5f, 100f);
         if (wProb > r)
         {
@@ -242,8 +267,9 @@ public class Controller : MonoBehaviour {
 
     }
 
-    private float getOrbProb(int x, int y)
+    private float getOrbProb(Hex h)
     {
+		float y = h.transform.position.y; 
         if (y == WORLD_HEIGHT - 1)
         {
             return 0;
@@ -251,13 +277,14 @@ public class Controller : MonoBehaviour {
         return ORB_BASE_PROB * (1 - y * y / (WORLD_HEIGHT * WORLD_HEIGHT));
     }
 
-    private float getWaterProb(int x, int y)
+    private float getWaterProb(Hex h)
     {
-        if (y == WORLD_HEIGHT - 1)
+		float y = h.transform.position.y;
+        if (y >= 0)
         {
             return 0;
         }
-        return WATER_BASE_PROB * y / WORLD_HEIGHT;
+		return WATER_BASE_PROB * ((y+WORLD_HEIGHT/2) / WORLD_HEIGHT)-1;
     }
 
     void sunGenerator()
@@ -286,11 +313,46 @@ public class Controller : MonoBehaviour {
         newLight.transform.parent = lightFolder.transform;
     }
 
+	void createWater (Hex h){
+		GameObject waterObject = new GameObject ();
+		Water newWater = waterObject.AddComponent<Water> ();
+		newWater.init (h, this);
+
+		BoxCollider2D box = waterObject.AddComponent<BoxCollider2D> ();
+		box.size = new Vector2 (0.5f, 0.5f);
+		//waterObject.setActive (true);
+		box.isTrigger = true;
+
+		Rigidbody2D rig = waterObject.AddComponent<Rigidbody2D> ();
+		rig.isKinematic = true;
+
+		newWater.name = "Waterdrop";
+		//newWater.transform.parent = waterFolder.transform;
+	}
+
+	void addWaterToWorld(){
+		Hex h;
+		System.Random random = new System.Random();
+ 		for (int i = -WORLD_WIDTH/2; i < WORLD_WIDTH/2; i++) {
+			for (int j = -WORLD_HEIGHT/2; j < WORLD_HEIGHT/2; j++) {
+				h = hexArray [i + WORLD_WIDTH / 2, j + WORLD_HEIGHT / 2];
+				int type = calculateType (h);
+				if (type == 2) {
+					createWater (h);
+				}
+			}
+		}
+	}
+
     void addSunEnergy(float scale)
     {
         int value = (int)(scale * 10);
         sunEnergy += value;
     }
+
+	void addWaterEnergy(int amount){
+		waterEnergy += amount;
+	}
 
 	public int findCost(Hex h){
 		return ((int)Mathf.Pow (h.findHeight (), COST_EX) * COST_LIN);
@@ -303,6 +365,8 @@ public class Controller : MonoBehaviour {
 		}*/
         GUI.contentColor = Color.yellow;
         GUI.Label(new Rect(Screen.width -100, Screen.height/2, 100, 20), sunDisplay);
+		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
+
     }
 	
 
