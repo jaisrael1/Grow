@@ -26,6 +26,7 @@ public class Water : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "joint") {
 			m.SendMessage("addWaterEnergy", ADDED_WATER);
+			m.audioM.source3.PlayOneShot(m.audioM.clip3);
 			Destroy (this.gameObject);
 			//TODO: add audio here
 		}
