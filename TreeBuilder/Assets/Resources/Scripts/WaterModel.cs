@@ -14,8 +14,8 @@ public class WaterModel : MonoBehaviour {
 
 		mat = GetComponent<Renderer>().material;
 		mat.shader = Shader.Find("Sprites/Default");
-		mat.mainTexture = Resources.Load<Texture2D>("Textures/water drop");
-		mat.color = new Color(1, 1, 1);
+		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_hexagon");
+		mat.color = new Color(0, 0, 1, 0.75f);
 		mat.renderQueue = 5003;                            
 
 	}

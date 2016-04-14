@@ -8,7 +8,7 @@ public class Water : MonoBehaviour {
 	private Hex h;
 	private Controller m;
 	private WaterModel model;
-
+	bool absorbed;
 
 	// Use this for initialization
 	public void init(Hex h, Controller m){
@@ -18,10 +18,31 @@ public class Water : MonoBehaviour {
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		model = modelObject.AddComponent<WaterModel>();
 		model.init(this);
-		this.transform.localScale = this.transform.localScale * .3f;
-
+		//this.transform.localScale = this.transform.localScale * .3f;
+		h.waterInit (this);
 	}
-	
+
+	public void payOff(){
+		m.SendMessage("addWaterEnergy", ADDED_WATER);
+		m.audioM.source3.PlayOneShot(m.audioM.clip3);
+
+		absorbed = true;
+	}
+
+	void Start(){
+		absorbed = false;
+	}
+
+	void Update(){
+		if (absorbed) {
+			this.transform.localScale *= 0.95f;
+			if (this.transform.localScale.x < 0.1f) {
+				Destroy (this.gameObject);
+			}
+		}
+	}
+
+	/*
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		if (col.gameObject.tag == "joint") {
@@ -30,5 +51,7 @@ public class Water : MonoBehaviour {
 			Destroy (this.gameObject);
 			//TODO: add audio here
 		}
+
 	}
+	*/
 }

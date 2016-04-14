@@ -10,8 +10,7 @@ public class Hex : MonoBehaviour
 	public float realX;
 	public float realY;
 	public bool occupied;
-	public int hexType;
-
+	public bool isRoot;
 	public CircleCollider2D collider;
 
 	public Controller controller;
@@ -24,11 +23,18 @@ public class Hex : MonoBehaviour
 	public Hex hexFrom;
 	public Branch branchEntering;
 
+	//type variables
 	public const int GROUND = 1;
 	public const int AIR = 2;
-	public int type;
-	public bool isRoot;
 
+	//contains variables
+	public const int NOTHING = 5;
+	public const int WATER_SINGLE = 6;
+	public const int WATER_SPRING = 7;
+	public const int ORB = 8; //probably could be expanded
+	public Water w;
+	public int type;
+	public int contains;
 
 	public void init (int coordX, int coordY, float realX, float realY, Controller c)
 	{
@@ -38,6 +44,7 @@ public class Hex : MonoBehaviour
 		this.realY = realY;
 		controller = c;
 
+		contains = NOTHING;
 
 		collider = this.gameObject.AddComponent<CircleCollider2D> ();
 		collider.radius = Mathf.Sqrt (3) / 4f - 0.05f;
@@ -72,6 +79,11 @@ public class Hex : MonoBehaviour
 		occupied = true;
 	}
 
+	public void waterInit(Water w){
+		contains = WATER_SINGLE;
+		this.w = w;
+	}
+
 	public int findHeight()
 	{
 		if (hexFrom.Equals(controller.root))
@@ -91,6 +103,15 @@ public class Hex : MonoBehaviour
 		hexTo.branchEntering = b;
 		if (controller.initialized) {
 			controller.audioM.source1.PlayOneShot (controller.audioM.clip2);
+		}
+		hexTo.waterCheck ();
+	}
+
+	public void waterCheck(){
+		if (contains == WATER_SINGLE && w != null) {
+			w.payOff ();
+			w = null;
+			contains = NOTHING;
 		}
 	}
 

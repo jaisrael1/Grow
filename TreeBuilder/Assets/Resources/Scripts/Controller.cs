@@ -274,7 +274,6 @@ public class Controller : MonoBehaviour {
     }
 
 
-
 	void addWaterToWorld(){
 		Hex h;
 		System.Random random = new System.Random();
@@ -337,7 +336,7 @@ public class Controller : MonoBehaviour {
 		GameObject waterObject = new GameObject ();
 		Water newWater = waterObject.AddComponent<Water> ();
 		newWater.init (h, this);
-
+		/*
 		BoxCollider2D box = waterObject.AddComponent<BoxCollider2D> ();
 		box.size = new Vector2 (0.5f, 0.5f);
 		//waterObject.setActive (true);
@@ -345,7 +344,7 @@ public class Controller : MonoBehaviour {
 
 		Rigidbody2D rig = waterObject.AddComponent<Rigidbody2D> ();
 		rig.isKinematic = true;
-
+		*/
 		newWater.name = "Waterdrop";
 		//newWater.transform.parent = waterFolder.transform;
 	}
