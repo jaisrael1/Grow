@@ -72,8 +72,10 @@ public class Hex : MonoBehaviour
 		occupied = true;
 	}
 
-	public int findHeight(){
-		if (hexFrom.Equals(controller.root)){
+	public int findHeight()
+	{
+		if (hexFrom.Equals(controller.root))
+		{
 			return 1;
 		} else {
 			return 1 + hexFrom.findHeight();
@@ -114,8 +116,7 @@ public class Hex : MonoBehaviour
 		}
 		return max;
 	}
-
-
+		
 	void OnMouseEnter ()
 	{
 		controller.mouseOver = this;

@@ -152,9 +152,6 @@ public class Controller : MonoBehaviour {
 		waterDisplay = "Water: " + waterEnergy;
 		/*
 		 * Some stuff for debugging
-=======
-		/* debugging stuff
->>>>>>> origin/master
 		if (Input.GetMouseButtonUp(0)) { 
 
 			Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 	
@@ -178,24 +175,7 @@ public class Controller : MonoBehaviour {
 				hexArray[i + WORLD_WIDTH/2, j + WORLD_HEIGHT/2] = placeHex (i, j);
 			}
 		}
-		GameObject rootHexObject = new GameObject ();
-		root = rootHexObject.AddComponent<Hex> ();
-		root.transform.position = new Vector3 (0, -Mathf.Sqrt(3)/4f, 0);
-		root.rootInit (0, Mathf.Sqrt(3)/4f, this);
-
-		GameObject branchObject = new GameObject ();
-		branchObject.AddComponent<LineRenderer> ();
-		airRootBranch = branchObject.AddComponent<Branch> ();
-		airRootBranch.init (root, this);
-		root.addBranch( hexArray[WORLD_WIDTH / 2, WORLD_HEIGHT / 2], airRootBranch);
-		airRootBranch.confirm(hexArray[WORLD_WIDTH/2,WORLD_HEIGHT/2]);
-
-		GameObject branchObject2 = new GameObject ();
-		branchObject2.AddComponent<LineRenderer> ();
-		groundRootBranch = branchObject2.AddComponent<Branch> ();
-		groundRootBranch.init (root, this);
-		root.addBranch( hexArray[WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1], groundRootBranch);
-		groundRootBranch.confirm(hexArray[WORLD_WIDTH/2,WORLD_HEIGHT/2 - 1]);
+		initializeRoots ();
 	}
 
 	Hex placeHex(int x, int y){
@@ -221,7 +201,6 @@ public class Controller : MonoBehaviour {
         hexObject.transform.parent = hexFolder.transform;
 
         return hex;
-		
 	}
 
 	bool checkStart(Hex start){
@@ -265,7 +244,6 @@ public class Controller : MonoBehaviour {
         else {
             return 1;
         }
-
     }
 
     private float getOrbProb(Hex h)
@@ -295,41 +273,7 @@ public class Controller : MonoBehaviour {
         createSun(0.75f * x, (WORLD_HEIGHT/2)*Mathf.Sqrt(3) / 2f);
     }
 
-    void createSun(float x, float y)
-    {
-        GameObject lightObject = new GameObject();
-        Light newLight = lightObject.AddComponent<Light>();
-        newLight.init(x, y, this);
 
-        BoxCollider2D box = lightObject.AddComponent<BoxCollider2D>();         //Colliders
-        box.size = new Vector2(0.5f, 0.5f);
-        lightObject.SetActive(true);
-        box.isTrigger = true;
-
-        Rigidbody2D rig = lightObject.AddComponent<Rigidbody2D>();
-        rig.isKinematic = true;
-
-        lights.Add(newLight);
-        newLight.name = "Sundrop " + lights.Count;
-        newLight.transform.parent = lightFolder.transform;
-    }
-
-	void createWater (Hex h){
-		GameObject waterObject = new GameObject ();
-		Water newWater = waterObject.AddComponent<Water> ();
-		newWater.init (h, this);
-
-		BoxCollider2D box = waterObject.AddComponent<BoxCollider2D> ();
-		box.size = new Vector2 (0.5f, 0.5f);
-		//waterObject.setActive (true);
-		box.isTrigger = true;
-
-		Rigidbody2D rig = waterObject.AddComponent<Rigidbody2D> ();
-		rig.isKinematic = true;
-
-		newWater.name = "Waterdrop";
-		//newWater.transform.parent = waterFolder.transform;
-	}
 
 	void addWaterToWorld(){
 		Hex h;
@@ -369,7 +313,63 @@ public class Controller : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
     }
-	
+
+	void createSun(float x, float y)
+	{
+		GameObject lightObject = new GameObject();
+		Light newLight = lightObject.AddComponent<Light>();
+		newLight.init(x, y, this);
+
+		BoxCollider2D box = lightObject.AddComponent<BoxCollider2D>();         //Colliders
+		box.size = new Vector2(0.5f, 0.5f);
+		lightObject.SetActive(true);
+		box.isTrigger = true;
+
+		Rigidbody2D rig = lightObject.AddComponent<Rigidbody2D>();
+		rig.isKinematic = true;
+
+		lights.Add(newLight);
+		newLight.name = "Sundrop " + lights.Count;
+		newLight.transform.parent = lightFolder.transform;
+	}
+
+	void createWater (Hex h){
+		GameObject waterObject = new GameObject ();
+		Water newWater = waterObject.AddComponent<Water> ();
+		newWater.init (h, this);
+
+		BoxCollider2D box = waterObject.AddComponent<BoxCollider2D> ();
+		box.size = new Vector2 (0.5f, 0.5f);
+		//waterObject.setActive (true);
+		box.isTrigger = true;
+
+		Rigidbody2D rig = waterObject.AddComponent<Rigidbody2D> ();
+		rig.isKinematic = true;
+
+		newWater.name = "Waterdrop";
+		//newWater.transform.parent = waterFolder.transform;
+	}
+
+	private void initializeRoots(){
+		GameObject rootHexObject = new GameObject ();
+		root = rootHexObject.AddComponent<Hex> ();
+		root.transform.position = new Vector3 (0, -Mathf.Sqrt (3) / 4f, 0);
+		root.rootInit (0, Mathf.Sqrt (3) / 4f, this);
+
+		GameObject branchObject = new GameObject ();
+		branchObject.AddComponent<LineRenderer> ();
+		airRootBranch = branchObject.AddComponent<Branch> ();
+		airRootBranch.init (root, this);
+		root.addBranch (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2], airRootBranch);
+		airRootBranch.confirm (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2]);
+
+		GameObject branchObject2 = new GameObject ();
+		branchObject2.AddComponent<LineRenderer> ();
+		groundRootBranch = branchObject2.AddComponent<Branch> ();
+		groundRootBranch.init (root, this);
+		root.addBranch (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1], groundRootBranch);
+		groundRootBranch.confirm (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1]);
+	}
 
 }
 
