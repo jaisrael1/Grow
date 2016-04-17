@@ -33,8 +33,8 @@ public class Branch : MonoBehaviour {
 		if (hexStart.type == Hex.AIR) {
 			mat.color = branchColor;	
 		}
-		mat.renderQueue = 5001;
-
+		mat.renderQueue = RenderCoordinator.BRANCH_RQ;
+			
 		lr = gameObject.GetComponent<LineRenderer> ();
 		lr.material = mat;
 

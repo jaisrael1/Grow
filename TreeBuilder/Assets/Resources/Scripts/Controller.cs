@@ -23,6 +23,11 @@ public class Controller : MonoBehaviour {
 	public int treeHeight;
 	public int currentCost;
     GameObject hexFolder;
+
+	List<Cloud> cloudList;
+	public const float CLOUD_MAXLENGTH = 8f;
+	public const float CLOUD_TIME = Cloud.STEP_INTERVAL * CLOUD_MAXLENGTH;
+	public float timeSinceLastCloud;
 	//List<GameObject> hexes;
 
     GameObject lightFolder;
@@ -77,6 +82,9 @@ public class Controller : MonoBehaviour {
 		waterFolder = new GameObject();
 		waterFolder.name = "Waterdrops";
 
+		cloudList = new List<Cloud> ();
+		timeSinceLastCloud = 0f;
+
 		initialized = true;
 
     }
@@ -109,6 +117,10 @@ public class Controller : MonoBehaviour {
 			float mouseX = worldPos.x;
 			float mouseY = worldPos.y;
 			worldPos.z = 0;
+
+			if (mouseOver != null) {
+				print (mouseOver.coordX + " " + mouseOver.coordY);
+			}
 
 			if (!placing) {
 				if (mouseOver != null && checkStart (mouseOver)) {
@@ -150,21 +162,17 @@ public class Controller : MonoBehaviour {
 
         sunDisplay = "Sunlight: " + sunEnergy;
 		waterDisplay = "Water: " + waterEnergy;
-		/*
-		 * Some stuff for debugging
-		if (Input.GetMouseButtonUp(0)) { 
 
-			Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 	
-			float mouseX = worldPos.x;
-			float mouseY = worldPos.y;
-			print("you just clicked at "+mouseX+" "+mouseY);
-
-			if (mouseOver != null) {
-				print (mouseOver.coordX+" "+mouseOver.coordY);
-				//print(mouseOver.Equals(hexArray[mouseOver.coordX + WORLD_WIDTH / 2, mouseOver.coordY + WORLD_HEIGHT /2]));
+		//cloud stuff
+		timeSinceLastCloud += Time.deltaTime;
+		if (timeSinceLastCloud >= CLOUD_TIME) {
+			if (UnityEngine.Random.Range (0, 5) == 0) {
+				createCloud ();
+				timeSinceLastCloud = 0f;
+			} else {
+				timeSinceLastCloud -= 5f;
 			}
 		}
-		*/
 
 	}
 
@@ -206,6 +214,7 @@ public class Controller : MonoBehaviour {
 	bool checkStart(Hex start){
 		return (start.occupied);
 	}
+		
 
 	bool checkFinish(Hex start, Hex end){
 		if (start.type == Hex.AIR) {
@@ -226,6 +235,9 @@ public class Controller : MonoBehaviour {
 		return (dist < 1f);
 	}
 		
+	public Hex hexAt(int coordX, int coordY){
+		return hexArray[coordX + WORLD_WIDTH / 2, coordY + WORLD_HEIGHT / 2];
+	}
 	
     private int calculateType(Hex h)
     {
@@ -312,6 +324,16 @@ public class Controller : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
     }
+
+	void createCloud(){
+
+		int height = UnityEngine.Random.Range (WORLD_HEIGHT / 4, WORLD_HEIGHT / 2 - 1);
+		int length = UnityEngine.Random.Range (3, (int)CLOUD_MAXLENGTH);
+
+		var cloudObject = new GameObject ();
+		cloudList.Add (cloudObject.AddComponent<Cloud>());
+		cloudList [cloudList.Count - 1].init (this, height, length);
+	}
 
 	void createSun(float x, float y)
 	{

@@ -37,7 +37,10 @@ public class Light : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D col){
 		if (col.gameObject.tag == "ground_hex") {
-			this.transform.localScale = this.transform.localScale * 0.7f;
+			this.transform.localScale *= 0.7f;
+		}
+		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().contains == Hex.CLOUD) {
+			this.transform.localScale *= 0.85f;
 		}
 	}
 }

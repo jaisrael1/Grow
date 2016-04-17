@@ -31,7 +31,8 @@ public class Hex : MonoBehaviour
 	public const int NOTHING = 5;
 	public const int WATER_SINGLE = 6;
 	public const int WATER_SPRING = 7;
-	public const int ORB = 8; //probably could be expanded
+	public const int CLOUD = 8;
+	public const int ORB = 9; //probably could be expanded
 	public Water w;
 	public int type;
 	public int contains;
@@ -63,9 +64,10 @@ public class Hex : MonoBehaviour
 			this.gameObject.tag = "ground_hex";
 			var modelObject2 = GameObject.CreatePrimitive (PrimitiveType.Quad);
 			tileModel = modelObject2.AddComponent<TileModel> ();
-			tileModel.init (this);	
+			tileModel.init (this, TileModel.GROUND_MODEL);	
 		} else {
 			type = AIR;
+			this.gameObject.tag = "air_hex";
 		}
 	}
 
@@ -141,7 +143,7 @@ public class Hex : MonoBehaviour
 	void OnMouseEnter ()
 	{
 		controller.mouseOver = this;
-		model.mat.color = new Color (1, 1, 1, 0.5f);
+		model.mat.color = new Color (1, 1, 1 , 0.5f);
 	}
 
 	void OnMouseExit ()
@@ -150,5 +152,21 @@ public class Hex : MonoBehaviour
 			controller.mouseOver = null;
 		}
 		model.mat.color = new Color (1, 1, 1, 0.25f);
+	}
+
+	public void addCloud(){
+		if (type == AIR && contains == NOTHING) {
+			contains = CLOUD;
+			var modelObject2 = GameObject.CreatePrimitive (PrimitiveType.Quad);
+			tileModel = modelObject2.AddComponent<TileModel> ();
+			tileModel.init (this, TileModel.CLOUD_MODEL);	
+		}
+	}
+
+	public void removeCloud(){
+		if (type == AIR && contains == CLOUD) {
+			contains = NOTHING;
+			Destroy (tileModel.gameObject);
+		}
 	}
 }

@@ -17,8 +17,8 @@ public class Joint : MonoBehaviour {
 		mat = GetComponent<Renderer>().material;
 		mat.shader = Shader.Find ("Transparent/Diffuse");
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_circle");	
-		mat.color = branch.mat.color;//new Color (0.4f, 0.2f, 0.1f);//(0.6f,0.4f,0.3f);	
-		mat.renderQueue = 5001;
+		mat.color = branch.mat.color;	
+		mat.renderQueue = RenderCoordinator.JOINT_RQ;
 
 		transform.localScale = new Vector3 (branch.widthEnd, branch.widthEnd, 1);
 

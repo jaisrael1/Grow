@@ -15,13 +15,9 @@ public class WaterModel : MonoBehaviour {
 		mat = GetComponent<Renderer>().material;
 		mat.shader = Shader.Find("Sprites/Default");
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_hexagon");
-		mat.color = new Color(0, 0, 1, 0.75f);
-		mat.renderQueue = 5003;                            
+		mat.color = new Color(0.15f, 0.15f, 0.9f, 0.75f);
+		mat.renderQueue = RenderCoordinator.WATER_RQ;                            
 
 	}
 
-	// Update is called once per frame
-	void Update () {
-
-	}
 }
