@@ -262,12 +262,7 @@ public class Controller : MonoBehaviour {
 
     private float getOrbProb(Hex h)
     {
-		float y = h.transform.position.y; 
-        if (y == WORLD_HEIGHT - 1)
-        {
-            return 0;
-        }
-        return ORB_BASE_PROB * (1 - y * y / (WORLD_HEIGHT * WORLD_HEIGHT));
+		return ORB_BASE_PROB * Vector3.Distance (new Vector3 (0, 0, 0), h.transform.position);
     }
 
     private float getWaterProb(Hex h)
@@ -289,13 +284,14 @@ public class Controller : MonoBehaviour {
 
 	void addWaterToWorld(){
 		Hex h;
-		System.Random random = new System.Random();
  		for (int i = -WORLD_WIDTH/2; i < WORLD_WIDTH/2; i++) {
 			for (int j = -WORLD_HEIGHT/2; j < WORLD_HEIGHT/2; j++) {
 				h = hexArray [i + WORLD_WIDTH / 2, j + WORLD_HEIGHT / 2];
 				int type = calculateType (h);
 				if (type == 2) {
 					createWater (h);
+				} else if (type == 3) {
+					createOrb (h);
 				}
 			}
 		}
@@ -367,6 +363,14 @@ public class Controller : MonoBehaviour {
 		*/
 		newWater.name = "Waterdrop";
 		//newWater.transform.parent = waterFolder.transform;
+	}
+
+	void createOrb (Hex h){
+		GameObject orbObject = new GameObject ();
+		Orb newOrb = orbObject.AddComponent<Orb> ();
+		newOrb.init(h, UnityEngine.Random.Range(0, 4), this);
+
+		newOrb.name = "Orb" + newOrb.type;
 	}
 
 	private void initializeRoots(){
