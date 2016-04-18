@@ -12,14 +12,29 @@ public class Light : MonoBehaviour {
         this.transform.localPosition = new Vector3(x, y);
         var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
         model = modelObject.AddComponent<LightModel>();
-        model.init(this);
+        model.init(this, m.weather);
+        this.tag = "sundrop";
+        if(m.weather == 1)
+        {
+            this.transform.localScale = this.transform.localScale * 2;
+        }
+        if(m.weather == 2)
+        {
+            this.transform.localScale = this.transform.localScale * 0.5f;
+        }
     }
-	
-	// Update is called once per frame
-	void Update () {
-        this.transform.Translate(new Vector3(0, -0.03f));
-        this.transform.localScale = this.transform.localScale * 0.999f;
-        if(/*this.transform.position.y < -0.5 ||*/ this.transform.localScale.x < 0.1)
+
+    // Update is called once per frame
+    void Update() {
+        if (m.weather != 2) { 
+            this.transform.Translate(new Vector3(0, -0.03f));
+            this.transform.localScale = this.transform.localScale * 0.999f;
+        }
+        else
+        {
+            this.transform.Translate(new Vector3(0, -0.06f));
+        }
+        if(this.transform.localScale.x < 0.1)
         {
             Destroy(this.gameObject);
         }
@@ -29,7 +44,14 @@ public class Light : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "joint") {
-            m.SendMessage("addSunEnergy", this.transform.localScale.x);
+            if (m.weather == 2)
+            {
+                int amount = (int)(this.transform.localScale.x * 10);
+                m.SendMessage("addWaterEnergy",amount);
+            }
+            else {
+                m.SendMessage("addSunEnergy", this.transform.localScale.x);
+            }
             this.transform.localScale = this.transform.localScale * 0.7f;
 			m.audioM.source1.PlayOneShot(m.audioM.clip1);
         }

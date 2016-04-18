@@ -9,6 +9,8 @@ public class Controller : MonoBehaviour {
 	public static float ORB_BASE_PROB = 10f;
 	public static float WATER_BASE_PROB = 50f;
 
+    public int weather = 1; //0 is default, 1 is sunny, 2 is rainy
+
 	public bool initialized;
 
 	public Hex mouseOver;
@@ -280,8 +282,7 @@ public class Controller : MonoBehaviour {
 
     void sunGenerator()
     {
-        System.Random random = new System.Random();
-        float x = random.Next(-WORLD_WIDTH/2, WORLD_WIDTH/2);
+        float x = UnityEngine.Random.Range(-WORLD_WIDTH / 2, WORLD_WIDTH / 2);
         createSun(0.75f * x, (WORLD_HEIGHT/2)*Mathf.Sqrt(3) / 2f);
     }
 
@@ -315,11 +316,8 @@ public class Controller : MonoBehaviour {
 	}
     
 	void OnGUI () {
-        /*if (GUI.Button (new Rect (10,10,100,30), "CALC HEIGHT")) {
-			treeHeight = root2.findHeight(0);
-			print (treeHeight);
-		}*/
-        GUI.contentColor = Color.yellow;
+        
+        GUI.contentColor = Color.red;
         GUI.Label(new Rect(Screen.width -100, Screen.height/2, 100, 20), sunDisplay);
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
