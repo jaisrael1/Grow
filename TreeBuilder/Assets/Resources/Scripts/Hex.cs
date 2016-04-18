@@ -112,12 +112,20 @@ public class Hex : MonoBehaviour
 			controller.audioM.source1.PlayOneShot (controller.audioM.clip2);
 		}
 		hexTo.waterCheck ();
+		hexTo.orbCheck ();
 	}
 
 	public void waterCheck(){
 		if (contains == WATER_SINGLE && w != null) {
 			w.payOff ();
 			w = null;
+			contains = NOTHING;
+		}
+	}
+	public void orbCheck(){
+		if(contains == ORB && o != null){
+			o.payOff ();
+			o = null;
 			contains = NOTHING;
 		}
 	}
