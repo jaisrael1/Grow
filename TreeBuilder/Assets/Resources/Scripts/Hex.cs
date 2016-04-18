@@ -36,6 +36,7 @@ public class Hex : MonoBehaviour
 	public Water w;
 	public int type;
 	public int contains;
+	public Orb o;
 
 	public void init (int coordX, int coordY, float realX, float realY, Controller c)
 	{
@@ -84,6 +85,10 @@ public class Hex : MonoBehaviour
 	public void waterInit(Water w){
 		contains = WATER_SINGLE;
 		this.w = w;
+	}
+	public void orbInit(Orb o){
+		contains = ORB;
+		this.o = o;
 	}
 
 	public int findHeight()
