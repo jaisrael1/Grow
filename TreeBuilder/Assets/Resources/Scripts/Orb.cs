@@ -4,8 +4,10 @@ using System.Collections;
 public class Orb : MonoBehaviour {
 
 	private Hex h;
+    private float clock = 0;
+    private float currentTime = 0;
 	private Controller m;
-	private OrbModel model;
+    private OrbModel model;
 	public int type;
 	bool absorbed;
 
@@ -27,7 +29,17 @@ public class Orb : MonoBehaviour {
 		//m.SendMessage("addWaterEnergy", type);
 		//m.audioM.source3.PlayOneShot(m.audioM.clip3);
 		absorbed = true;
-	}
+        if(type == 1 | type == 2)
+        {
+            currentTime = clock;
+            m.weather = 1;
+        }
+        if (type == 3 | type == 4)
+        {
+            currentTime = clock;
+            m.weather = 2;
+        }
+    }
 
 	void Start(){
 		absorbed = false;
@@ -40,5 +52,10 @@ public class Orb : MonoBehaviour {
 				Destroy (this.gameObject);
 			}
 		}
+        clock += Time.deltaTime;
+        if(clock-currentTime > 30)
+        {
+            m.weather = 0;
+        }
 	}
 }
