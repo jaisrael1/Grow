@@ -6,10 +6,10 @@ using System.Collections.Generic;
 public class Controller : MonoBehaviour {
 
 
-	public static float ORB_BASE_PROB = 10f;
+	public static float ORB_BASE_PROB = .7f;
 	public static float WATER_BASE_PROB = 50f;
 
-    public int weather = 1; //0 is default, 1 is sunny, 2 is rainy
+    public int weather = 0; //0 is default, 1 is sunny, 2 is rainy
 
 	public bool initialized;
 
@@ -268,7 +268,7 @@ public class Controller : MonoBehaviour {
     private float getWaterProb(Hex h)
     {
 		float y = h.transform.position.y;
-        if (y >= 0)
+        if (y >= -1)
         {
             return 0;
         }

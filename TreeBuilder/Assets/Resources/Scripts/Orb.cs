@@ -17,6 +17,7 @@ public class Orb : MonoBehaviour {
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		model = modelObject.AddComponent<OrbModel>();
 		model.init(this);
+		this.transform.localScale *= .3f;
 		//this.transform.localScale = this.transform.localScale * .3f;
 		h.orbInit (this);
 	}
