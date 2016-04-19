@@ -16,6 +16,7 @@ public class Hex : MonoBehaviour
 	public Controller controller;
 	public HexModel model;
 	public TileModel tileModel;
+	public TileModel extraTileModel;
 
 	public ArrayList hex_edges;
 	public ArrayList branches_leaving;
@@ -33,6 +34,7 @@ public class Hex : MonoBehaviour
 	public const int WATER_SPRING = 7;
 	public const int CLOUD = 8;
 	public const int ORB = 9; //probably could be expanded
+	public bool hasCloud;
 	public Water w;
 	public int type;
 	public int contains;
@@ -47,6 +49,7 @@ public class Hex : MonoBehaviour
 		controller = c;
 
 		contains = NOTHING;
+		hasCloud = false;
 
 		collider = this.gameObject.AddComponent<CircleCollider2D> ();
 		collider.radius = Mathf.Sqrt (3) / 4f - 0.05f;
@@ -168,18 +171,18 @@ public class Hex : MonoBehaviour
 	}
 
 	public void addCloud(){
-		if (type == AIR && contains == NOTHING) {
-			contains = CLOUD;
+		if (type == AIR && !hasCloud) {
+			hasCloud = true;
 			var modelObject2 = GameObject.CreatePrimitive (PrimitiveType.Quad);
-			tileModel = modelObject2.AddComponent<TileModel> ();
-			tileModel.init (this, TileModel.CLOUD_MODEL);	
+			extraTileModel= modelObject2.AddComponent<TileModel> ();
+			extraTileModel.init (this, TileModel.CLOUD_MODEL);	
 		}
 	}
 
 	public void removeCloud(){
-		if (type == AIR && contains == CLOUD) {
-			contains = NOTHING;
-			Destroy (tileModel.gameObject);
+		if (type == AIR && hasCloud) {
+			hasCloud = false;
+			Destroy (extraTileModel.gameObject);
 		}
 	}
 }

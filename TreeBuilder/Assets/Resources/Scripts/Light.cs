@@ -61,7 +61,7 @@ public class Light : MonoBehaviour {
 		if (col.gameObject.tag == "ground_hex") {
 			this.transform.localScale *= 0.7f;
 		}
-		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().contains == Hex.CLOUD) {
+		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().hasCloud) {
 			this.transform.localScale *= 0.85f;
 		}
 	}

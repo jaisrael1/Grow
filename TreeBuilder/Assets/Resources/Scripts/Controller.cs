@@ -27,7 +27,7 @@ public class Controller : MonoBehaviour {
     GameObject hexFolder;
 
 	List<Cloud> cloudList;
-	public const float CLOUD_MAXLENGTH = 8f;
+	public const float CLOUD_MAXLENGTH = 11f;
 	public const float CLOUD_TIME = Cloud.STEP_INTERVAL * CLOUD_MAXLENGTH;
 	public float timeSinceLastCloud;
 	//List<GameObject> hexes;
@@ -168,11 +168,11 @@ public class Controller : MonoBehaviour {
 		//cloud stuff
 		timeSinceLastCloud += Time.deltaTime;
 		if (timeSinceLastCloud >= CLOUD_TIME) {
-			if (UnityEngine.Random.Range (0, 5) == 0) {
+			if (UnityEngine.Random.Range (0, 3) == 0) {
 				createCloud ();
 				timeSinceLastCloud = 0f;
 			} else {
-				timeSinceLastCloud -= 5f;
+				timeSinceLastCloud -= 3f;
 			}
 		}
 
