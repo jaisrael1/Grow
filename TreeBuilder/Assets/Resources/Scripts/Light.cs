@@ -5,10 +5,19 @@ public class Light : MonoBehaviour {
 
     private LightModel model;
     private Controller m;
+    private int type; //0 For sun, 1 for rain
 
 	// Use this for initialization
 	public void init (float x, float y, Controller m) {
         this.m = m;
+        if(m.weather == 2)
+        {
+            type = 1;
+        }
+        else
+        {
+            type = 0;
+        }
         this.transform.localPosition = new Vector3(x, y);
         var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
         model = modelObject.AddComponent<LightModel>();
@@ -26,9 +35,13 @@ public class Light : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (m.weather != 2) { 
+        if (type == 0) { 
             this.transform.Translate(new Vector3(0, -0.03f));
             this.transform.localScale = this.transform.localScale * 0.999f;
+            if(m.weather == 2)
+            {
+                this.transform.localScale *= 0.9f;
+            }
         }
         else
         {
@@ -44,7 +57,7 @@ public class Light : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "joint") {
-            if (m.weather == 2)
+            if (type == 1)
             {
                 int amount = (int)(this.transform.localScale.x * 10);
                 m.SendMessage("addWaterEnergy",amount);
@@ -61,7 +74,7 @@ public class Light : MonoBehaviour {
 		if (col.gameObject.tag == "ground_hex") {
 			this.transform.localScale *= 0.7f;
 		}
-		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().hasCloud) {
+		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().hasCloud && m.weather!= 2) {
 			this.transform.localScale *= 0.85f;
 		}
 	}

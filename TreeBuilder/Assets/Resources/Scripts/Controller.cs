@@ -54,7 +54,10 @@ public class Controller : MonoBehaviour {
 
 	public Hex[,] hexArray;
 
-	void Start () {
+    private float clock = 0;
+    private float currentTime = 0;
+
+    void Start () {
 		initialized = false;
 		hexFolder = new GameObject();
 		populateTiles ();
@@ -373,7 +376,21 @@ public class Controller : MonoBehaviour {
 		newOrb.name = "Orb" + newOrb.type;
 	}
 
-	private void initializeRoots(){
+    public void resetWeather()
+    {
+        StartCoroutine(Weatherwait());
+    }
+
+    IEnumerator Weatherwait()
+    {
+        print("Starting");
+        yield return new WaitForSeconds(10);
+        weather = 0;
+        print("Stopping");
+        
+    }
+
+    private void initializeRoots(){
 		GameObject rootHexObject = new GameObject ();
 		root = rootHexObject.AddComponent<Hex> ();
 		root.transform.position = new Vector3 (0, -Mathf.Sqrt (3) / 4f, 0);
