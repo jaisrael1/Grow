@@ -4,6 +4,7 @@ using System.Collections;
 public class Light : MonoBehaviour {
 
     private LightModel model;
+<<<<<<< HEAD
     private Controller c;
 	private EnvironmentManager em;
 	public int type;
@@ -14,6 +15,22 @@ public class Light : MonoBehaviour {
 		this.em = em;
 		this.c = em.c;
 		this.type = type;
+=======
+    private Controller m;
+    private int type; //0 For sun, 1 for rain
+
+	// Use this for initialization
+	public void init (float x, float y, Controller m) {
+        this.m = m;
+        if(m.weather == 2)
+        {
+            type = 1;
+        }
+        else
+        {
+            type = 0;
+        }
+>>>>>>> 609317f0538ae1b6ceae340b51d417d98968150b
         this.transform.localPosition = new Vector3(x, y);
         var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
         model = modelObject.AddComponent<LightModel>();
@@ -35,9 +52,17 @@ public class Light : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+<<<<<<< HEAD
 		if (type != EnvironmentManager.RAINY_WEATHER) { 
+=======
+        if (type == 0) { 
+>>>>>>> 609317f0538ae1b6ceae340b51d417d98968150b
             this.transform.Translate(new Vector3(0, -0.03f));
             this.transform.localScale = this.transform.localScale * 0.999f;
+            if(m.weather == 2)
+            {
+                this.transform.localScale *= 0.9f;
+            }
         }
         else
         {
@@ -62,7 +87,11 @@ public class Light : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "joint") {
+<<<<<<< HEAD
 			if (em.weather == EnvironmentManager.RAINY_WEATHER)
+=======
+            if (type == 1)
+>>>>>>> 609317f0538ae1b6ceae340b51d417d98968150b
             {
                 int amount = (int)(this.transform.localScale.x * 10);
                 c.SendMessage("addWaterEnergy",amount);
@@ -79,7 +108,7 @@ public class Light : MonoBehaviour {
 		if (col.gameObject.tag == "ground_hex") {
 			this.transform.localScale *= 0.7f;
 		}
-		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().hasCloud) {
+		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().hasCloud && m.weather!= 2) {
 			this.transform.localScale *= 0.85f;
 		}
 	}

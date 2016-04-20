@@ -41,7 +41,10 @@ public class Controller : MonoBehaviour {
 
 	public Hex[,] hexArray;
 
-	void Start () {
+    private float clock = 0;
+    private float currentTime = 0;
+
+    void Start () {
 		initialized = false;
 		hexFolder = new GameObject();
 		populateTiles ();
@@ -233,7 +236,79 @@ public class Controller : MonoBehaviour {
 
     }
 
+<<<<<<< HEAD
 	private void initializeRoots(){
+=======
+	void createCloud(){
+
+		int height = UnityEngine.Random.Range (WORLD_HEIGHT / 4, WORLD_HEIGHT / 2 - 1);
+		int length = UnityEngine.Random.Range (3, (int)CLOUD_MAXLENGTH);
+
+		var cloudObject = new GameObject ();
+		cloudList.Add (cloudObject.AddComponent<Cloud>());
+		cloudList [cloudList.Count - 1].init (this, height, length);
+	}
+
+	void createSun(float x, float y)
+	{
+		GameObject lightObject = new GameObject();
+		Light newLight = lightObject.AddComponent<Light>();
+		newLight.init(x, y, this);
+
+		BoxCollider2D box = lightObject.AddComponent<BoxCollider2D>();         //Colliders
+		box.size = new Vector2(0.5f, 0.5f);
+		lightObject.SetActive(true);
+		box.isTrigger = true;
+
+		Rigidbody2D rig = lightObject.AddComponent<Rigidbody2D>();
+		rig.isKinematic = true;
+
+		lights.Add(newLight);
+		newLight.name = "Sundrop " + lights.Count;
+		newLight.transform.parent = lightFolder.transform;
+	}
+
+	void createWater (Hex h){
+		GameObject waterObject = new GameObject ();
+		Water newWater = waterObject.AddComponent<Water> ();
+		newWater.init (h, this);
+		/*
+		BoxCollider2D box = waterObject.AddComponent<BoxCollider2D> ();
+		box.size = new Vector2 (0.5f, 0.5f);
+		//waterObject.setActive (true);
+		box.isTrigger = true;
+
+		Rigidbody2D rig = waterObject.AddComponent<Rigidbody2D> ();
+		rig.isKinematic = true;
+		*/
+		newWater.name = "Waterdrop";
+		//newWater.transform.parent = waterFolder.transform;
+	}
+
+	void createOrb (Hex h){
+		GameObject orbObject = new GameObject ();
+		Orb newOrb = orbObject.AddComponent<Orb> ();
+		newOrb.init(h, UnityEngine.Random.Range(0, 4), this);
+
+		newOrb.name = "Orb" + newOrb.type;
+	}
+
+    public void resetWeather()
+    {
+        StartCoroutine(Weatherwait());
+    }
+
+    IEnumerator Weatherwait()
+    {
+        print("Starting");
+        yield return new WaitForSeconds(10);
+        weather = 0;
+        print("Stopping");
+        
+    }
+
+    private void initializeRoots(){
+>>>>>>> 609317f0538ae1b6ceae340b51d417d98968150b
 		GameObject rootHexObject = new GameObject ();
 		root = rootHexObject.AddComponent<Hex> ();
 		root.transform.position = new Vector3 (0, -Mathf.Sqrt (3) / 4f, 0);
