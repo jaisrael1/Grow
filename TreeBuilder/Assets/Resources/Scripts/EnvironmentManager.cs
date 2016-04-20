@@ -69,6 +69,7 @@ public class EnvironmentManager : MonoBehaviour {
 				foreach (Cloud i in cloudList) {
 					i.shrink ();
 				}
+				cloudList = new List<Cloud> ();
 			}
 			print ("changing weather to type " + weather);
 		} 
@@ -108,10 +109,6 @@ public class EnvironmentManager : MonoBehaviour {
 		var cloudObject = new GameObject ();
 		cloudList.Add (cloudObject.AddComponent<Cloud>());
 		cloudList [cloudList.Count - 1].init (this, height, length);
-	}
-
-	void createRainCloud(){
-
 	}
 		
 	void sunGenerator()

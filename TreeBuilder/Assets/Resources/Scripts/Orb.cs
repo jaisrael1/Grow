@@ -4,14 +4,11 @@ using System.Collections;
 public class Orb : MonoBehaviour {
 
 	private Hex h;
-<<<<<<< HEAD
     //private float clock = 0;
     //private float currentTime = 0;
 	private Controller c;
 	private EnvironmentManager em;
-=======
-	private Controller m;
->>>>>>> 609317f0538ae1b6ceae340b51d417d98968150b
+
     private OrbModel model;
 	public int type;
 	bool absorbed;
@@ -36,7 +33,6 @@ public class Orb : MonoBehaviour {
 		absorbed = true;
         if(type == 1 | type == 2)
         {
-<<<<<<< HEAD
             //currentTime = clock;
 			em.changeWeather (EnvironmentManager.SUNNY_WEATHER);
         }
@@ -44,16 +40,6 @@ public class Orb : MonoBehaviour {
         {
             //currentTime = clock;
 			em.changeWeather (EnvironmentManager.RAINY_WEATHER);
-=======
-            m.weather = 1;
-            m.SendMessage("resetWeather");
-            
-        }
-        if (type == 3 | type == 4)
-        {
-            m.weather = 2;
-            m.SendMessage("resetWeather");
->>>>>>> 609317f0538ae1b6ceae340b51d417d98968150b
         }
     }
 
@@ -68,16 +54,5 @@ public class Orb : MonoBehaviour {
 				Destroy (this.gameObject);
 			}
 		}
-<<<<<<< HEAD
-		/*
-        clock += Time.deltaTime;
-        if(clock-currentTime > 30)
-        {
-            c.weather = 0;
-        }
-*/
-=======
->>>>>>> 609317f0538ae1b6ceae340b51d417d98968150b
 	}
-    
 }
