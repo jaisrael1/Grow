@@ -185,4 +185,10 @@ public class Hex : MonoBehaviour
 			Destroy (extraTileModel.gameObject);
 		}
 	}
+	public void removeCloudByShrinking(){
+		if (type == AIR && hasCloud) {
+			hasCloud = false;
+			extraTileModel.shrink ();
+		}
+	}
 }

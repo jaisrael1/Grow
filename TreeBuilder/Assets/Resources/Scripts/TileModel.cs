@@ -7,11 +7,13 @@ public class TileModel : MonoBehaviour
 	Material mat;
 	public const int CLOUD_MODEL = 1;
 	public const int GROUND_MODEL = 2;
+	public int modelType;
+	public bool shrinking;
 
 	public void init (Hex h, int modelType)
 	{
 		hex = h;
-
+		this.modelType = modelType;
 		transform.parent = hex.transform;				
 		transform.localPosition = new Vector3 (0, 0, 0);		
 		name = "Hex Model";									
@@ -26,6 +28,26 @@ public class TileModel : MonoBehaviour
 		if (modelType == CLOUD_MODEL) {
 			mat.color = new Color (0.9f, 0.9f, 0.9f, 0.85f);
 			mat.renderQueue = RenderCoordinator.CLOUD_RQ;
+		}
+	}
+
+	void Start(){
+		shrinking = false;
+	}
+
+	public void shrink(){
+		if (modelType == CLOUD_MODEL) {
+			shrinking = true;
+		}
+	}
+
+	void Update(){
+		if (shrinking) {
+			this.transform.localScale *= 0.95f;
+			if(this.transform.localScale.x < 0.1)
+			{
+				Destroy(this.gameObject);
+			}
 		}
 	}
 }

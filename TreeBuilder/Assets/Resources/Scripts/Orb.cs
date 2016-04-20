@@ -4,23 +4,24 @@ using System.Collections;
 public class Orb : MonoBehaviour {
 
 	private Hex h;
-    private float clock = 0;
-    private float currentTime = 0;
-	private Controller m;
+    //private float clock = 0;
+    //private float currentTime = 0;
+	private Controller c;
+	private EnvironmentManager em;
     private OrbModel model;
 	public int type;
 	bool absorbed;
 
-	public void init(Hex h, int type, Controller m){
+	public void init(Hex h, int type, EnvironmentManager em){
 		this.h = h;
-		this.m = m;
+		this.em = em;
+		this.c = em.c;
 		this.type = type;
 		this.transform.localPosition = h.transform.localPosition;
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		model = modelObject.AddComponent<OrbModel>();
 		model.init(this);
 		this.transform.localScale *= .3f;
-		//this.transform.localScale = this.transform.localScale * .3f;
 		h.orbInit (this);
 	}
 
@@ -31,13 +32,13 @@ public class Orb : MonoBehaviour {
 		absorbed = true;
         if(type == 1 | type == 2)
         {
-            currentTime = clock;
-            m.weather = 1;
+            //currentTime = clock;
+			em.changeWeather (EnvironmentManager.SUNNY_WEATHER);
         }
         if (type == 3 | type == 4)
         {
-            currentTime = clock;
-            m.weather = 2;
+            //currentTime = clock;
+			em.changeWeather (EnvironmentManager.RAINY_WEATHER);
         }
     }
 
@@ -52,10 +53,12 @@ public class Orb : MonoBehaviour {
 				Destroy (this.gameObject);
 			}
 		}
+		/*
         clock += Time.deltaTime;
         if(clock-currentTime > 30)
         {
-            m.weather = 0;
+            c.weather = 0;
         }
+*/
 	}
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Cloud : MonoBehaviour {
 
 	public Controller c;
+	public EnvironmentManager em;
 	public List<Hex> cloudParts;
 
 	public float timeSinceLastMoved;
@@ -15,8 +16,9 @@ public class Cloud : MonoBehaviour {
 	public int updates;
 	public int coordY;
 
-	public void init (Controller controller, int coordY, int length){
-		c = controller;
+	public void init (EnvironmentManager em, int coordY, int length){
+		this.em = em;
+		c = em.c;
 		this.coordY = coordY;
 		this.length = length;
 	}
@@ -25,6 +27,13 @@ public class Cloud : MonoBehaviour {
 		timeSinceLastMoved = 0f;
 		cloudParts = new List<Hex> ();
 		updates = 0;
+	}
+
+	public void shrink(){
+		foreach (Hex i in cloudParts) {
+			i.removeCloudByShrinking ();
+		}
+		Destroy (this.gameObject);
 	}
 
 	void Update(){

@@ -5,11 +5,7 @@ using System.Collections.Generic;
 
 public class Controller : MonoBehaviour {
 
-
-	public static float ORB_BASE_PROB = .7f;
-	public static float WATER_BASE_PROB = 50f;
-
-    public int weather = 0; //0 is default, 1 is sunny, 2 is rainy
+	public EnvironmentManager enviroManager;
 
 	public bool initialized;
 
@@ -26,24 +22,15 @@ public class Controller : MonoBehaviour {
 	public int currentCost;
     GameObject hexFolder;
 
-	List<Cloud> cloudList;
-	public const float CLOUD_MAXLENGTH = 11f;
-	public const float CLOUD_TIME = Cloud.STEP_INTERVAL * CLOUD_MAXLENGTH;
-	public float timeSinceLastCloud;
 	//List<GameObject> hexes;
-
-    GameObject lightFolder;
-    List<Light> lights;
-
-	GameObject waterFolder;
 
 	public const int COST_LIN = 1;
 	public const float COST_EX = 1.1f;
 
-    public int sunEnergy = 10;
+    public int sunEnergy = 1000;
     string sunDisplay;
 
-	public int waterEnergy = 10;
+	public int waterEnergy = 1000;
 	string waterDisplay;
 
 	public AudioManager audioM;
@@ -60,33 +47,27 @@ public class Controller : MonoBehaviour {
 		populateTiles ();
 		placing = false;
 		treeHeight = 0;
-
+		/*
 		addWaterToWorld ();
-
+		*/
 		audioObject = new GameObject ();
 		audioObject.name = "audio manager";
 		audioObject.AddComponent<AudioSource>();
 		audioM = audioObject.AddComponent<AudioManager> ();
 		audioM.init (this);
 
+		var enviroManagerObject = new GameObject ();
+		enviroManagerObject.name = "environment manager";
+		enviroManager = enviroManagerObject.AddComponent<EnvironmentManager> ();
+		enviroManager.init (this);
+
         //Folder to store all hexes
 
         hexFolder.name = "Hexes";
 		//hexes = new List<GameObject>();
 
-        //SunDrops
-        lightFolder = new GameObject();
-        lightFolder.name = "Sundrops";
-        lights = new List<Light>();
-        InvokeRepeating("sunGenerator", 0f, 0.5f);
-
-		//Water
-		waterFolder = new GameObject();
-		waterFolder.name = "Waterdrops";
-
-		cloudList = new List<Cloud> ();
-		timeSinceLastCloud = 0f;
-
+		sunEnergy = 1000;
+		waterEnergy = 1000;
 		initialized = true;
 
     }
@@ -165,17 +146,6 @@ public class Controller : MonoBehaviour {
         sunDisplay = "Sunlight: " + sunEnergy;
 		waterDisplay = "Water: " + waterEnergy;
 
-		//cloud stuff
-		timeSinceLastCloud += Time.deltaTime;
-		if (timeSinceLastCloud >= CLOUD_TIME) {
-			if (UnityEngine.Random.Range (0, 3) == 0) {
-				createCloud ();
-				timeSinceLastCloud = 0f;
-			} else {
-				timeSinceLastCloud -= 3f;
-			}
-		}
-
 	}
 
 	void populateTiles(){
@@ -240,62 +210,6 @@ public class Controller : MonoBehaviour {
 	public Hex hexAt(int coordX, int coordY){
 		return hexArray[coordX + WORLD_WIDTH / 2, coordY + WORLD_HEIGHT / 2];
 	}
-	
-    private int calculateType(Hex h)
-    {
-        float wProb = getWaterProb(h);
-        float oProb = getOrbProb(h);
-        float r = UnityEngine.Random.Range(5f, 100f);
-        if (wProb > r)
-        {
-            return 2;
-        }
-        r = UnityEngine.Random.Range(5f, 100f);
-        if (oProb > r)
-        {
-            return 3;
-        }
-        else {
-            return 1;
-        }
-    }
-
-    private float getOrbProb(Hex h)
-    {
-		return ORB_BASE_PROB * Vector3.Distance (new Vector3 (0, 0, 0), h.transform.position);
-    }
-
-    private float getWaterProb(Hex h)
-    {
-		float y = h.transform.position.y;
-        if (y >= -1)
-        {
-            return 0;
-        }
-		return WATER_BASE_PROB * ((y+WORLD_HEIGHT/2) / WORLD_HEIGHT)-1;
-    }
-
-    void sunGenerator()
-    {
-        float x = UnityEngine.Random.Range(-WORLD_WIDTH / 2, WORLD_WIDTH / 2);
-        createSun(0.75f * x, (WORLD_HEIGHT/2)*Mathf.Sqrt(3) / 2f);
-    }
-
-
-	void addWaterToWorld(){
-		Hex h;
- 		for (int i = -WORLD_WIDTH/2; i < WORLD_WIDTH/2; i++) {
-			for (int j = -WORLD_HEIGHT/2; j < WORLD_HEIGHT/2; j++) {
-				h = hexArray [i + WORLD_WIDTH / 2, j + WORLD_HEIGHT / 2];
-				int type = calculateType (h);
-				if (type == 2) {
-					createWater (h);
-				} else if (type == 3) {
-					createOrb (h);
-				}
-			}
-		}
-	}
 
     void addSunEnergy(float scale)
     {
@@ -318,60 +232,6 @@ public class Controller : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
     }
-
-	void createCloud(){
-
-		int height = UnityEngine.Random.Range (WORLD_HEIGHT / 4, WORLD_HEIGHT / 2 - 1);
-		int length = UnityEngine.Random.Range (3, (int)CLOUD_MAXLENGTH);
-
-		var cloudObject = new GameObject ();
-		cloudList.Add (cloudObject.AddComponent<Cloud>());
-		cloudList [cloudList.Count - 1].init (this, height, length);
-	}
-
-	void createSun(float x, float y)
-	{
-		GameObject lightObject = new GameObject();
-		Light newLight = lightObject.AddComponent<Light>();
-		newLight.init(x, y, this);
-
-		BoxCollider2D box = lightObject.AddComponent<BoxCollider2D>();         //Colliders
-		box.size = new Vector2(0.5f, 0.5f);
-		lightObject.SetActive(true);
-		box.isTrigger = true;
-
-		Rigidbody2D rig = lightObject.AddComponent<Rigidbody2D>();
-		rig.isKinematic = true;
-
-		lights.Add(newLight);
-		newLight.name = "Sundrop " + lights.Count;
-		newLight.transform.parent = lightFolder.transform;
-	}
-
-	void createWater (Hex h){
-		GameObject waterObject = new GameObject ();
-		Water newWater = waterObject.AddComponent<Water> ();
-		newWater.init (h, this);
-		/*
-		BoxCollider2D box = waterObject.AddComponent<BoxCollider2D> ();
-		box.size = new Vector2 (0.5f, 0.5f);
-		//waterObject.setActive (true);
-		box.isTrigger = true;
-
-		Rigidbody2D rig = waterObject.AddComponent<Rigidbody2D> ();
-		rig.isKinematic = true;
-		*/
-		newWater.name = "Waterdrop";
-		//newWater.transform.parent = waterFolder.transform;
-	}
-
-	void createOrb (Hex h){
-		GameObject orbObject = new GameObject ();
-		Orb newOrb = orbObject.AddComponent<Orb> ();
-		newOrb.init(h, UnityEngine.Random.Range(0, 4), this);
-
-		newOrb.name = "Orb" + newOrb.type;
-	}
 
 	private void initializeRoots(){
 		GameObject rootHexObject = new GameObject ();
