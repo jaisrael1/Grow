@@ -79,21 +79,28 @@ public class Controller : MonoBehaviour {
 	void Update () {
 
 		//CAMERA STUFF
-		if (Input.GetButton("Vertical")){
+		if (Input.GetKey(KeyCode.E)){
 			if (!(Camera.main.orthographicSize < 0.5f && Input.GetAxis("Vertical") < 0)) {
-				Camera.main.orthographicSize += 0.1f * Input.GetAxis ("Vertical");
+				Camera.main.orthographicSize += 0.1f;
 			}
 		}
-		if (Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f && Input.mousePosition.x < Camera.main.pixelWidth) {
+        if (Input.GetKey(KeyCode.Q))
+        {
+            if (!(Camera.main.orthographicSize < 1f))
+            {
+                Camera.main.orthographicSize -= 0.1f;
+            }
+        }
+        if ((Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f && Input.mousePosition.x < Camera.main.pixelWidth) | Input.GetKey(KeyCode.D)) {
 			Camera.main.transform.Translate(new Vector3(0.1f, 0, 0));
 		}
-		if (Input.mousePosition.x < Camera.main.pixelWidth / 10f && Input.mousePosition.x > 0) {
+		if ((Input.mousePosition.x < Camera.main.pixelWidth / 10f && Input.mousePosition.x > 0) | Input.GetKey(KeyCode.A)){
 			Camera.main.transform.Translate (new Vector3 (-0.1f, 0, 0));
 		}
-		if (Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f && Input.mousePosition.y < Camera.main.pixelHeight) {
+		if ((Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f && Input.mousePosition.y < Camera.main.pixelHeight) | Input.GetKey(KeyCode.W)) {
 			Camera.main.transform.Translate (new Vector3 (0, 0.1f, 0));
 		}
-		if (Input.mousePosition.y < Camera.main.pixelHeight / 10f && Input.mousePosition.y > 0) {
+		if ((Input.mousePosition.y < Camera.main.pixelHeight / 10f && Input.mousePosition.y > 0) | Input.GetKey(KeyCode.S)) {
 			Camera.main.transform.Translate (new Vector3 (0, -0.1f, 0));
 		}
 
