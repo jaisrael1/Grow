@@ -28,12 +28,17 @@ public class EnvironmentManager : MonoBehaviour {
 	List<Light> lights;
 	GameObject waterFolder;
 	List<Light> waterDrops;
+	Background background;
 
 	public void init(Controller c){
 		this.c = c;
 		addWaterToWorld ();
 	}
 	void Start () {
+		GameObject backgroundObject = new GameObject ();
+		background = backgroundObject.AddComponent<Background> ();
+		background.init (this);
+
 		cloudList = new List<Cloud> ();
 		timeSinceLastCloud = 0f;
 		clock = 0f;
@@ -72,7 +77,8 @@ public class EnvironmentManager : MonoBehaviour {
 				cloudList = new List<Cloud> ();
 			}
 			print ("changing weather to type " + weather);
-		} 
+		}
+		background.change (weather);
 	}
 
 	// Update is called once per frame
@@ -82,9 +88,7 @@ public class EnvironmentManager : MonoBehaviour {
 		//weather stuff
 		if (experiencingOrb) {
 			if (clock - timeOrbGotten > timeOrbLastsFor) {
-				experiencingOrb = false;
-				weather = NORMAL_WEATHER;
-				print ("weather should be normal again");
+				changeWeather (NORMAL_WEATHER);
 			}
 		}
 

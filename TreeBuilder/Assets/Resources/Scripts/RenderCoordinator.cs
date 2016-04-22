@@ -3,6 +3,7 @@ using System.Collections;
 
 public class RenderCoordinator : MonoBehaviour {
 
+	public const int BACKGROUND_RQ = 2299;
 	public const int GROUND_RQ = 2300;
 	public const int WATER_RQ = 2301;
 	public const int HEX_BORDER_RQ = 2302;

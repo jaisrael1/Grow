@@ -37,7 +37,7 @@ public class Controller : MonoBehaviour {
 	public GameObject audioObject;
 
     public const int WORLD_HEIGHT = 80; // the number of vertical tiles
-	public const int WORLD_WIDTH = 50;   // number of horizontal tiles 
+	public const int WORLD_WIDTH = 50;  // number of horizontal tiles 
 
 	public Hex[,] hexArray;
 
@@ -50,9 +50,7 @@ public class Controller : MonoBehaviour {
 		populateTiles ();
 		placing = false;
 		treeHeight = 0;
-		/*
-		addWaterToWorld ();
-		*/
+
 		audioObject = new GameObject ();
 		audioObject.name = "audio manager";
 		audioObject.AddComponent<AudioSource>();
@@ -242,7 +240,6 @@ public class Controller : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
     }
-
 
     private void initializeRoots(){
 		GameObject rootHexObject = new GameObject ();
