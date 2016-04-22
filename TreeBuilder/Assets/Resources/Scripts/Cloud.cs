@@ -10,21 +10,27 @@ public class Cloud : MonoBehaviour {
 	public List<Hex> cloudParts;
 
 	public float timeSinceLastMoved;
-	public const float STEP_INTERVAL = 3f;
+	public const float STEP_INTERVAL = 2f;
 
 	public int length;
 	public int updates;
 	public int coordY;
 
-	public void init (EnvironmentManager em, int coordY, int length){
+	public bool isRain;
+	public float timeSinceLastRained;
+	public const float RAIN_INTERVAL = 0.25f;
+
+	public void init (EnvironmentManager em, int coordY, int length, bool isRain){
 		this.em = em;
 		c = em.c;
 		this.coordY = coordY;
 		this.length = length;
+		this.isRain = isRain;
 	}
 
 	void Start() {
 		timeSinceLastMoved = 0f;
+		timeSinceLastRained = 0f;
 		cloudParts = new List<Hex> ();
 		updates = 0;
 	}
@@ -37,7 +43,9 @@ public class Cloud : MonoBehaviour {
 	}
 
 	void Update(){
-		timeSinceLastMoved += Time.deltaTime;
+		timeSinceLastMoved  += Time.deltaTime;
+		timeSinceLastRained += Time.deltaTime;
+
 		if (timeSinceLastMoved > STEP_INTERVAL) {
 			updates++;
 			List<Hex> newList = new List<Hex> ();
@@ -68,8 +76,23 @@ public class Cloud : MonoBehaviour {
 			cloudParts = newList;
 			timeSinceLastMoved = 0f;
 			if (cloudParts.Count == 0) {
+				if (isRain) {
+					em.rainclouds--;
+					if (em.rainclouds <= 0) {
+						em.changeWeather (EnvironmentManager.NORMAL_WEATHER);
+					}
+				}
 				Destroy (this.gameObject);
 			}
+		}
+
+		if (timeSinceLastRained > RAIN_INTERVAL && isRain) {
+			foreach (Hex i in cloudParts) {
+				if (UnityEngine.Random.Range (0, 50) == 0) {
+					em.createSun (i.realX, i.realY);
+				}
+			}
+			timeSinceLastRained = 0f;
 		}
 	}
 }

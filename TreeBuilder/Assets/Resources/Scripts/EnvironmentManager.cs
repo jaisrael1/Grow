@@ -12,14 +12,15 @@ public class EnvironmentManager : MonoBehaviour {
 	public const int SUNNY_WEATHER = 1;
 	public const int RAINY_WEATHER = 2;
 	public int weather = NORMAL_WEATHER;
-	public float timeOrbLastsFor = 7f;
-	public float timeOrbGotten;
-	public bool experiencingOrb;
+	public float timeSunnyLastsFor = 15f;
+	public float timeSunnyGotten;
+	public bool experiencingSunny;
 
 	public List<Cloud> cloudList;
 	public const float CLOUD_MAXLENGTH = 11f;
 	public const float CLOUD_TIME = Cloud.STEP_INTERVAL * CLOUD_MAXLENGTH;
 	public float timeSinceLastCloud;
+	public int rainclouds;
 
 	public static float ORB_BASE_PROB = .7f;
 	public static float WATER_BASE_PROB = 50f;
@@ -42,9 +43,9 @@ public class EnvironmentManager : MonoBehaviour {
 		cloudList = new List<Cloud> ();
 		timeSinceLastCloud = 0f;
 		clock = 0f;
-		timeOrbGotten = 0f;
+		timeSunnyGotten = 0f;
 		weather = NORMAL_WEATHER;
-		experiencingOrb = false;
+		experiencingSunny = false;
 
 		lightFolder = new GameObject();
 		lightFolder.name = "Sundrops";
@@ -58,26 +59,29 @@ public class EnvironmentManager : MonoBehaviour {
 
 
 	public void changeWeather (int type){
+		weather = type;
 		if (type == NORMAL_WEATHER) {
-			weather = NORMAL_WEATHER;
-			experiencingOrb = false;
-		} else {
-			timeOrbGotten = clock;
-			experiencingOrb = true;
-			weather = type;
-			if (weather == RAINY_WEATHER) {
-				foreach (Light i in lights) {
-					i.shrink ();
-				}
+			experiencingSunny = false;
+		} 
+		if (type == SUNNY_WEATHER) {
+			timeSunnyGotten = clock;
+			experiencingSunny = true;
+			foreach (Cloud i in cloudList) {
+				i.shrink ();
 			}
-			if (weather == SUNNY_WEATHER) {
-				foreach (Cloud i in cloudList) {
-					i.shrink ();
-				}
-				cloudList = new List<Cloud> ();
-			}
-			print ("changing weather to type " + weather);
+			cloudList = new List<Cloud> ();
+			rainclouds = 0;
+
 		}
+		if (type == RAINY_WEATHER) {
+			foreach (Light i in lights) {
+				i.shrink ();
+			}
+			lights = new List<Light> ();
+			createCloud (true);
+			rainclouds++;
+		}
+		print ("changing weather to type " + weather);
 		background.change (weather);
 	}
 
@@ -86,17 +90,17 @@ public class EnvironmentManager : MonoBehaviour {
 		clock += Time.deltaTime;
 
 		//weather stuff
-		if (experiencingOrb) {
-			if (clock - timeOrbGotten > timeOrbLastsFor) {
+		if (experiencingSunny) {
+			if (clock - timeSunnyGotten > timeSunnyLastsFor) {
 				changeWeather (NORMAL_WEATHER);
 			}
 		}
 
 		//cloud stuff
 		timeSinceLastCloud += Time.deltaTime;
-		if (timeSinceLastCloud >= CLOUD_TIME) {
+		if (timeSinceLastCloud >= CLOUD_TIME && weather != SUNNY_WEATHER) {
 			if (UnityEngine.Random.Range (0, 3) == 0) {
-				createCloud ();
+				createCloud (false);
 				timeSinceLastCloud = 0f;
 			} else {
 				timeSinceLastCloud -= 3f;
@@ -105,23 +109,28 @@ public class EnvironmentManager : MonoBehaviour {
 
 	}
 		
-	void createCloud(){
-
+	void createCloud(bool isRain){
 		int height = UnityEngine.Random.Range (Controller.WORLD_HEIGHT / 6, Controller.WORLD_HEIGHT / 2 - 1);
-		int length = UnityEngine.Random.Range (3, (int)CLOUD_MAXLENGTH);
-
+		int length;
+		if (!isRain) {
+			length = UnityEngine.Random.Range (3, (int)CLOUD_MAXLENGTH);
+		} else {
+			length = Controller.WORLD_WIDTH * 2 / 3 + UnityEngine.Random.Range (-3, 3);;
+		}
 		var cloudObject = new GameObject ();
-		cloudList.Add (cloudObject.AddComponent<Cloud>());
-		cloudList [cloudList.Count - 1].init (this, height, length);
+		cloudList.Add (cloudObject.AddComponent<Cloud> ());
+		cloudList [cloudList.Count - 1].init (this, height, length, isRain);
 	}
 		
 	void sunGenerator()
 	{
 		float x = UnityEngine.Random.Range(-Controller.WORLD_WIDTH / 2, Controller.WORLD_WIDTH / 2);
-		createSun(0.75f * x, (Controller.WORLD_HEIGHT/2)*Mathf.Sqrt(3) / 2f);
+		if (weather != RAINY_WEATHER) {
+			createSun (0.75f * x, (Controller.WORLD_HEIGHT / 2) * Mathf.Sqrt (3) / 2f);
+		}
 	}
 
-	void createSun(float x, float y)
+	public void createSun(float x, float y)
 	{
 		GameObject lightObject = new GameObject();
 

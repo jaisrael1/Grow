@@ -26,8 +26,8 @@ public class Background : MonoBehaviour {
 		normTop =    new Color (d(172), d(234), d(255));
 		sunBottom =  new Color (d (107), d (216), d (255));
 		sunTop =     new Color (d (208), d (243), d (255));
-		rainBottom = new Color (d (161), d (161), d (161));
-		rainTop =    new Color (d (70), d (70), d (70));
+		rainBottom = new Color (d (70), d (70), d (70)); 
+		rainTop =    new Color (d (161), d (161), d (161));
 
 		//lr.material.shader = Shader.Find ("Transparent/Diffuse");
 		lr.material = new Material(Shader.Find("Particles/Additive"));
@@ -97,14 +97,14 @@ public class Background : MonoBehaviour {
 		if (current == target) {
 			return current;
 		}
-		if (Mathf.Abs (current - target) <= 0.0015f) {
+		if (Mathf.Abs (current - target) <= 0.0025f) {
 			return target;
 		}
 		if (current > target) {
-			return current - 0.001f;
+			return current - 0.002f;
 		}
 		if (current < target) {
-			return current + 0.001f;
+			return current + 0.002f;
 		} else {
 			return 0;
 		}
