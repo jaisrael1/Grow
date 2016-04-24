@@ -36,9 +36,11 @@ public class EnvironmentManager : MonoBehaviour {
 		addWaterToWorld ();
 	}
 	void Start () {
+		/*
 		GameObject backgroundObject = new GameObject ();
 		background = backgroundObject.AddComponent<Background> ();
 		background.init (this);
+		*/
 
 		cloudList = new List<Cloud> ();
 		timeSinceLastCloud = 0f;

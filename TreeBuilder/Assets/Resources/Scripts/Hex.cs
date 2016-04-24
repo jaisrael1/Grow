@@ -20,7 +20,7 @@ public class Hex : MonoBehaviour
 
 	public ArrayList hex_edges;
 	public ArrayList branches_leaving;
-
+	public bool active;
 	public Hex hexFrom;
 	public Branch branchEntering;
 
@@ -73,6 +73,7 @@ public class Hex : MonoBehaviour
 			type = AIR;
 			this.gameObject.tag = "air_hex";
 		}
+		active = true;
 	}
 
 	public void rootInit (float realX, float realY, Controller c)
@@ -96,11 +97,18 @@ public class Hex : MonoBehaviour
 
 	public int findHeight()
 	{
-		if (hexFrom.Equals(controller.root))
+		if (hexFrom.Equals(controller.currentTree.root))
 		{
 			return 1;
 		} else {
 			return 1 + hexFrom.findHeight();
+		}
+	}
+
+	public void setNotActive(){
+		active = false;
+		foreach (Hex i in hex_edges) {
+			i.setNotActive ();
 		}
 	}
 
@@ -140,7 +148,7 @@ public class Hex : MonoBehaviour
 			hexFrom.updateWidth ();
 		}
 	}
-
+	/*
 	public int findHeight (int h)
 	{
 		if (hex_edges.Count != branches_leaving.Count) {
@@ -155,7 +163,9 @@ public class Hex : MonoBehaviour
 		}
 		return max;
 	}
+	*/
 		
+
 	void OnMouseEnter ()
 	{
 		controller.mouseOver = this;

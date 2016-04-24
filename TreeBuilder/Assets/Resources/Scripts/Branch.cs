@@ -11,6 +11,8 @@ public class Branch : MonoBehaviour {
 	public Controller controller;
 	Vector3 worldPos;
 
+	public bool isRoot;
+
 	public float widthStart;
 	public float widthEnd;
 
@@ -19,8 +21,8 @@ public class Branch : MonoBehaviour {
 	public Color branchColor = new Color (0.95f, 0.64f, 0.37f);
 
 	// Use this for initialization
-	public void init(Hex hexStart, Controller controller){
-
+	public void init(Hex hexStart, Controller controller, bool isRoot){
+		this.isRoot = isRoot;
 		this.controller = controller;
 		this.hexStart = hexStart;
 		placedYet = false;
@@ -90,7 +92,7 @@ public class Branch : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (!placedYet && controller != null) {
+		if (!placedYet && controller != null && !isRoot) {
 			worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			float mouseX = worldPos.x;
 			float mouseY = worldPos.y;

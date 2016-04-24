@@ -18,10 +18,12 @@ public class Controller : MonoBehaviour {
 	public Branch airRootBranch;
 	public Branch groundRootBranch;
 	public Branch currentBranch;
-	public int treeHeight;
 	public int currentCost;
     GameObject hexFolder;
 
+	public Tree currentTree;
+	public int farthestRight;
+	public bool inControl;
 	//List<GameObject> hexes;
 
 	public const int COST_LIN = 1;
@@ -46,10 +48,10 @@ public class Controller : MonoBehaviour {
 
     void Start () {
 		initialized = false;
+		inControl = false;
 		hexFolder = new GameObject();
 		populateTiles ();
 		placing = false;
-		treeHeight = 0;
 
 		audioObject = new GameObject ();
 		audioObject.name = "audio manager";
@@ -71,86 +73,92 @@ public class Controller : MonoBehaviour {
 		waterEnergy = 1000;
 		initialized = true;
 
+
+		GameObject treeObject = new GameObject ();
+		currentTree = treeObject.AddComponent<Tree> ();
+		currentTree.init (this, 0, 1.398f, 0, -Mathf.Sqrt (3f) / 4f, 0);
+		farthestRight = 0;
     }
 	
 	// Update is called once per frame
 	void Update () {
-
-		//CAMERA STUFF
-		if (Input.GetKey(KeyCode.E)){
-			if (!(Camera.main.orthographicSize < 0.5f && Input.GetAxis("Vertical") < 0)) {
-				Camera.main.orthographicSize += 0.1f;
-			}
-		}
-        if (Input.GetKey(KeyCode.Q))
-        {
-            if (!(Camera.main.orthographicSize < 1f))
-            {
-                Camera.main.orthographicSize -= 0.1f;
-            }
-        }
-        if ((Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f && Input.mousePosition.x < Camera.main.pixelWidth) | Input.GetKey(KeyCode.D)) {
-			Camera.main.transform.Translate(new Vector3(0.1f, 0, 0));
-		}
-		if ((Input.mousePosition.x < Camera.main.pixelWidth / 10f && Input.mousePosition.x > 0) | Input.GetKey(KeyCode.A)){
-			Camera.main.transform.Translate (new Vector3 (-0.1f, 0, 0));
-		}
-		if ((Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f && Input.mousePosition.y < Camera.main.pixelHeight) | Input.GetKey(KeyCode.W)) {
-			Camera.main.transform.Translate (new Vector3 (0, 0.1f, 0));
-		}
-		if ((Input.mousePosition.y < Camera.main.pixelHeight / 10f && Input.mousePosition.y > 0) | Input.GetKey(KeyCode.S)) {
-			Camera.main.transform.Translate (new Vector3 (0, -0.1f, 0));
-		}
-
-		//BRANCH-DRAWING STUFF
-		if (Input.GetMouseButtonDown (0)) {
-			Vector3 worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			float mouseX = worldPos.x;
-			float mouseY = worldPos.y;
-			worldPos.z = 0;
-
-			if (mouseOver != null) {
-				print (mouseOver.coordX + " " + mouseOver.coordY);
-			}
-
-			if (!placing) {
-				if (mouseOver != null && checkStart (mouseOver)) {
-					placingFrom = mouseOver;
-					placing = true;
-
-					GameObject branchObject = new GameObject ();
-					branchObject.AddComponent<LineRenderer> ();
-					Branch branch = branchObject.AddComponent<Branch> ();
-					branch.init (placingFrom, this);
-					currentBranch = branch;
-
-					currentCost = findCost (placingFrom);
-					print ("the cost of that would be " + currentCost);
+		if (inControl) {
+			//CAMERA STUFF
+			if (Input.GetKey (KeyCode.E)) {
+				if (!(Camera.main.orthographicSize < 0.5f && Input.GetAxis ("Vertical") < 0)) {
+					Camera.main.orthographicSize += 0.1f;
 				}
 			}
-		}
+			if (Input.GetKey (KeyCode.Q)) {
+				if (!(Camera.main.orthographicSize < 1f)) {
+					Camera.main.orthographicSize -= 0.1f;
+				}
+			}
+			if ((Input.mousePosition.x > Camera.main.pixelWidth * 9f / 10f && Input.mousePosition.x < Camera.main.pixelWidth) | Input.GetKey (KeyCode.D)) {
+				Camera.main.transform.Translate (new Vector3 (0.1f, 0, 0));
+			}
+			if ((Input.mousePosition.x < Camera.main.pixelWidth / 10f && Input.mousePosition.x > 0) | Input.GetKey (KeyCode.A)) {
+				Camera.main.transform.Translate (new Vector3 (-0.1f, 0, 0));
+			}
+			if ((Input.mousePosition.y > Camera.main.pixelHeight * 9f / 10f && Input.mousePosition.y < Camera.main.pixelHeight) | Input.GetKey (KeyCode.W)) {
+				Camera.main.transform.Translate (new Vector3 (0, 0.1f, 0));
+			}
+			if ((Input.mousePosition.y < Camera.main.pixelHeight / 10f && Input.mousePosition.y > 0) | Input.GetKey (KeyCode.S)) {
+				Camera.main.transform.Translate (new Vector3 (0, -0.1f, 0));
+			}
 
-		if (Input.GetMouseButtonUp(0)){
-			if (placing){
-				Hex end = mouseOver;
-				if (end != null && checkFinish (placingFrom, end)) {
-					placingFrom.addBranch (end, currentBranch);
-					currentBranch.confirm (end);
-					end.updateWidth ();
-					if (end.type == Hex.GROUND) {
-						sunEnergy -= currentCost;
-					} else {
-						waterEnergy -= currentCost;
+			//BRANCH-DRAWING STUFF
+			if (Input.GetMouseButtonDown (0)) {
+				Vector3 worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+				float mouseX = worldPos.x;
+				float mouseY = worldPos.y;
+				worldPos.z = 0;
+
+				if (mouseOver != null) {
+					print (mouseOver.coordX + " " + mouseOver.coordY);
+				}
+
+				if (!placing) {
+					if (mouseOver != null && checkStart (mouseOver)) {
+						placingFrom = mouseOver;
+						placing = true;
+
+						GameObject branchObject = new GameObject ();
+						branchObject.AddComponent<LineRenderer> ();
+						Branch branch = branchObject.AddComponent<Branch> ();
+						branch.init (placingFrom, this, false);
+						currentBranch = branch;
+
+						currentCost = findCost (placingFrom);
+						print ("the cost of that would be " + currentCost);
 					}
-				} else {
-					Destroy (currentBranch.gameObject);
 				}
-				currentBranch = null;
-				placing = false;
-				currentCost = 0;
+			}
+
+			if (Input.GetMouseButtonUp (0)) {
+				if (placing) {
+					Hex end = mouseOver;
+					if (end != null && checkFinish (placingFrom, end)) {
+						placingFrom.addBranch (end, currentBranch);
+						currentBranch.confirm (end);
+						end.updateWidth ();
+						if (end.type == Hex.GROUND) {
+							sunEnergy -= currentCost;
+						} else {
+							waterEnergy -= currentCost;
+						}
+						if (end.coordX > farthestRight) {
+							farthestRight = end.coordX; 
+						}
+					} else {
+						Destroy (currentBranch.gameObject);
+					}
+					currentBranch = null;
+					placing = false;
+					currentCost = 0;
+				}
 			}
 		}
-
         sunDisplay = "Sunlight: " + sunEnergy;
 		waterDisplay = "Water: " + waterEnergy;
 
@@ -163,7 +171,7 @@ public class Controller : MonoBehaviour {
 				hexArray[i + WORLD_WIDTH/2, j + WORLD_HEIGHT/2] = placeHex (i, j);
 			}
 		}
-		initializeRoots ();
+		//initializeRoots ();
 	}
 
 	Hex placeHex(int x, int y){
@@ -192,9 +200,24 @@ public class Controller : MonoBehaviour {
 	}
 
 	bool checkStart(Hex start){
-		return (start.occupied);
+		return (start.occupied && start.active);
 	}
-		
+
+	public void createNewTree(float startX, float startY){
+		currentTree.root.setNotActive ();
+		GameObject treeObject = new GameObject ();
+		currentTree = treeObject.AddComponent<Tree> ();
+		//currentTree.init (this, 0, 1.398f, 0, Mathf.Sqrt (3f) / 4f, 0);
+		if (farthestRight % 2 == 1) {
+			farthestRight++;
+		} else {
+			farthestRight += 2;
+		}
+
+		currentTree.init(this, startX, startY, (float)farthestRight * 0.75f, -Mathf.Sqrt(3f)/4f,farthestRight);
+
+
+	}
 
 	bool checkFinish(Hex start, Hex end){
 		if (start.type == Hex.AIR) {
@@ -240,7 +263,7 @@ public class Controller : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
     }
-
+	/*
     private void initializeRoots(){
 		GameObject rootHexObject = new GameObject ();
 		root = rootHexObject.AddComponent<Hex> ();
@@ -257,10 +280,10 @@ public class Controller : MonoBehaviour {
 		GameObject branchObject2 = new GameObject ();
 		branchObject2.AddComponent<LineRenderer> ();
 		groundRootBranch = branchObject2.AddComponent<Branch> ();
-		groundRootBranch.init (root, this);
+		groundRootBranch.init (root, this, true);
 		root.addBranch (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1], groundRootBranch);
 		groundRootBranch.confirm (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1]);
 	}
-
+	*/
 }
 

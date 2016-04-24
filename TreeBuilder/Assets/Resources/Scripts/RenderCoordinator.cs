@@ -12,4 +12,5 @@ public class RenderCoordinator : MonoBehaviour {
 	public const int CLOUD_RQ = 2305;
 	public const int SUNDROP_RQ = 2306;
 	public const int ORB_RQ = 2307;
+	public const int SEED_RQ = 2308;
 }

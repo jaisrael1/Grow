@@ -62,7 +62,7 @@ public class Light : MonoBehaviour {
     // When a sundrop hits a branch collider
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "joint") {
+		if (col.gameObject.tag == "joint" && col.gameObject.GetComponent<Joint>().branch.hexStart.active) {
 			if (type == EnvironmentManager.RAINY_WEATHER)
             {
                 int amount = (int)(this.transform.localScale.x * 10);
