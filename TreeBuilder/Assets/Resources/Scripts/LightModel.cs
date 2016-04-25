@@ -16,11 +16,11 @@ public class LightModel : MonoBehaviour {
         mat.shader = Shader.Find("Sprites/Default");
         if (weather != 2)
         {
-            mat.mainTexture = Resources.Load<Texture2D>("Textures/sun image");
+            mat.mainTexture = Resources.Load<Texture2D>("Textures/Sundrop1");
         }
         else
         {
-            mat.mainTexture = Resources.Load<Texture2D>("Textures/water drop");
+            mat.mainTexture = Resources.Load<Texture2D>("Textures/WaterDrop");
         }
         mat.color = new Color(1, 1, 1);
 		mat.renderQueue = RenderCoordinator.SUNDROP_RQ;
