@@ -105,6 +105,8 @@ public class Tree : MonoBehaviour {
 				root.addBranch (c.hexAt(coordX, -1), groundRootBranch);
 				groundRootBranch.confirm (c.hexAt(coordX, -1));
 
+				c.sunEnergy = Controller.INITIAL_SUN_ENERGY;
+				c.waterEnergy = Controller.INITIAL_WATER_ENERGY;
 				c.inControl = true;
 				stage = DONE_STAGE;
 			}
