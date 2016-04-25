@@ -62,17 +62,17 @@ public class Light : MonoBehaviour {
     // When a sundrop hits a branch collider
     void OnTriggerEnter2D(Collider2D col)
     {
-		if (col.gameObject.tag == "joint" && col.gameObject.GetComponent<Joint>().branch.hexStart.active) {
-			if (type == EnvironmentManager.RAINY_WEATHER)
-            {
-                int amount = (int)(this.transform.localScale.x * 10);
-                c.SendMessage("addWaterEnergy",amount);
-            }
-            else {
-                c.SendMessage("addSunEnergy", this.transform.localScale.x);
-            }
+		if (col.gameObject.tag == "joint") {
+			if (col.gameObject.GetComponent<Joint> ().branch.hexStart.active) {
+				if (type == EnvironmentManager.RAINY_WEATHER) {
+					int amount = (int)(this.transform.localScale.x * 10);
+					c.SendMessage ("addWaterEnergy", amount);
+				} else {
+					c.SendMessage ("addSunEnergy", this.transform.localScale.x);
+				}
+				c.audioM.source1.PlayOneShot(c.audioM.clip1);
+			}
             this.transform.localScale = this.transform.localScale * 0.7f;
-			c.audioM.source1.PlayOneShot(c.audioM.clip1);
     	}
 	}
 

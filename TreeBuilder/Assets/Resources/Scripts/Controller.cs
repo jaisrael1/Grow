@@ -29,10 +29,12 @@ public class Controller : MonoBehaviour {
 	public const int COST_LIN = 1;
 	public const float COST_EX = 1.1f;
 
-    public int sunEnergy = 1000;
-    string sunDisplay;
+	public const int INITIAL_SUN_ENERGY = 1000;
+	public const int INITIAL_WATER_ENERGY = 1000;
 
-	public int waterEnergy = 1000;
+	public int sunEnergy = INITIAL_SUN_ENERGY;
+    string sunDisplay;
+	public int waterEnergy = INITIAL_WATER_ENERGY;
 	string waterDisplay;
 
 	public AudioManager audioM;
