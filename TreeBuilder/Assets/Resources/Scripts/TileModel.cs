@@ -6,6 +6,7 @@ public class TileModel : MonoBehaviour
 	Hex hex;
 	Material mat;
 	public const int CLOUD_MODEL = 1;
+	public const int RAIN_CLOUD_MODEL = 3;
 	public const int GROUND_MODEL = 2;
 	public int modelType;
 	public bool shrinking;
@@ -25,8 +26,12 @@ public class TileModel : MonoBehaviour
 			mat.color = new Color (0.7f, 0.5f, 0.3f);	
 			mat.renderQueue = RenderCoordinator.GROUND_RQ;
 		}
+		if (modelType == RAIN_CLOUD_MODEL) {
+			mat.color = new Color (0.9f, 0.9f, 0.9f, 0.75f);
+			mat.renderQueue = RenderCoordinator.CLOUD_RQ;
+		}
 		if (modelType == CLOUD_MODEL) {
-			mat.color = new Color (0.9f, 0.9f, 0.9f, 0.85f);
+			//mat.color = new Color (1, 1, 1, 1f);
 			mat.renderQueue = RenderCoordinator.CLOUD_RQ;
 		}
 	}

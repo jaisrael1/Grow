@@ -20,6 +20,7 @@ public class Background : MonoBehaviour {
 	Color rainTop;
 
 	public void init(EnvironmentManager em){
+		/*
 		this.em = em;
 		lr = this.gameObject.AddComponent<LineRenderer> ();
 		normBottom = new Color (d(0), d(188), d(255));
@@ -29,11 +30,13 @@ public class Background : MonoBehaviour {
 		rainBottom = new Color (d (70), d (70), d (70)); 
 		rainTop =    new Color (d (161), d (161), d (161));
 
-		//lr.material.shader = Shader.Find ("Transparent/Diffuse");
-		lr.material = new Material(Shader.Find("Particles/Additive"));
+		//lr.material = new Material(Shader.Find("Particles/Additive"));
 
-		//lr.material.mainTexture = Resources.Load<Texture2D>("Particles/Additive");
-		//lr.material.color = new Color (1, 0, 0, 0);
+
+		lr.material.shader = Shader.Find("Sprites/Default");
+		lr.material.mainTexture = Resources.Load<Texture2D>("Textures/white_square");
+		lr.material.shader = Shader.Find("Sprites/Default");
+
 		lr.material.renderQueue = RenderCoordinator.BACKGROUND_RQ;
 
 		lr.SetColors (normBottom, normTop);
@@ -41,8 +44,8 @@ public class Background : MonoBehaviour {
 		currentColorBottom = normBottom;
 
 		lr.SetWidth (Controller.WORLD_WIDTH, Controller.WORLD_WIDTH);
-		lr.SetPosition(0, new Vector3(0f, -1f, 0f));
-		lr.SetPosition(1, new Vector3(0f, Controller.WORLD_HEIGHT * Mathf.Sqrt(3) / 4, 0f));
+		lr.SetPosition(0, new Vector3(0f, -1f, 200));
+		lr.SetPosition(1, new Vector3(0f, Controller.WORLD_HEIGHT * Mathf.Sqrt(3) / 4, 200));
 
 	}
 
@@ -60,10 +63,12 @@ public class Background : MonoBehaviour {
 			targetColorTop = normTop;
 		}
 		moving = true;
+		*/
 	}
 
 	// Update is called once per frame
 	void Update () {
+		/*
 		if (moving) {
 
 			float rt = incrementColor (currentColorTop.r, targetColorTop.r);
@@ -83,6 +88,7 @@ public class Background : MonoBehaviour {
 			}
 				
 		}
+		*/
 	}
 		
 	float d(int v){
@@ -93,6 +99,7 @@ public class Background : MonoBehaviour {
 		moving = false;
 	}
 
+	/*
 	float incrementColor(float current, float target){
 		if (current == target) {
 			return current;
@@ -109,4 +116,5 @@ public class Background : MonoBehaviour {
 			return 0;
 		}
 	}
+*/
 }

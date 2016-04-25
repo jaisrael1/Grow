@@ -180,12 +180,16 @@ public class Hex : MonoBehaviour
 		model.mat.color = new Color (1, 1, 1, 0.25f);
 	}
 
-	public void addCloud(){
+	public void addCloud(bool isRainy){
 		if (type == AIR && !hasCloud) {
 			hasCloud = true;
 			var modelObject2 = GameObject.CreatePrimitive (PrimitiveType.Quad);
 			extraTileModel= modelObject2.AddComponent<TileModel> ();
-			extraTileModel.init (this, TileModel.CLOUD_MODEL);	
+			if (isRainy) {
+				extraTileModel.init (this, TileModel.RAIN_CLOUD_MODEL);
+			} else {
+				extraTileModel.init (this, TileModel.CLOUD_MODEL);
+			}
 		}
 	}
 

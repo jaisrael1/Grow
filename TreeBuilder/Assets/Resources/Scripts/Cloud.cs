@@ -70,7 +70,7 @@ public class Cloud : MonoBehaviour {
 			}
 	
 			foreach (Hex i in newList) {
-				i.addCloud ();
+				i.addCloud (isRain);
 			}
 
 			cloudParts = newList;
@@ -89,7 +89,7 @@ public class Cloud : MonoBehaviour {
 		if (timeSinceLastRained > RAIN_INTERVAL && isRain) {
 			foreach (Hex i in cloudParts) {
 				if (UnityEngine.Random.Range (0, 50) == 0) {
-					em.createSun (i.realX, i.realY);
+					em.createSun (i.realX, i.realY, true);
 				}
 			}
 			timeSinceLastRained = 0f;

@@ -81,7 +81,11 @@ public class Light : MonoBehaviour {
 			this.transform.localScale *= 0.7f;
 		}
 		if (col.gameObject.tag == "air_hex" && col.gameObject.GetComponent<Hex> ().hasCloud && type != 2) {
-			this.transform.localScale *= 0.85f;
+			if (col.gameObject.GetComponent<Hex> ().extraTileModel.modelType == TileModel.RAIN_CLOUD_MODEL) {
+				this.transform.localScale *= 0.85f;
+			} else {
+				this.transform.localScale *= 0.996f;
+			}
 		}
 	}
 }

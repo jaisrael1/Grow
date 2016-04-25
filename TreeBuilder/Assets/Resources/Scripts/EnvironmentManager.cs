@@ -36,11 +36,11 @@ public class EnvironmentManager : MonoBehaviour {
 		addWaterToWorld ();
 	}
 	void Start () {
-		/*
+		
 		GameObject backgroundObject = new GameObject ();
 		background = backgroundObject.AddComponent<Background> ();
 		background.init (this);
-		*/
+
 
 		cloudList = new List<Cloud> ();
 		timeSinceLastCloud = 0f;
@@ -77,14 +77,14 @@ public class EnvironmentManager : MonoBehaviour {
 		}
 		if (type == RAINY_WEATHER) {
 			foreach (Light i in lights) {
-				i.shrink ();
+			//	i.shrink ();
 			}
 			lights = new List<Light> ();
 			createCloud (true);
 			rainclouds++;
 		}
 		print ("changing weather to type " + weather);
-		background.change (weather);
+		//background.change (weather);
 	}
 
 	// Update is called once per frame
@@ -127,12 +127,10 @@ public class EnvironmentManager : MonoBehaviour {
 	void sunGenerator()
 	{
 		float x = UnityEngine.Random.Range(-Controller.WORLD_WIDTH / 2, Controller.WORLD_WIDTH / 2);
-		if (weather != RAINY_WEATHER) {
-			createSun (0.75f * x, (Controller.WORLD_HEIGHT / 2) * Mathf.Sqrt (3) / 2f);
-		}
+		createSun (0.75f * x, (Controller.WORLD_HEIGHT / 2) * Mathf.Sqrt (3) / 2f, false);
 	}
 
-	public void createSun(float x, float y)
+	public void createSun(float x, float y, bool isRain)
 	{
 		GameObject lightObject = new GameObject();
 
@@ -145,9 +143,16 @@ public class EnvironmentManager : MonoBehaviour {
 		rig.isKinematic = true;
 
 		Light newLight = lightObject.AddComponent<Light>();
-		newLight.init(x, y, weather, this);
+		if (weather == SUNNY_WEATHER) {
+			newLight.init (x, y, weather, this);
+		}
+		if (weather == RAINY_WEATHER && isRain) {
+			newLight.init (x, y, weather, this);
+		} else {
+			newLight.init (x, y, NORMAL_WEATHER, this);
+		}
 
-		if (weather != RAINY_WEATHER) {
+		if (!isRain) {
 			lights.Add (newLight);
 			newLight.name = "Sundrop " + lights.Count;
 			newLight.transform.parent = lightFolder.transform;
