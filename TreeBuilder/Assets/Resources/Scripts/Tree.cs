@@ -67,12 +67,12 @@ public class Tree : MonoBehaviour {
 			
 			this.transform.position = Vector3.MoveTowards (this.transform.position, new Vector3 (destX, destY, 0), 0.05f);
 			Camera.main.transform.position = vectorize(this.transform.position);
-
+			/*
 			if (c.currentBranch != null) {
 				Destroy (c.currentBranch.gameObject);
 				c.placing = false;
 			}
-
+			*/
 			if (Vector3.Distance (this.transform.position, new Vector3 (destX, destY, 0)) < 0.1f) {
 				stage = GROW_STAGE;
 				GameObject rootHexObject = new GameObject ();

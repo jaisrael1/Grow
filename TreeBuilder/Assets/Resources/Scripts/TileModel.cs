@@ -41,7 +41,7 @@ public class TileModel : MonoBehaviour
 	}
 
 	public void shrink(){
-		if (modelType == CLOUD_MODEL) {
+		if (modelType == CLOUD_MODEL || modelType == RAIN_CLOUD_MODEL) {
 			shrinking = true;
 		}
 	}
