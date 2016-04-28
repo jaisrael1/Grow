@@ -227,8 +227,11 @@ public class EnvironmentManager : MonoBehaviour {
 	void createOrb (Hex h){
 		GameObject orbObject = new GameObject ();
 		Orb newOrb = orbObject.AddComponent<Orb> ();
-		newOrb.init(h, UnityEngine.Random.Range(0, 4), this);
-
+		if (h.transform.position.y <= 4) {
+			newOrb.init (h, UnityEngine.Random.Range (1, 3), this);
+		} else if (h.transform.position.y > 4) {
+			newOrb.init (h, UnityEngine.Random.Range (0, 3), this);
+		}
 		newOrb.name = "Orb" + newOrb.type;
 		orbs.Add (newOrb);
 	}

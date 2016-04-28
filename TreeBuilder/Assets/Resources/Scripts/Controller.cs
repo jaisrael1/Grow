@@ -71,8 +71,8 @@ public class Controller : MonoBehaviour {
         hexFolder.name = "Hexes";
 		//hexes = new List<GameObject>();
 
-		sunEnergy = 1000;
-		waterEnergy = 1000;
+		sunEnergy = 20;
+		waterEnergy = 20;
 		initialized = true;
 
 
