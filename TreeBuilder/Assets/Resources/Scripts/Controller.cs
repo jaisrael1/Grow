@@ -151,6 +151,9 @@ public class Controller : MonoBehaviour {
 						}
 						if (end.coordX > farthestRight) {
 							farthestRight = end.coordX; 
+							if (farthestRight == WORLD_WIDTH / 2 - 1) {
+								enviroManager.removeNewTreeOrbs ();
+							}
 						}
 					} else {
 						Destroy (currentBranch.gameObject);
