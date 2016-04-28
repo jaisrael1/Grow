@@ -76,13 +76,12 @@ public class EnvironmentManager : MonoBehaviour {
 			}
 			cloudList = new List<Cloud> ();
 			rainclouds = 0;
-
 		}
 		if (type == RAINY_WEATHER) {
 			foreach (Light i in lights) {
 			//	i.shrink ();
 			}
-			lights = new List<Light> ();
+			//lights = new List<Light> ();
 			createCloud (true);
 			rainclouds++;
 		}
@@ -120,20 +119,26 @@ public class EnvironmentManager : MonoBehaviour {
 		if (!isRain) {
 			length = UnityEngine.Random.Range (3, (int)CLOUD_MAXLENGTH);
 		} else {
-			length = Controller.WORLD_WIDTH * 2 / 3 + UnityEngine.Random.Range (-3, 3);;
+			length = Controller.WORLD_WIDTH / 3 + UnityEngine.Random.Range (-3, 3);;
 		}
 		var cloudObject = new GameObject ();
-		cloudList.Add (cloudObject.AddComponent<Cloud> ());
-		cloudList [cloudList.Count - 1].init (this, height, length, isRain);
+		Cloud cl = cloudObject.AddComponent<Cloud> ();
+		cl.init (this, height, length, isRain);
+		cloudList.Add (cl);
 	}
 		
 	void sunGenerator()
 	{
 		float x = UnityEngine.Random.Range(-Controller.WORLD_WIDTH / 2, Controller.WORLD_WIDTH / 2);
-		createSun (0.75f * x, (Controller.WORLD_HEIGHT / 2) * Mathf.Sqrt (3) / 2f, false);
+		if (weather == NORMAL_WEATHER || weather == RAINY_WEATHER){
+			createSun (0.75f * x, (Controller.WORLD_HEIGHT / 2) * Mathf.Sqrt (3) / 2f, NORMAL_WEATHER );
+		}
+		if (weather == SUNNY_WEATHER) {
+			createSun (0.75f * x, (Controller.WORLD_HEIGHT / 2) * Mathf.Sqrt (3) / 2f, SUNNY_WEATHER );
+		}
 	}
 
-	public void createSun(float x, float y, bool isRain)
+	public void createSun(float x, float y, int type)
 	{
 		GameObject lightObject = new GameObject();
 
@@ -146,16 +151,11 @@ public class EnvironmentManager : MonoBehaviour {
 		rig.isKinematic = true;
 
 		Light newLight = lightObject.AddComponent<Light>();
-		if (weather == SUNNY_WEATHER) {
-			newLight.init (x, y, weather, this);
-		}
-		if (weather == RAINY_WEATHER && isRain) {
-			newLight.init (x, y, weather, this);
-		} else {
-			newLight.init (x, y, NORMAL_WEATHER, this);
-		}
 
-		if (!isRain) {
+		newLight.init (x, y, type, this);
+		
+
+		if (type != RAINY_WEATHER) {
 			lights.Add (newLight);
 			newLight.name = "Sundrop " + lights.Count;
 			newLight.transform.parent = lightFolder.transform;
@@ -238,7 +238,7 @@ public class EnvironmentManager : MonoBehaviour {
 
 	public void removeNewTreeOrbs(){
 		foreach (Orb i in orbs) {
-			if (i.type == 1) {
+			if (i.type == 0) {
 				i.Shrink ();
 			}
 		}

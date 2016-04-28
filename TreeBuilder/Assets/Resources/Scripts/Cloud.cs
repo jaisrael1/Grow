@@ -89,7 +89,7 @@ public class Cloud : MonoBehaviour {
 		if (timeSinceLastRained > RAIN_INTERVAL && isRain) {
 			foreach (Hex i in cloudParts) {
 				if (UnityEngine.Random.Range (0, 50) == 0) {
-					em.createSun (i.realX, i.realY, true);
+					em.createSun (i.realX, i.realY, EnvironmentManager.RAINY_WEATHER);
 				}
 			}
 			timeSinceLastRained = 0f;

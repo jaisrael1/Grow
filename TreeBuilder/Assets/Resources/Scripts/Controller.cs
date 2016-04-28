@@ -115,11 +115,11 @@ public class Controller : MonoBehaviour {
 				float mouseX = worldPos.x;
 				float mouseY = worldPos.y;
 				worldPos.z = 0;
-
+				/*
 				if (mouseOver != null) {
 					print (mouseOver.coordX + " " + mouseOver.coordY);
 				}
-
+*/
 				if (!placing) {
 					if (mouseOver != null && checkStart (mouseOver)) {
 						placingFrom = mouseOver;
@@ -149,12 +149,14 @@ public class Controller : MonoBehaviour {
 						} else {
 							waterEnergy -= currentCost;
 						}
+
 						if (end.coordX > farthestRight) {
 							farthestRight = end.coordX; 
-							if (farthestRight == WORLD_WIDTH / 2 - 1) {
+							if (farthestRight == WORLD_WIDTH / 2 - 2) {
 								enviroManager.removeNewTreeOrbs ();
 							}
 						}
+
 					} else {
 						Destroy (currentBranch.gameObject);
 					}
@@ -268,27 +270,5 @@ public class Controller : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
     }
-	/*
-    private void initializeRoots(){
-		GameObject rootHexObject = new GameObject ();
-		root = rootHexObject.AddComponent<Hex> ();
-		root.transform.position = new Vector3 (0, -Mathf.Sqrt (3) / 4f, 0);
-		root.rootInit (0, Mathf.Sqrt (3) / 4f, this);
-
-		GameObject branchObject = new GameObject ();
-		branchObject.AddComponent<LineRenderer> ();
-		airRootBranch = branchObject.AddComponent<Branch> ();
-		airRootBranch.init (root, this);
-		root.addBranch (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2], airRootBranch);
-		airRootBranch.confirm (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2]);
-
-		GameObject branchObject2 = new GameObject ();
-		branchObject2.AddComponent<LineRenderer> ();
-		groundRootBranch = branchObject2.AddComponent<Branch> ();
-		groundRootBranch.init (root, this, true);
-		root.addBranch (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1], groundRootBranch);
-		groundRootBranch.confirm (hexArray [WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 1]);
-	}
-	*/
 }
 

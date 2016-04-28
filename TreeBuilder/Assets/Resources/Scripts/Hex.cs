@@ -203,7 +203,8 @@ public class Hex : MonoBehaviour
 		if (type == AIR && hasCloud) {
 			hasCloud = false;
 			extraTileModel.shrink ();
-			extraTileModel = null;
+		} else {
+			print (hasCloud);
 		}
 	}
 }
