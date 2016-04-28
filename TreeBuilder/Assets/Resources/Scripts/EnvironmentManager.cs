@@ -30,13 +30,16 @@ public class EnvironmentManager : MonoBehaviour {
 	GameObject waterFolder;
 	List<Light> waterDrops;
 	Background background;
+	public List<Orb> orbs;
 
 	public void init(Controller c){
 		this.c = c;
+		orbs = new List<Orb>();
 		addWaterToWorld ();
 	}
 	void Start () {
-		
+
+
 		GameObject backgroundObject = new GameObject ();
 		background = backgroundObject.AddComponent<Background> ();
 		background.init (this);
@@ -227,6 +230,14 @@ public class EnvironmentManager : MonoBehaviour {
 		newOrb.init(h, UnityEngine.Random.Range(0, 4), this);
 
 		newOrb.name = "Orb" + newOrb.type;
+		orbs.Add (newOrb);
 	}
 
+	public void removeNewTreeOrbs(){
+		foreach (Orb i in orbs) {
+			if (i.type == 1) {
+				i.Shrink ();
+			}
+		}
+	}
 }

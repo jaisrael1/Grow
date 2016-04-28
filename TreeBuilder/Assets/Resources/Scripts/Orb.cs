@@ -50,6 +50,10 @@ public class Orb : MonoBehaviour {
 		absorbed = false;
 	}
 
+	public void Shrink(){
+		absorbed = true;
+	}
+
 	void Update(){
 		if (absorbed) {
 			this.transform.localScale *= 0.95f;
