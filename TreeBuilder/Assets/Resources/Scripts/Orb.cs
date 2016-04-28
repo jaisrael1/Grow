@@ -31,15 +31,15 @@ public class Orb : MonoBehaviour {
 		//m.SendMessage("addWaterEnergy", type);
 		//m.audioM.source3.PlayOneShot(m.audioM.clip3);
 		absorbed = true;
-		if (type == 1) {
+		if (type == 0) {
 			c.createNewTree (h.realX, h.realY);
 		}
-        if(type == 2)
+        if(type == 1)
         {
             //currentTime = clock;
 			em.changeWeather (EnvironmentManager.SUNNY_WEATHER);
         }
-        if (type == 3 | type == 4)
+        if (type == 2)
         {
             //currentTime = clock;
 			em.changeWeather (EnvironmentManager.RAINY_WEATHER);
