@@ -59,7 +59,7 @@ public class EnvironmentManager : MonoBehaviour {
 		waterFolder.name = "Waterdrops";
 		waterDrops = new List<Light> ();
 
-		InvokeRepeating("sunGenerator", 0f, 0.5f);
+		InvokeRepeating("sunGenerator", 0f, 0.25f);
 	}
 
 

@@ -5,6 +5,7 @@ public class LightModel : MonoBehaviour {
 
     private Light owner;
     private Material mat;
+    int state = 0;
 
     // Use this for initialization
     public void init (Light owner, int weather) {
@@ -24,6 +25,22 @@ public class LightModel : MonoBehaviour {
         }
         mat.color = new Color(1, 1, 1);
 		mat.renderQueue = RenderCoordinator.SUNDROP_RQ;
+
+        InvokeRepeating("switchModel", 1f, 1f);
+    }
+
+    void switchModel()
+    {
+        if (state == 0)
+        {
+            mat.mainTexture = Resources.Load<Texture2D>("Textures/sundrop2");
+            state = 1;
+        }
+        else
+        {
+            mat.mainTexture = Resources.Load<Texture2D>("Textures/Sundrop1");
+            state = 0;
+        }
     }
 	
 	// Update is called once per frame

@@ -41,7 +41,7 @@ public class Controller : MonoBehaviour {
 	public GameObject audioObject;
 
     public const int WORLD_HEIGHT = 80; // the number of vertical tiles
-	public const int WORLD_WIDTH = 50;  // number of horizontal tiles 
+	public const int WORLD_WIDTH = 100;  // number of horizontal tiles 
 
 	public Hex[,] hexArray;
 
