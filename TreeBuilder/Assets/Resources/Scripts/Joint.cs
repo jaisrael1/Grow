@@ -15,7 +15,7 @@ public class Joint : MonoBehaviour {
 		//name = "Tree Joint Model";									
 
 		mat = GetComponent<Renderer>().material;
-		mat.shader = Shader.Find ("Transparent/Diffuse");
+		mat.shader = Shader.Find("Sprites/Default");
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_circle");	
 		mat.color = branch.mat.color;	
 		mat.renderQueue = RenderCoordinator.JOINT_RQ;

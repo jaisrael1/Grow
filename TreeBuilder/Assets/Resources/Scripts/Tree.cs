@@ -84,11 +84,13 @@ public class Tree : MonoBehaviour {
 				branchObject.AddComponent<LineRenderer> ();
 				airRootBranch = branchObject.AddComponent<Branch> ();
 				airRootBranch.init (root, c, true);
+				airRootBranch.setColor (true);
 
 				GameObject branchObject2 = new GameObject ();
 				branchObject2.AddComponent<LineRenderer> ();
 				groundRootBranch = branchObject2.AddComponent<Branch> ();
 				groundRootBranch.init (root, c, true);
+				groundRootBranch.setColor (false);
 
 				Destroy (seed.gameObject);
 				if (coordX == Controller.WORLD_WIDTH / 2 - 1) {

@@ -20,14 +20,14 @@ public class TileModel : MonoBehaviour
 		name = "Hex Model";									
 
 		mat = GetComponent<Renderer> ().material;
-		mat.shader = Shader.Find ("Transparent/Diffuse");
+		mat.shader = Shader.Find("Sprites/Default");
 		mat.mainTexture = Resources.Load<Texture2D> ("Textures/white_hexagon");	
 		if (modelType == GROUND_MODEL) {
-			mat.color = new Color (0.7f, 0.5f, 0.3f);	
+			mat.color = new Color (d(99), d(69), d(10));
 			mat.renderQueue = RenderCoordinator.GROUND_RQ;
 		}
 		if (modelType == RAIN_CLOUD_MODEL) {
-			mat.color = new Color (0.9f, 0.9f, 0.9f, 0.75f);
+			mat.color = new Color (0.6f, 0.6f, 0.6f, 0.60f);
 			mat.renderQueue = RenderCoordinator.CLOUD_RQ;
 		}
 		if (modelType == CLOUD_MODEL) {
@@ -55,4 +55,9 @@ public class TileModel : MonoBehaviour
 			}
 		}
 	}
+
+	float d(int v){
+		return ((float)v / 255f);
+	}
+
 }

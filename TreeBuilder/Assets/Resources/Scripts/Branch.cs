@@ -18,10 +18,13 @@ public class Branch : MonoBehaviour {
 
 	Joint joint;
 
-	public Color branchColor = new Color (0.95f, 0.64f, 0.37f);
+	public Color branchColor ;
+	public Color rootColor ;
 
 	// Use this for initialization
 	public void init(Hex hexStart, Controller controller, bool isRoot){
+		branchColor = new Color(d(139), d(69), d(19));
+		rootColor = Color.gray;
 		this.isRoot = isRoot;
 		this.controller = controller;
 		this.hexStart = hexStart;
@@ -30,10 +33,12 @@ public class Branch : MonoBehaviour {
 			placedYet = true;
 		}
 		mat = gameObject.GetComponent<LineRenderer> ().material;
-		mat.shader = Shader.Find ("Transparent/Diffuse");
+		mat.shader = Shader.Find("Sprites/Default");
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_square");	
 		if (hexStart.type == Hex.AIR) {
 			mat.color = branchColor;	
+		} else {
+			mat.color = rootColor;
 		}
 		mat.renderQueue = RenderCoordinator.BRANCH_RQ;
 			
@@ -81,10 +86,10 @@ public class Branch : MonoBehaviour {
 
 	public void raiseWidth(){
 		if (widthStart < 0.45f) {
-			widthStart += 0.015f;
+			widthStart += 0.004f;
 		}
 		if (widthEnd < 0.45f) {
-			widthEnd += 0.015f;
+			widthEnd += 0.004f;
 		}
 		lr.SetWidth (widthStart, widthEnd);
 		joint.updateDiameter (widthEnd);
@@ -105,6 +110,20 @@ public class Branch : MonoBehaviour {
 				width = 0.3f;
 			}
 			lr.SetWidth (width, width);
+		}
+	}
+
+	float d(int v){
+		return ((float)v / 255f);
+	}
+
+	public void setColor(bool isInAir){
+		if (mat != null) {
+			if (isInAir) {
+				mat.color = branchColor;
+			} else {
+				mat.color = rootColor;
+			}
 		}
 	}
 }
