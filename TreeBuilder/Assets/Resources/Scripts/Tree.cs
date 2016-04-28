@@ -38,7 +38,6 @@ public class Tree : MonoBehaviour {
 		seed.init (this);
 
 		saplingHeight = 0f;
-
 	}
 
 
@@ -91,9 +90,6 @@ public class Tree : MonoBehaviour {
 				groundRootBranch.init (root, c, true);
 
 				Destroy (seed.gameObject);
-				if (coordX == Controller.WORLD_WIDTH / 2 - 1) {
-					c.enviroManager.removeNewTreeOrbs ();
-				}
 			}
 
 		} else if (stage == GROW_STAGE) {

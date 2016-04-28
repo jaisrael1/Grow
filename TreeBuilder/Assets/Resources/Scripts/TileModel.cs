@@ -31,7 +31,7 @@ public class TileModel : MonoBehaviour
 			mat.renderQueue = RenderCoordinator.CLOUD_RQ;
 		}
 		if (modelType == CLOUD_MODEL) {
-			mat.color = new Color (1, 1, 1, 0.5f);
+			//mat.color = new Color (1, 1, 1, 1f);
 			mat.renderQueue = RenderCoordinator.CLOUD_RQ;
 		}
 	}
