@@ -20,7 +20,6 @@ public class Hex : MonoBehaviour
 
 	public ArrayList hex_edges;
 	public ArrayList branches_leaving;
-	public bool active;
 	public Hex hexFrom;
 	public Branch branchEntering;
 
@@ -73,7 +72,6 @@ public class Hex : MonoBehaviour
 			type = AIR;
 			this.gameObject.tag = "air_hex";
 		}
-		active = true;
 	}
 
 	public void rootInit (float realX, float realY, Controller c)
@@ -104,13 +102,7 @@ public class Hex : MonoBehaviour
 			return 1 + hexFrom.findHeight();
 		}
 	}
-
-	public void setNotActive(){
-		active = false;
-		foreach (Hex i in hex_edges) {
-			i.setNotActive ();
-		}
-	}
+		
 
 	public void addBranch (Hex hexTo, Branch b)
 	{
@@ -141,11 +133,35 @@ public class Hex : MonoBehaviour
 		}
 	}
 
+	public void makeLeaf(){
+		if (hexFrom != null && hexFrom.branchEntering.leafModel != null && hexFrom.branchEntering.leafModel.transform.localScale.x < 11.5f) {
+			Destroy (hexFrom.branchEntering.leafModel.gameObject);
+		}
+		int d = findDistToRoot ();
+		branchEntering.leafModel.setScale (d);
+	}
+
 	public void updateWidth ()
 	{
 		if (hexFrom != null) {
 			branchEntering.raiseWidth ();
 			hexFrom.updateWidth ();
+		}
+	}
+
+	public void updateLeaf()
+	{
+		if (hexFrom != null){
+			branchEntering.leafModel.changeScale ();
+			hexFrom.updateLeaf ();
+		}
+	}
+
+	public int findDistToRoot(){
+		if (hexFrom != null) {
+			return 1 + hexFrom.findDistToRoot ();
+		} else {
+			return 1;
 		}
 	}
 	/*
@@ -170,6 +186,7 @@ public class Hex : MonoBehaviour
 	{
 		controller.mouseOver = this;
 		model.mat.color = new Color (1, 1, 1 , 0.5f);
+		model.mat.renderQueue = RenderCoordinator.HEX_BORDER_A_RQ;
 	}
 
 	void OnMouseExit ()
@@ -177,7 +194,12 @@ public class Hex : MonoBehaviour
 		if (controller.mouseOver.Equals (this)) {
 			controller.mouseOver = null;
 		}
-		model.mat.color = new Color (1, 1, 1, 0.25f);
+		model.mat.color = new Color (1, 1, 1, 0.1f);
+		if (coordY >= 0) {
+			model.mat.renderQueue = RenderCoordinator.HEX_BORDER_NA_A_RQ;
+		} else {
+			model.mat.renderQueue = RenderCoordinator.HEX_BORDER_NA_G_RQ;
+		}
 	}
 
 	public void addCloud(bool isRainy){

@@ -88,7 +88,7 @@ public class Cloud : MonoBehaviour {
 
 		if (timeSinceLastRained > RAIN_INTERVAL && isRain) {
 			foreach (Hex i in cloudParts) {
-				if (UnityEngine.Random.Range (0, 50) == 0) {
+				if (UnityEngine.Random.Range (0, 10) == 0) {
 					em.createSun (i.realX, i.realY, EnvironmentManager.RAINY_WEATHER);
 				}
 			}

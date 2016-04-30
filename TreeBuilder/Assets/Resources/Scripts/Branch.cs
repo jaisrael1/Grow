@@ -16,7 +16,8 @@ public class Branch : MonoBehaviour {
 	public float widthStart;
 	public float widthEnd;
 
-	Joint joint;
+	public Joint joint;
+	public LeafModel leafModel;
 
 	public Color branchColor ;
 	public Color rootColor ;
@@ -82,6 +83,12 @@ public class Branch : MonoBehaviour {
         box.size = new Vector2(0.5f, 0.5f);
         modelObject.SetActive(true);
         box.isTrigger = true;
+
+		if (hexEnd.coordY >= 0) {
+			var modelObject2 = GameObject.CreatePrimitive (PrimitiveType.Quad);
+			leafModel = modelObject2.AddComponent<LeafModel> ();
+			leafModel.init (this);
+		}
     }
 
 	public void raiseWidth(){

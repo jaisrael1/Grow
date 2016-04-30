@@ -119,7 +119,7 @@ public class EnvironmentManager : MonoBehaviour {
 		if (!isRain) {
 			length = UnityEngine.Random.Range (3, (int)CLOUD_MAXLENGTH);
 		} else {
-			length = Controller.WORLD_WIDTH / 3 + UnityEngine.Random.Range (-3, 3);;
+			length = 4 + UnityEngine.Random.Range(0,3);
 		}
 		var cloudObject = new GameObject ();
 		Cloud cl = cloudObject.AddComponent<Cloud> ();
@@ -247,4 +247,5 @@ public class EnvironmentManager : MonoBehaviour {
 			}
 		}
 	}
+
 }

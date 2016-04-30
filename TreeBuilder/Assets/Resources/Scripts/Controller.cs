@@ -32,9 +32,9 @@ public class Controller : MonoBehaviour {
 	public const int INITIAL_SUN_ENERGY = 1000;
 	public const int INITIAL_WATER_ENERGY = 1000;
 
-	public int sunEnergy = INITIAL_SUN_ENERGY;
+	public int sunEnergy;
     string sunDisplay;
-	public int waterEnergy = INITIAL_WATER_ENERGY;
+	public int waterEnergy;
 	string waterDisplay;
 
 	public AudioManager audioM;
@@ -71,8 +71,8 @@ public class Controller : MonoBehaviour {
         hexFolder.name = "Hexes";
 		//hexes = new List<GameObject>();
 
-		sunEnergy = 20;
-		waterEnergy = 20;
+		sunEnergy = 2000;
+		waterEnergy = 2000;
 		initialized = true;
 
 
@@ -144,6 +144,9 @@ public class Controller : MonoBehaviour {
 						placingFrom.addBranch (end, currentBranch);
 						currentBranch.confirm (end);
 						end.updateWidth ();
+						if (end.coordY >= 0) {
+							end.makeLeaf ();
+						}
 						if (end.type == Hex.GROUND) {
 							sunEnergy -= currentCost;
 						} else {
@@ -207,11 +210,10 @@ public class Controller : MonoBehaviour {
 	}
 
 	bool checkStart(Hex start){
-		return (start.occupied && start.active);
+		return (start.occupied);
 	}
 
 	public void createNewTree(float startX, float startY){
-		currentTree.root.setNotActive ();
 		GameObject treeObject = new GameObject ();
 		currentTree = treeObject.AddComponent<Tree> ();
 		//currentTree.init (this, 0, 1.398f, 0, Mathf.Sqrt (3f) / 4f, 0);
