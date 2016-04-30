@@ -26,7 +26,7 @@ public class LightModel : MonoBehaviour {
         mat.color = new Color(1, 1, 1);
 		mat.renderQueue = RenderCoordinator.SUNDROP_RQ;
 
-        InvokeRepeating("switchModel", 1f, 1f);
+        InvokeRepeating("switchModel", 1f, 0.5f);
     }
 
     void switchModel()
