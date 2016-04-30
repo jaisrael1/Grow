@@ -16,7 +16,7 @@ public class Joint : MonoBehaviour {
 
 		mat = GetComponent<Renderer>().material;
 		mat.shader = Shader.Find("Sprites/Default");
-		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_circle");	
+		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_orb");	
 		mat.color = branch.mat.color;	
 		mat.renderQueue = RenderCoordinator.JOINT_RQ;
 

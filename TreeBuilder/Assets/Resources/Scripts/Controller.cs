@@ -22,7 +22,9 @@ public class Controller : MonoBehaviour {
     GameObject hexFolder;
 
 	public Tree currentTree;
+	public List<Tree> trees;
 	public int farthestRight;
+	public int farthestLeft;
 	public bool inControl;
 	//List<GameObject> hexes;
 
@@ -42,7 +44,7 @@ public class Controller : MonoBehaviour {
 
     public const int WORLD_HEIGHT = 80; // the number of vertical tiles
 	public const int WORLD_WIDTH = 100;  // number of horizontal tiles 
-
+	public bool[] availableRoots;
 	public Hex[,] hexArray;
 
     private float clock = 0;
@@ -75,11 +77,17 @@ public class Controller : MonoBehaviour {
 		waterEnergy = 2000;
 		initialized = true;
 
-
+		trees = new List<Tree> ();
 		GameObject treeObject = new GameObject ();
 		currentTree = treeObject.AddComponent<Tree> ();
 		currentTree.init (this, 0, 1.398f, 0, -Mathf.Sqrt (3f) / 4f, 0);
-		farthestRight = 0;
+		trees.Add (currentTree);
+
+		availableRoots = new bool[WORLD_WIDTH];
+		for (int i = 0; i < availableRoots.Length; i++) {
+			availableRoots [i] = (i % 2 == 0);
+		}
+		availableRoots [WORLD_WIDTH / 2] = false;
     }
 	
 	// Update is called once per frame
@@ -153,12 +161,18 @@ public class Controller : MonoBehaviour {
 							waterEnergy -= currentCost;
 						}
 
-						if (end.coordX > farthestRight) {
-							farthestRight = end.coordX; 
+						checkFarthests (end.coordX, end.coordY);
+						/*
+						if (end.coordX > farthestRight && (end.coordY == 0 || end.coordY == -1)) {
+							farthestRight += 2;
 							if (farthestRight == WORLD_WIDTH / 2 - 2) {
 								enviroManager.removeNewTreeOrbs ();
 							}
 						}
+						if (end.coordX < farthestLeft && (end.coordY == 0 || end.coordY == -1)) {
+							farthestLeft -= 2;
+						}
+						*/
 
 					} else {
 						Destroy (currentBranch.gameObject);
@@ -209,23 +223,57 @@ public class Controller : MonoBehaviour {
         return hex;
 	}
 
+	void checkFarthests(int x, int y){
+		if (y == 0 || y == -1) {
+			availableRoots [x + WORLD_WIDTH / 2] = false;
+		}
+		bool noEmptySpaces = true;
+		for (int i = 0; i < availableRoots.Length; i++) {
+			if (availableRoots [i]) {
+				noEmptySpaces = false;
+			}
+		}
+		if (noEmptySpaces) {
+			enviroManager.removeNewTreeOrbs ();
+		}
+	}
+
 	bool checkStart(Hex start){
 		return (start.occupied);
 	}
 
-	public void createNewTree(float startX, float startY){
+	public void createNewTree(float startX, float startY, int startXCoord){
 		GameObject treeObject = new GameObject ();
 		currentTree = treeObject.AddComponent<Tree> ();
-		//currentTree.init (this, 0, 1.398f, 0, Mathf.Sqrt (3f) / 4f, 0);
-		if (farthestRight % 2 == 1) {
-			farthestRight++;
-		} else {
-			farthestRight += 2;
+
+		int xChange = 0;
+		bool assigned = false;
+		while (!assigned) {
+			bool tooFar = true;
+			if (startXCoord + xChange < WORLD_WIDTH / 2) {
+				tooFar = false;
+				if (availableRoots [startXCoord + xChange + WORLD_WIDTH / 2]) {
+					assigned = true;
+					continue;
+				}
+			}
+			xChange *= -1;
+			if (startXCoord + xChange >= -WORLD_WIDTH / 2) {
+				tooFar = false;
+				if (availableRoots [startXCoord + xChange + WORLD_WIDTH / 2]) {
+					assigned = true;
+					continue;
+				}
+			}
+			if (tooFar) {
+				print ("error in constructing new tree");
+			}
+			xChange *= -1;
+			xChange++;
 		}
-
-		currentTree.init(this, startX, startY, (float)farthestRight * 0.75f, -Mathf.Sqrt(3f)/4f,farthestRight);
-
-
+		currentTree.init(this, startX, startY, (float)(startXCoord + xChange) * 0.75f, -Mathf.Sqrt(3f)/4f, startXCoord + xChange);
+		trees.Add(currentTree);
+		checkFarthests (startXCoord + xChange, 0);
 	}
 
 	bool checkFinish(Hex start, Hex end){

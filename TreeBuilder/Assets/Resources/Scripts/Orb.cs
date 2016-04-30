@@ -32,7 +32,7 @@ public class Orb : MonoBehaviour {
 		//m.audioM.source3.PlayOneShot(m.audioM.clip3);
 		absorbed = true;
 		if (type == 0) {
-			c.createNewTree (h.realX, h.realY);
+			c.createNewTree (h.realX, h.realY, h.coordX);
 		}
         if(type == 1)
         {

@@ -16,8 +16,7 @@ public class LeafModel : MonoBehaviour {
 		mat.shader = Shader.Find("Sprites/Default");
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/white_orb");
 		mat.color = new Color (d(34), d(139), d(34));
-		mat.renderQueue = RenderCoordinator.LEAF_RQ;    
-		print (transform.localScale);
+		mat.renderQueue = RenderCoordinator.LEAF_RQ;   
 	}
 
 	public void changeScale(){

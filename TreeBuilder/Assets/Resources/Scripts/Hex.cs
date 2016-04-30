@@ -95,7 +95,13 @@ public class Hex : MonoBehaviour
 
 	public int findHeight()
 	{
-		if (hexFrom.Equals(controller.currentTree.root))
+		bool inBaseCase = false;
+		foreach (Tree i in controller.trees) {
+			if (hexFrom.Equals(i.root)) {
+				inBaseCase = true;
+			}
+		}
+		if (inBaseCase)
 		{
 			return 1;
 		} else {
@@ -226,7 +232,7 @@ public class Hex : MonoBehaviour
 			hasCloud = false;
 			extraTileModel.shrink ();
 		} else {
-			print (hasCloud);
+			//print (hasCloud);
 		}
 	}
 }
