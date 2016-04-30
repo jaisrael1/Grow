@@ -22,7 +22,7 @@ public class EnvironmentManager : MonoBehaviour {
 	public float timeSinceLastCloud;
 	public int rainclouds;
 
-	public static float ORB_BASE_PROB = .7f;
+	public static float ORB_BASE_PROB = 10f;
 	public static float WATER_BASE_PROB = 50f;
 
 	GameObject lightFolder;
@@ -202,7 +202,11 @@ public class EnvironmentManager : MonoBehaviour {
 
 	private float getOrbProb(Hex h)
 	{
-		return ORB_BASE_PROB * Vector3.Distance (new Vector3 (0, 0, 0), h.transform.position);
+		if(Vector3.Distance(new Vector3(0, 0, 0), h.transform.position) < 7){
+            return 0;
+        }else{
+            return ORB_BASE_PROB;
+        }
 	}
 
 	private float getWaterProb(Hex h)

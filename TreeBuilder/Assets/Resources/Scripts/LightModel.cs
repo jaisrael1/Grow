@@ -22,6 +22,7 @@ public class LightModel : MonoBehaviour {
         else
         {
             mat.mainTexture = Resources.Load<Texture2D>("Textures/WaterDrop");
+            state = 2;
         }
         mat.color = new Color(1, 1, 1);
 		mat.renderQueue = RenderCoordinator.SUNDROP_RQ;
@@ -36,7 +37,7 @@ public class LightModel : MonoBehaviour {
             mat.mainTexture = Resources.Load<Texture2D>("Textures/sundrop2");
             state = 1;
         }
-        else
+        else if(state == 1)
         {
             mat.mainTexture = Resources.Load<Texture2D>("Textures/Sundrop1");
             state = 0;

@@ -20,7 +20,7 @@ public class OrbModel : MonoBehaviour {
 		} else if (owner.type == 1) {
 			mat.color = new Color(.9f, .5f, 0f);
 		}else if (owner.type == 2) {
-			mat.color = new Color (0.0f, 0.0f, 0.9f, 0.75f);
+			mat.color = new Color (0.12f, 0.2f, 0.9f, 0.75f);
 		}//else if (owner.type == 4) {
 		//	mat.color = new Color (0.9f, 0.15f, 0.15f, 0.75f);
 		//}
