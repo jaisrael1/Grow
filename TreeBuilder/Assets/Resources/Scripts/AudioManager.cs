@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour {
 
 	public ArrayList branchSounds;
 	public ArrayList rootSounds;
-
+	/*
 	public AudioSource bgm;
 	public AudioSource bgfx;
 	public AudioSource branches;
@@ -20,48 +20,48 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource water;
 	public AudioSource system;
 	public AudioSource orbs;
+*/
+
+	public Sound abovegroundBGFX;
+	public Sound undergroundBGFX;
+
+	public Sound bgm1;
+	public Sound bgm2;
+	public Sound bgm3;
 
 
-	public AudioClip abovegroundBGFX;
-	public AudioClip undergroundBGFX;
+	public Sound branch1;
+	public Sound branch2;
+	public Sound branch3;
+	public Sound branch4;
+	public Sound branch5;
+	public Sound branch6;
+	public Sound branch7;
+	public Sound branch8;
+	public Sound branch9;
+	public Sound branch10;
+	public Sound branch11;
+	public Sound branch12;
 
-	public AudioClip bgm1;
-	public AudioClip bgm2;
-	public AudioClip bgm3;
+	public Sound root1;
+	public Sound root2;
+	public Sound root3;
+	public Sound root4;
+	public Sound root5;
+	public Sound root6;
+	public Sound root7;
+	public Sound root8;
+	public Sound root9;
+	public Sound root10;
+	public Sound root11;
+	public Sound root12;
 
+	public Sound regularSun;
+	public Sound sunStorm;
 
-	public AudioClip branch1;
-	public AudioClip branch2;
-	public AudioClip branch3;
-	public AudioClip branch4;
-	public AudioClip branch5;
-	public AudioClip branch6;
-	public AudioClip branch7;
-	public AudioClip branch8;
-	public AudioClip branch9;
-	public AudioClip branch10;
-	public AudioClip branch11;
-	public AudioClip branch12;
+	public Sound mouseClick;
 
-	public AudioClip root1;
-	public AudioClip root2;
-	public AudioClip root3;
-	public AudioClip root4;
-	public AudioClip root5;
-	public AudioClip root6;
-	public AudioClip root7;
-	public AudioClip root8;
-	public AudioClip root9;
-	public AudioClip root10;
-	public AudioClip root11;
-	public AudioClip root12;
-
-	public AudioClip regularSun;
-	public AudioClip sunStorm;
-
-	public AudioClip mouseClick;
-
-	public AudioClip regularWater;
+	public Sound regularWater;
 
 	// Use this for initialization
 	void Start () {
@@ -75,7 +75,7 @@ public class AudioManager : MonoBehaviour {
 		changeSound = true;
 		maxBGM = false;
 
-		//create audio source objects
+		/*create audio source objects
 		bgm = GetComponent<AudioSource>();
 		bgfx = GetComponent<AudioSource>();
 		branches = GetComponent<AudioSource>();
@@ -84,116 +84,202 @@ public class AudioManager : MonoBehaviour {
 		water = GetComponent<AudioSource>();
 		system = GetComponent<AudioSource>();
 		orbs = GetComponent<AudioSource>();
+		*/
+
+		GameObject sound0 = new GameObject ();
+		abovegroundBGFX = sound0.AddComponent<Sound> ();
+		abovegroundBGFX.init ("abovegroundBGFX");
+
+		GameObject sound1 = new GameObject ();
+		undergroundBGFX = sound1.AddComponent<Sound> ();
+		undergroundBGFX.init ("undergroundBGFX");
 
 		//load audio clips
-		abovegroundBGFX = Resources.Load<AudioClip>("Sounds/abovegroundBGFX");
-		undergroundBGFX = Resources.Load<AudioClip>("Sounds/undergroundBGFX");
+		//abovegroundBGFX = Resources.Load<Sound>("Sounds/abovegroundBGFX");
+		//undergroundBGFX = Resources.Load<Sound>("Sounds/undergroundBGFX");
 
-		bgm1 = Resources.Load<AudioClip>("Sounds/bgm_1");
-		bgm2 = Resources.Load<AudioClip>("Sounds/bgm_2");
-		bgm3 = Resources.Load<AudioClip>("Sounds/bgm_3");
+		GameObject sound2 = new GameObject ();
+		bgm1 = sound2.AddComponent<Sound> ();
+		bgm1.init ("bgm_1");
 
-		branch1 = Resources.Load<AudioClip>("Sounds/branch_1");
-		branch2 = Resources.Load<AudioClip>("Sounds/branch_2");
-		branch3 = Resources.Load<AudioClip>("Sounds/branch_3");
-		branch4 = Resources.Load<AudioClip>("Sounds/branch_4");
-		branch5 = Resources.Load<AudioClip>("Sounds/branch_5");
-		branch6 = Resources.Load<AudioClip>("Sounds/branch_6");
-		branch7 = Resources.Load<AudioClip>("Sounds/branch_7");
-		branch8 = Resources.Load<AudioClip>("Sounds/branch_8");
-		branch9 = Resources.Load<AudioClip>("Sounds/branch_9");
-		branch10 = Resources.Load<AudioClip>("Sounds/branch_10");
-		branch11 = Resources.Load<AudioClip>("Sounds/branch_11");
-		branch12 = Resources.Load<AudioClip>("Sounds/branch_12");
+		GameObject sound3 = new GameObject ();
+		bgm2 = sound3.AddComponent<Sound> ();
+		bgm2.init ("bgm_2");
 
-		root1 = Resources.Load<AudioClip>("Sounds/root_1");
-		root2 = Resources.Load<AudioClip>("Sounds/root_2");
-		root3 = Resources.Load<AudioClip>("Sounds/root_3");
-		root4 = Resources.Load<AudioClip>("Sounds/root_4");
-		root5 = Resources.Load<AudioClip>("Sounds/root_5");
-		root6 = Resources.Load<AudioClip>("Sounds/root_6");
-		root7 = Resources.Load<AudioClip>("Sounds/root_7");
-		root8 = Resources.Load<AudioClip>("Sounds/root_8");
-		root9 = Resources.Load<AudioClip>("Sounds/root_9");
-		root10 = Resources.Load<AudioClip>("Sounds/root_10");
-		root11 = Resources.Load<AudioClip>("Sounds/root_11");
-		root12 = Resources.Load<AudioClip>("Sounds/root_12");
+		GameObject sound4 = new GameObject ();
+		bgm3 = sound4.AddComponent<Sound> ();
+		bgm3.init ("bgm_3");
+		/*
+		bgm1 = Resources.Load<Sound>("Sounds/bgm_1");
+		bgm2 = Resources.Load<Sound>("Sounds/bgm_2");
+		bgm3 = Resources.Load<Sound>("Sounds/bgm_3");
+		*/
 
-		regularSun = Resources.Load<AudioClip>("Sounds/regularSun");
-		sunStorm = Resources.Load<AudioClip>("Sounds/sunStorm");
+		GameObject sound = new GameObject ();
+		branch1 = sound.AddComponent<Sound> ();
+		branch1.init ("branch_1");
+		branch2 = new GameObject().AddComponent<Sound> ();
+		branch2.init ("branch_2");
+		branch3 = new GameObject().AddComponent<Sound> ();
+		branch3.init ("branch_3");
+		branch4 = new GameObject().AddComponent<Sound> ();
+		branch4.init ("branch_4");
+		branch5 = new GameObject().AddComponent<Sound> ();
+		branch5.init ("branch_5");
+		branch6 = new GameObject().AddComponent<Sound> ();
+		branch6.init ("branch_6");
+		branch7 = new GameObject().AddComponent<Sound> ();
+		branch7.init ("branch_7");
+		branch8 = new GameObject().AddComponent<Sound> ();
+		branch8.init ("branch_8");
+		branch9 = new GameObject().AddComponent<Sound> ();
+		branch9.init ("branch_9");
+		branch10 = new GameObject().AddComponent<Sound> ();
+		branch10.init ("branch_10");
+		branch11 = new GameObject().AddComponent<Sound> ();
+		branch11.init ("branch_11");
+		branch12 = new GameObject().AddComponent<Sound> ();
+		branch12.init ("branch_12");
+		/*
+		branch1 = Resources.Load<Sound>("Sounds/branch_1");
+		branch2 = Resources.Load<Sound>("Sounds/branch_2");
+		branch3 = Resources.Load<Sound>("Sounds/branch_3");
+		branch4 = Resources.Load<Sound>("Sounds/branch_4");
+		branch5 = Resources.Load<Sound>("Sounds/branch_5");
+		branch6 = Resources.Load<Sound>("Sounds/branch_6");
+		branch7 = Resources.Load<Sound>("Sounds/branch_7");
+		branch8 = Resources.Load<Sound>("Sounds/branch_8");
+		branch9 = Resources.Load<Sound>("Sounds/branch_9");
+		branch10 = Resources.Load<Sound>("Sounds/branch_10");
+		branch11 = Resources.Load<Sound>("Sounds/branch_11");
+		branch12 = Resources.Load<Sound>("Sounds/branch_12");
+		*/
+		root1 = new GameObject().AddComponent<Sound> ();
+		root1.init ("root_1");
+		root2 = new GameObject().AddComponent<Sound> ();
+		root2.init ("root_2");
+		root3 = new GameObject().AddComponent<Sound> ();
+		root3.init ("root_3");
+		root4 = new GameObject().AddComponent<Sound> ();
+		root4.init ("root_4");
+		root5 = new GameObject().AddComponent<Sound> ();
+		root5.init ("root_5");
+		root6 = new GameObject().AddComponent<Sound> ();
+		root6.init ("root_6");
+		root7 = new GameObject().AddComponent<Sound> ();
+		root7.init ("root_7");
+		root8 = new GameObject().AddComponent<Sound> ();
+		root8.init ("root_8");
+		root9 = new GameObject().AddComponent<Sound> ();
+		root9.init ("root_9");
+		root10 = new GameObject().AddComponent<Sound> ();
+		root10.init ("root_10");
+		root11 = new GameObject().AddComponent<Sound> ();
+		root11.init ("root_11");
+		root12 = new GameObject().AddComponent<Sound> ();
+		root12.init ("root_12");
+		/*
+		root1 = Resources.Load<Sound>("Sounds/root_1");
+		root2 = Resources.Load<Sound>("Sounds/root_2");
+		root3 = Resources.Load<Sound>("Sounds/root_3");
+		root4 = Resources.Load<Sound>("Sounds/root_4");
+		root5 = Resources.Load<Sound>("Sounds/root_5");
+		root6 = Resources.Load<Sound>("Sounds/root_6");
+		root7 = Resources.Load<Sound>("Sounds/root_7");
+		root8 = Resources.Load<Sound>("Sounds/root_8");
+		root9 = Resources.Load<Sound>("Sounds/root_9");
+		root10 = Resources.Load<Sound>("Sounds/root_10");
+		root11 = Resources.Load<Sound>("Sounds/root_11");
+		root12 = Resources.Load<Sound>("Sounds/root_12");
+		*/
 
-		mouseClick = Resources.Load<AudioClip>("Sounds/mouseClick");
+		regularSun = new GameObject().AddComponent<Sound> ();
+		regularSun.init ("regularSun");
 
-		regularWater = Resources.Load<AudioClip>("Sounds/regularWater");
+		sunStorm = new GameObject().AddComponent<Sound> ();
+		sunStorm.init ("sunStorm");
 
+		//regularSun = Resources.Load<Sound>("Sounds/regularSun");
+		//sunStorm = Resources.Load<Sound>("Sounds/sunStorm");
+
+		mouseClick = new GameObject().AddComponent<Sound> ();
+		mouseClick.init ("mouseClick");
+
+		//mouseClick = Resources.Load<Sound>("Sounds/mouseClick");
+
+		regularWater = new GameObject ().AddComponent<Sound> ();
+		regularWater.init ("regularWater");
+
+		//regularWater = Resources.Load<Sound>("Sounds/regularWater");
 
 		//loads branch + root sfx into the array TODO
 		branchSounds = new ArrayList ();
-		branchSounds.Add(c.audioM.branch1);
-		branchSounds.Add(c.audioM.branch2);
-		branchSounds.Add(c.audioM.branch3);
-		branchSounds.Add(c.audioM.branch4);
-		branchSounds.Add(c.audioM.branch5);
-		branchSounds.Add(c.audioM.branch6);
-		branchSounds.Add(c.audioM.branch7);
-		branchSounds.Add(c.audioM.branch8);
-		branchSounds.Add(c.audioM.branch9);
-		branchSounds.Add(c.audioM.branch10);
-		branchSounds.Add(c.audioM.branch11);
-		branchSounds.Add(c.audioM.branch12);
+		branchSounds.Add(branch1);
+		branchSounds.Add(branch2);
+		branchSounds.Add(branch3);
+		branchSounds.Add(branch4);
+		branchSounds.Add(branch5);
+		branchSounds.Add(branch6);
+		branchSounds.Add(branch7);
+		branchSounds.Add(branch8);
+		branchSounds.Add(branch9);
+		branchSounds.Add(branch10);
+		branchSounds.Add(branch11);
+		branchSounds.Add(branch12);
 
 		rootSounds = new ArrayList ();
-		rootSounds.Add(c.audioM.root1);
-		rootSounds.Add(c.audioM.root2);
-		rootSounds.Add(c.audioM.root3);
-		rootSounds.Add(c.audioM.root4);
-		rootSounds.Add(c.audioM.root5);
-		rootSounds.Add(c.audioM.root6);
-		rootSounds.Add(c.audioM.root7);
-		rootSounds.Add(c.audioM.root8);
-		rootSounds.Add(c.audioM.root9);
-		rootSounds.Add(c.audioM.root10);
-		rootSounds.Add(c.audioM.root11);
-		rootSounds.Add(c.audioM.root12);
+		rootSounds.Add(root1);
+		rootSounds.Add(root2);
+		rootSounds.Add(root3);
+		rootSounds.Add(root4);
+		rootSounds.Add(root5);
+		rootSounds.Add(root6);
+		rootSounds.Add(root7);
+		rootSounds.Add(root8);
+		rootSounds.Add(root9);
+		rootSounds.Add(root10);
+		rootSounds.Add(root11);
+		rootSounds.Add(root12);
 
 
-		system.loop = false;
-		system.clip = mouseClick;
+		mouseClick.setLoop (false);
 
 		//starts bgm
-		bgm.loop = true;
-		bgm.clip = bgm1;
-		bgm.Play();
-
-
-	
+		bgm1.setLoop(true);
+		bgm1.play();
 	}
 
-	public AudioClip randomBranch () {
+	public void randomBranch () {
 		int randomBranch = Random.Range(0, branchSounds.Count);
-		return (AudioClip) branchSounds[randomBranch];
+		Sound s = (Sound) branchSounds[randomBranch];
+		s.play ();
 	}
 
-	public AudioClip randomRoot () {
+	public void randomRoot () {
 		int randomRoot = Random.Range(0, rootSounds.Count);
-		return (AudioClip) rootSounds[randomRoot];
+		Sound s = (Sound) rootSounds[randomRoot];
+		s.play ();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (!bgm.isPlaying) {
-			bgm.Play();
+		if (!bgm1.isPlaying()) {
+			bgm1.play();
 		}
 		if (!maxBGM) {
 			if (c.trees.Count == 2 && changeSound || c.trees.Count == 3 && changeSound) {
 				print("changing to bgm2");
-				bgm.clip = bgm2;
+				//bgm.clip = bgm2;
+				bgm1.stop();
 				changeSound = false;
+				bgm2.play ();
 			}
 
 			else if (c.trees.Count > 3) {
 				print("changing to bgm3");
-				bgm.clip = bgm3;
+				//bgm.clip = bgm3;
+				bgm2.stop();
+				bgm3.play ();
 				maxBGM = true;
 			}
 		}

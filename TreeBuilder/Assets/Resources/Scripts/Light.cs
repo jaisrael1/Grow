@@ -71,9 +71,9 @@ public class Light : MonoBehaviour {
 					c.SendMessage ("addSunEnergy", this.transform.localScale.x);
 				}
 			if (c.enviroManager.experiencingSunny) {
-				c.audioM.sun.PlayOneShot(c.audioM.sunStorm);
+				c.audioM.sunStorm.play ();
 			} else {
-				c.audioM.sun.PlayOneShot(c.audioM.regularSun);
+				c.audioM.regularSun.playPitched();
 			}
 				
 
