@@ -26,7 +26,7 @@ public class Water : MonoBehaviour {
 
 	public void payOff(){
 		c.SendMessage("addWaterEnergy", ADDED_WATER);
-		c.audioM.source3.PlayOneShot(c.audioM.clip3);
+		c.audioM.water.PlayOneShot(c.audioM.regularWater);
 		absorbed = true;
 	}
 

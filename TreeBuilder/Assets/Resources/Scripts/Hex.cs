@@ -23,6 +23,10 @@ public class Hex : MonoBehaviour
 	public Hex hexFrom;
 	public Branch branchEntering;
 
+	//loads branch/root sounds
+	public ArrayList branchSounds;
+	public ArrayList rootSounds;
+
 	//type variables
 	public const int GROUND = 1;
 	public const int AIR = 2;
@@ -61,6 +65,12 @@ public class Hex : MonoBehaviour
 		hex_edges = new ArrayList ();
 		branches_leaving = new ArrayList ();
 		occupied = false;
+
+
+		//rootSounds = new ArrayList (controller.audioM.root1, controller.audioM.root2, controller.audioM.root3, 
+		//	controller.audioM.root4, controller.audioM.root5, controller.audioM.root6, controller.audioM.root7,
+	//		controller.audioM.root8, controller.audioM.root9, controller.audioM.root10, controller.audioM.root11,
+	//		controller.audioM.root12);
 
 		if (coordY < 0) { 
 			type = GROUND;
@@ -117,8 +127,10 @@ public class Hex : MonoBehaviour
 		hexTo.hexFrom = this;
 		hexTo.occupied = true;
 		hexTo.branchEntering = b;
+
+		//plays grow sound
 		if (controller.initialized) {
-			controller.audioM.source1.PlayOneShot (controller.audioM.clip2);
+			controller.audioM.branches.PlayOneShot(controller.audioM.randomBranch());
 		}
 		hexTo.waterCheck ();
 		hexTo.orbCheck ();

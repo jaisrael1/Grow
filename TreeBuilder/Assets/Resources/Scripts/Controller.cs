@@ -31,8 +31,8 @@ public class Controller : MonoBehaviour {
 	public const int COST_LIN = 1;
 	public const float COST_EX = 1.1f;
 
-	public const int INITIAL_SUN_ENERGY = 1000;
-	public const int INITIAL_WATER_ENERGY = 1000;
+	public const int INITIAL_SUN_ENERGY = 10;
+	public const int INITIAL_WATER_ENERGY = 10;
 
 	public int sunEnergy;
     string sunDisplay;

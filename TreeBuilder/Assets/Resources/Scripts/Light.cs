@@ -70,7 +70,13 @@ public class Light : MonoBehaviour {
 				} else {
 					c.SendMessage ("addSunEnergy", this.transform.localScale.x);
 				}
-				c.audioM.source1.PlayOneShot(c.audioM.clip1);
+			if (c.enviroManager.experiencingSunny) {
+				c.audioM.sun.PlayOneShot(c.audioM.sunStorm);
+			} else {
+				c.audioM.sun.PlayOneShot(c.audioM.regularSun);
+			}
+				
+
 
             this.transform.localScale = this.transform.localScale * 0.7f;
     	}
