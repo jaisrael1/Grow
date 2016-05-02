@@ -38,6 +38,7 @@ public class Controller : MonoBehaviour {
     string sunDisplay;
 	public int waterEnergy;
 	string waterDisplay;
+    public Texture2D resourceBackground;
 
 	public AudioManager audioM;
 	public GameObject audioObject;
@@ -75,7 +76,9 @@ public class Controller : MonoBehaviour {
 
 		sunEnergy = 2000;
 		waterEnergy = 2000;
-		initialized = true;
+        resourceBackground = Resources.Load<Texture2D>("Textures/ResouceBackdrop");
+        //resourceBackground.Resize(512, 512);
+        initialized = true;
 
 		trees = new List<Tree> ();
 		GameObject treeObject = new GameObject ();
@@ -315,9 +318,12 @@ public class Controller : MonoBehaviour {
     
 	void OnGUI () {
         
-        GUI.contentColor = Color.red;
+        GUI.contentColor = Color.yellow;
+        GUI.DrawTexture(new Rect(Screen.width - 140, Screen.height / 2 - 70, 150, 160), resourceBackground);
         GUI.Label(new Rect(Screen.width -100, Screen.height/2, 100, 20), sunDisplay);
-		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
+        GUI.contentColor = new Color(0, 1, 1);
+        GUI.Label(new Rect(Screen.width -100, Screen.height/2-30, 100, 20), waterDisplay);
+       
 
     }
 }
