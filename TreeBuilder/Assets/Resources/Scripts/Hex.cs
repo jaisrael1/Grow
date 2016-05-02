@@ -130,7 +130,12 @@ public class Hex : MonoBehaviour
 
 		//plays grow sound
 		if (controller.initialized) {
-			controller.audioM.branches.PlayOneShot(controller.audioM.randomBranch());
+			//controller.audioM.branches.PlayOneShot(controller.audioM.randomBranch());
+			if (coordY >= 0) {
+				controller.audioM.randomBranch ();
+			} else {
+				controller.audioM.randomRoot ();
+			}
 		}
 		hexTo.waterCheck ();
 		hexTo.orbCheck ();
