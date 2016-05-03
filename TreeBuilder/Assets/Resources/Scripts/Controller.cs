@@ -275,9 +275,6 @@ public class Controller : MonoBehaviour {
 	public void createNewTree(float startX, float startY, int startXCoord){
 		GameObject treeObject = new GameObject ();
 		currentTree = treeObject.AddComponent<Tree> ();
-		audioM.newSeed.setLoop(true);
-		audioM.newSeed.play();
-		print("WOOOO");
 		int xChange = 0;
 		bool assigned = false;
 		while (!assigned) {
@@ -304,7 +301,6 @@ public class Controller : MonoBehaviour {
 			xChange++;
 		}
 		currentTree.init(this, startX, startY, (float)(startXCoord + xChange) * 0.75f, -Mathf.Sqrt(3f)/4f, startXCoord + xChange);
-		audioM.newSeed.stop();
 		audioM.newTree.play();
 		trees.Add(currentTree);
 		checkFarthests (startXCoord + xChange, 0);
