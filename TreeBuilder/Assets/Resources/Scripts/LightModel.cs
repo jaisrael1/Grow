@@ -5,7 +5,7 @@ public class LightModel : MonoBehaviour {
 
     private Light owner;
     private Material mat;
-    int state = 0;
+    public int state = 0;
 
     // Use this for initialization
     public void init (Light owner, int weather) {
