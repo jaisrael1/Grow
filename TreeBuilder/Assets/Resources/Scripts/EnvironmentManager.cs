@@ -262,10 +262,10 @@ public class EnvironmentManager : MonoBehaviour {
 		if (h.transform.position.x >Controller.WORLD_WIDTH/3 +3 || -1*h.transform.position.x >Controller.WORLD_WIDTH/3 +4) {
 			newOrb.init (h, 3, this);
 		}
-		else if (h.transform.position.y <= 4) {
+		else if (h.transform.position.y <= -4) {
 			newOrb.init (h, UnityEngine.Random.Range (1, 3), this);
 		} else if (h.transform.position.y > 4) {
-			newOrb.init (h, UnityEngine.Random.Range (0, 3), this);
+			newOrb.init (h, UnityEngine.Random.Range (0, 2), this);
 		}
 		newOrb.name = "Orb" + newOrb.type;
 		orbs.Add (newOrb);
