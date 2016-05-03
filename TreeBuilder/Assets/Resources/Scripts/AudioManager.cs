@@ -62,6 +62,7 @@ public class AudioManager : MonoBehaviour {
 	public Sound mouseClick;
 
 	public Sound regularWater;
+	public Sound rainWater;
 
 	// Use this for initialization
 	void Start () {
@@ -210,6 +211,9 @@ public class AudioManager : MonoBehaviour {
 		regularWater = new GameObject ().AddComponent<Sound> ();
 		regularWater.init ("regularWater");
 
+		rainWater = new GameObject ().AddComponent<Sound> ();
+		rainWater.init ("rainWater");
+
 		//regularWater = Resources.Load<Sound>("Sounds/regularWater");
 
 		//loads branch + root sfx into the array TODO
@@ -247,6 +251,12 @@ public class AudioManager : MonoBehaviour {
 		//starts bgm
 		bgm1.setLoop(true);
 		bgm1.play();
+
+		abovegroundBGFX.setLoop(true);
+		abovegroundBGFX.play();
+
+		undergroundBGFX.setLoop(true);
+		undergroundBGFX.play();
 	}
 
 	public void randomBranch () {
@@ -263,11 +273,8 @@ public class AudioManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (!bgm1.isPlaying()) {
-			bgm1.play();
-		}
 		if (!maxBGM) {
-			if (c.trees.Count == 2 && changeSound || c.trees.Count == 3 && changeSound) {
+			if (c.trees.Count == 2 && changeSound) {
 				print("changing to bgm2");
 				//bgm.clip = bgm2;
 				bgm1.stop();
@@ -283,6 +290,9 @@ public class AudioManager : MonoBehaviour {
 				maxBGM = true;
 			}
 		}
+
+		abovegroundBGFX.source.volume = 0.7f * Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
+		undergroundBGFX.source.volume = -0.2f * Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
 
 		//if (Input.GetMouseButtonDown(0)) {
 		//	system.Play();
