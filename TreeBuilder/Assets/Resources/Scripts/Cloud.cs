@@ -18,7 +18,7 @@ public class Cloud : MonoBehaviour {
 
 	public bool isRain;
 	public float timeSinceLastRained;
-	public const float RAIN_INTERVAL = 0.25f;
+	public const float RAIN_INTERVAL = 0.5f;
 
 	public void init (EnvironmentManager em, int coordY, int length, bool isRain){
 		this.em = em;

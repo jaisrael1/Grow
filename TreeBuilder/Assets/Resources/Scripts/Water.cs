@@ -25,7 +25,7 @@ public class Water : MonoBehaviour {
 	}
 
 	public void payOff(){
-		c.SendMessage("addWaterEnergy", ADDED_WATER);
+		c.SendMessage("addWaterEnergy", ADDED_WATER*c.trees.Count);
 		c.audioM.regularWater.playPitched();
 		absorbed = true;
 	}

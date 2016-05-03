@@ -105,6 +105,7 @@ public class Branch : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
 		if (!placedYet && controller != null && !isRoot) {
 			worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			float mouseX = worldPos.x;
@@ -119,6 +120,9 @@ public class Branch : MonoBehaviour {
 			}
 			lr.SetWidth (width, width);
 		}
+		if (controller.flowering) {
+			flower ();
+		}
 	}
 
 	float d(int v){
@@ -132,6 +136,11 @@ public class Branch : MonoBehaviour {
 			} else {
 				mat.color = rootColor;
 			}
+		}
+	}
+	public void flower(){
+		if (leafModel != null) {
+			leafModel.flower ();
 		}
 	}
 }

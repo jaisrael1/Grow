@@ -43,7 +43,11 @@ public class Orb : MonoBehaviour {
         {
             //currentTime = clock;
 			em.changeWeather (EnvironmentManager.RAINY_WEATHER);
-        }
+		} if (type == 3)
+		{
+			//currentTime = clock;
+			c.flower();
+		}
     }
 
 	void Start(){

@@ -36,5 +36,9 @@ public class LeafModel : MonoBehaviour {
 	float d(int v){
 		return ((float)v / 255f);
 	}
-
+	public void flower(){
+		mat.mainTexture = Resources.Load<Texture2D>("Textures/Flower");
+		mat.color = Color.white;
+		transform.localScale = new Vector3 (5f, 5f, 0);
+	}
 }

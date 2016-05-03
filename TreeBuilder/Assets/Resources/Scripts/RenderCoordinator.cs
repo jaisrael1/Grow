@@ -4,6 +4,7 @@ using System.Collections;
 public class RenderCoordinator : MonoBehaviour {
 
 	public const int BACKGROUND_RQ = 2297;
+	public const int ANIMAL_RQ = 2310;
 	public const int HEX_BORDER_NA_A_RQ = 2298;
 	public const int LEAF_RQ = 2299;
 	public const int GROUND_RQ = 2300;

@@ -22,6 +22,8 @@ public class EnvironmentManager : MonoBehaviour {
 	public float timeSinceLastCloud;
 	public int rainclouds;
 
+	public bool isBird = false;
+
 	public static float ORB_BASE_PROB = 10f;
 	public static float WATER_BASE_PROB = 50f;
 
@@ -111,6 +113,30 @@ public class EnvironmentManager : MonoBehaviour {
 			}
 		}
 
+		if (!isBird) {
+			addBird ();
+		}
+
+	}
+
+	public void addBird()
+	{
+		
+		GameObject birdObject = new GameObject();
+
+		Bird newBird = birdObject.AddComponent<Bird>();
+
+
+
+		int x = -Controller.WORLD_WIDTH/2;
+		int y = UnityEngine.Random.Range (5, 12);
+		Hex h = c.hexAt(x, y);
+		newBird.init (h.transform.position.x, h.transform.position.y, this);
+		isBird = true;
+	}
+	public void destroyBird(Bird b){
+		Destroy (b);
+		isBird = false;
 	}
 		
 	void createCloud(bool isRain){
@@ -204,7 +230,9 @@ public class EnvironmentManager : MonoBehaviour {
 	{
 		if(Vector3.Distance(new Vector3(0, 0, 0), h.transform.position) < 7){
             return 0;
-        }else{
+		}else if(h.transform.position.x >Controller.WORLD_WIDTH/3 +3 || -1*h.transform.position.x >Controller.WORLD_WIDTH/3 +4){
+			return 101f;
+		}else{
             return ORB_BASE_PROB;
         }
 	}
@@ -231,7 +259,10 @@ public class EnvironmentManager : MonoBehaviour {
 	void createOrb (Hex h){
 		GameObject orbObject = new GameObject ();
 		Orb newOrb = orbObject.AddComponent<Orb> ();
-		if (h.transform.position.y <= 4) {
+		if (h.transform.position.x >Controller.WORLD_WIDTH/3 +3 || -1*h.transform.position.x >Controller.WORLD_WIDTH/3 +4) {
+			newOrb.init (h, 3, this);
+		}
+		else if (h.transform.position.y <= 4) {
 			newOrb.init (h, UnityEngine.Random.Range (1, 3), this);
 		} else if (h.transform.position.y > 4) {
 			newOrb.init (h, UnityEngine.Random.Range (0, 3), this);

@@ -9,6 +9,7 @@ public class Controller : MonoBehaviour {
 
 	public bool initialized;
 
+
 	public Hex mouseOver;
 	public bool placing;
 	public Hex placingFrom; 
@@ -29,14 +30,16 @@ public class Controller : MonoBehaviour {
 	//List<GameObject> hexes;
 
 	public const int COST_LIN = 1;
-	public const float COST_EX = 1.1f;
+	public const float COST_EX = 1.0f;
 
-	public const int INITIAL_SUN_ENERGY = 10;
-	public const int INITIAL_WATER_ENERGY = 10;
+	public const int INITIAL_SUN_ENERGY = 20;
+	public const int INITIAL_WATER_ENERGY = 20;
 
 	public List<Color> branchColors;
 	public List<Color> leafColors;
 	public List<Color> rootColors;
+
+	public bool flowering = false;
 
 	public int sunEnergy;
     string sunDisplay;
@@ -96,8 +99,8 @@ public class Controller : MonoBehaviour {
         hexFolder.name = "Hexes";
 		//hexes = new List<GameObject>();
 
-		sunEnergy = 2000;
-		waterEnergy = 2000;
+		sunEnergy = INITIAL_SUN_ENERGY;
+		waterEnergy = INITIAL_WATER_ENERGY;
         resourceBackground = Resources.Load<Texture2D>("Textures/ResouceBackdrop");
         //resourceBackground.Resize(512, 512);
         initialized = true;
@@ -337,7 +340,11 @@ public class Controller : MonoBehaviour {
 	}
 
 	public int findCost(Hex h){
-		return ((int)Mathf.Pow (h.findHeight (), COST_EX) * COST_LIN);
+		return Math.Min(((int)Mathf.Pow (h.findHeight (), .5f+trees.Count/2) * COST_LIN), 500);
+	}
+
+	public void flower(){
+		flowering = true;
 	}
     
 	void OnGUI () {
