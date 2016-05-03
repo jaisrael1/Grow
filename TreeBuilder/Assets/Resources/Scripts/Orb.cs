@@ -47,6 +47,7 @@ public class Orb : MonoBehaviour {
 		{
 			//currentTime = clock;
 			c.flower();
+			c.audioM.flowered = true;
 		}
     }
 

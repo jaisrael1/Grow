@@ -70,20 +70,19 @@ public class Light : MonoBehaviour {
 				} else {
 					c.SendMessage ("addSunEnergy", this.transform.localScale.x);
 				}
-			if (c.enviroManager.weather == 0) {
-				c.audioM.regularSun.playPitched();
-			} else if (c.enviroManager.weather == 1) {
-				c.audioM.sunStorm.play ();
-			}
-			else if (c.enviroManager.weather == 2 && model.state == 2){
-				c.audioM.rainWater.source.volume = 0.9f;
-				c.audioM.rainWater.playPitched();		
-			} else {
-				c.audioM.regularSun.playPitched();
+			if (!c.audioM.flowered) {
+				if(model.state == 2) {
+					c.audioM.rainWater.source.volume = 0.9f;
+					c.audioM.rainWater.playPitched();	
+				} else if (c.enviroManager.weather == 0) {
+					c.audioM.regularSun.playPitched();
+				} else if (c.enviroManager.weather == 1) {
+					c.audioM.sunStorm.play();
+				} else {
+					c.audioM.regularSun.playPitched();
+				}
 			}
 				
-
-
             this.transform.localScale = this.transform.localScale * 0.7f;
     	}
 	}

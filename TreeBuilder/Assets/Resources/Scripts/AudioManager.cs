@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour {
 
 	public bool changeSound;
 	public bool maxBGM;
+	public bool flowered;
 
 
 	public ArrayList branchSounds;
@@ -22,6 +23,9 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource orbs;
 */
 
+	public Sound newTree;
+	public Sound newSeed;
+
 	public Sound abovegroundBGFX;
 	public Sound undergroundBGFX;
 
@@ -29,6 +33,7 @@ public class AudioManager : MonoBehaviour {
 	public Sound bgm2;
 	public Sound bgm3;
 
+	public Sound menuTheme;
 
 	public Sound branch1;
 	public Sound branch2;
@@ -110,6 +115,11 @@ public class AudioManager : MonoBehaviour {
 		GameObject sound4 = new GameObject ();
 		bgm3 = sound4.AddComponent<Sound> ();
 		bgm3.init ("bgm_3");
+
+		menuTheme = new GameObject().AddComponent<Sound> ();
+		menuTheme.init("menuTheme");
+		menuTheme.setLoop(true);
+
 		/*
 		bgm1 = Resources.Load<Sound>("Sounds/bgm_1");
 		bgm2 = Resources.Load<Sound>("Sounds/bgm_2");
@@ -214,6 +224,13 @@ public class AudioManager : MonoBehaviour {
 		rainWater = new GameObject ().AddComponent<Sound> ();
 		rainWater.init ("rainWater");
 
+		newSeed = new GameObject().AddComponent<Sound> ();
+		newSeed.init ("newSeed");
+		newSeed.setLoop(true);
+
+		newTree = new GameObject().AddComponent<Sound> ();
+		newTree.init ("newTree");
+
 		//regularWater = Resources.Load<Sound>("Sounds/regularWater");
 
 		//loads branch + root sfx into the array TODO
@@ -250,6 +267,9 @@ public class AudioManager : MonoBehaviour {
 
 		//starts bgm
 		bgm1.setLoop(true);
+		bgm2.setLoop(true);
+		bgm3.setLoop(true);
+
 		bgm1.play();
 
 		abovegroundBGFX.setLoop(true);
@@ -291,7 +311,15 @@ public class AudioManager : MonoBehaviour {
 			}
 		}
 
-		abovegroundBGFX.source.volume = 0.7f * Camera.main.transform.position.y;//Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
+		if (flowered) {
+			bgm1.stop();
+			bgm2.stop();
+			bgm3.stop();
+			menuTheme.play();
+			flowered = false;
+		}
+
+		abovegroundBGFX.source.volume = 0.9f * Camera.main.transform.position.y;//Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
 		undergroundBGFX.source.volume = -0.2f *  Camera.main.transform.position.y;//Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
 
 		//if (Input.GetMouseButtonDown(0)) {
