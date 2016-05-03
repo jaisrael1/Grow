@@ -71,9 +71,9 @@ public class EnvironmentManager : MonoBehaviour {
 		if (type == SUNNY_WEATHER) {
 			timeSunnyGotten = clock;
 			experiencingSunny = true;
-			foreach (Cloud i in cloudList) {
+			/*foreach (Cloud i in cloudList) {
 				i.shrink ();
-			}
+			}*/
 			cloudList = new List<Cloud> ();
 			rainclouds = 0;
 		}

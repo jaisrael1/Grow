@@ -53,9 +53,9 @@ public class Cloud : MonoBehaviour {
 			foreach (Hex i in cloudParts) {
 				if (i.coordX > -Controller.WORLD_WIDTH / 2) {
 					if (i.coordY == this.coordY) {
-						newList.Add (c.hexAt (i.coordX - 1, i.coordY + 1));
+						newList.Add (c.hexAt (i.coordX - 1, i.coordY - 1 ));
 					} else {
-						newList.Add (c.hexAt (i.coordX - 1, i.coordY - 1));
+						newList.Add (c.hexAt (i.coordX - 1, i.coordY + 1));
 					}
 				}
 				i.removeCloud();
@@ -64,7 +64,7 @@ public class Cloud : MonoBehaviour {
 			//stuff for adding new clouds (When the cloud is still at the far right side of the screen)
 			if (updates <= length) {
 				if (updates > 1 && updates < length) {
-					newList.Add (c.hexAt (Controller.WORLD_WIDTH/2 - 1, coordY + 1));
+					newList.Add (c.hexAt (Controller.WORLD_WIDTH/2 - 1, coordY - 1));
 				}
 				newList.Add (c.hexAt (Controller.WORLD_WIDTH/2 -1, coordY));
 			}
