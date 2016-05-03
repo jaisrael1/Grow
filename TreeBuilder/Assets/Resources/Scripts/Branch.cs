@@ -24,8 +24,9 @@ public class Branch : MonoBehaviour {
 
 	// Use this for initialization
 	public void init(Hex hexStart, Controller controller, bool isRoot){
-		branchColor = new Color(d(139), d(69), d(19));
-		rootColor = Color.gray;
+		branchColor = hexStart.tree.branchColor;//new Color(d(139), d(69), d(19));
+		rootColor = hexStart.tree.rootColor;
+		//rootColor = Color.gray;
 		this.isRoot = isRoot;
 		this.controller = controller;
 		this.hexStart = hexStart;

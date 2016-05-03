@@ -22,7 +22,6 @@ public class Tree : MonoBehaviour {
 	public Color leafColor;
 
 	public float saplingHeight;
-
 	public SeedModel seed;
 
 	public void init(Controller c, float startX, float startY, float destX, float destY, int coordX){
@@ -39,8 +38,12 @@ public class Tree : MonoBehaviour {
 
 		saplingHeight = 0f;
 
-	}
+		int i = Random.Range (0, c.branchColors.Count);
+		branchColor = c.branchColors[i];
+		leafColor   = c.leafColors[i];
+		rootColor   = c.rootColors[i];
 
+	}
 
 	void Start () {
 		stage = CAMERA_CONTROL_STAGE;
@@ -77,8 +80,10 @@ public class Tree : MonoBehaviour {
 				stage = GROW_STAGE;
 				GameObject rootHexObject = new GameObject ();
 				root = rootHexObject.AddComponent<Hex> ();
+				root.tree = this;
 				root.transform.position = new Vector3 (destX, -Mathf.Sqrt (3) / 4f, 0);
 				root.rootInit (destX, destY, c);
+
 
 				GameObject branchObject = new GameObject ();
 				branchObject.AddComponent<LineRenderer> ();
@@ -93,9 +98,11 @@ public class Tree : MonoBehaviour {
 				groundRootBranch.setColor (false);
 
 				Destroy (seed.gameObject);
+				/*
 				if (coordX == Controller.WORLD_WIDTH / 2 - 1) {
 					c.enviroManager.removeNewTreeOrbs ();
 				}
+				*/
 			}
 
 		} else if (stage == GROW_STAGE) {

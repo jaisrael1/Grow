@@ -34,6 +34,10 @@ public class Controller : MonoBehaviour {
 	public const int INITIAL_SUN_ENERGY = 10;
 	public const int INITIAL_WATER_ENERGY = 10;
 
+	public List<Color> branchColors;
+	public List<Color> leafColors;
+	public List<Color> rootColors;
+
 	public int sunEnergy;
     string sunDisplay;
 	public int waterEnergy;
@@ -53,6 +57,24 @@ public class Controller : MonoBehaviour {
     void Start () {
 		initialized = false;
 		inControl = false;
+		initTreeColors ();
+		/*
+		branchColors = new List<Color> ();
+		rootColors = new List<Color> ();
+		leafColors = new List<Color> ();
+
+		branchColors.Add (Color.blue);
+		rootColors.Add (Color.blue);
+		leafColors.Add (Color.blue);
+
+		branchColors.Add (Color.grey);
+		rootColors.Add (Color.grey);
+		leafColors.Add (Color.grey);
+
+		branchColors.Add (Color.black);
+		rootColors.Add (Color.black);
+		leafColors.Add (Color.black);
+*/
 		hexFolder = new GameObject();
 		populateTiles ();
 		placing = false;
@@ -88,6 +110,8 @@ public class Controller : MonoBehaviour {
 			availableRoots [i] = (i % 2 == 0);
 		}
 		availableRoots [WORLD_WIDTH / 2] = false;
+
+
     }
 	
 	// Update is called once per frame
@@ -320,5 +344,39 @@ public class Controller : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width -100, Screen.height/2-40, 100, 20), waterDisplay);
 
     }
+
+	void initTreeColors(){
+		branchColors = new List<Color> ();
+		rootColors = new List<Color> ();
+		leafColors = new List<Color> ();
+		//tan
+		branchColors.Add (new Color (d (255), d (250), d (193)));
+		rootColors.Add (new Color (d(174),d(170), d(122)));
+		leafColors.Add (new Color(0,d(102), 0));
+		//deep
+		branchColors.Add (new Color(d(71), d(42), d(12)));
+		rootColors.Add (new Color(d(186), d(186), d(186)));
+		leafColors.Add (new Color(d(31), d(90), d(22)));
+		//rosewood
+		branchColors.Add (new Color(d(152), d(109), d(67)));
+		rootColors.Add (new Color(d(239), d(239), d(239)));
+		leafColors.Add (new Color(d(73), d(166), d(73)));
+		//tan roots
+		branchColors.Add (new Color(d(115), d(113), d(51)));
+		rootColors.Add (new Color(d(170), d(182), 0f));
+		leafColors.Add (new Color(d(20), d(146), 0f));
+		//lizard leaf
+		branchColors.Add (new Color (d (63), d (60), 0f));
+		rootColors.Add (new Color(d(144), d(144), d(144)));
+		leafColors.Add (new Color(d(76), d(153), 0f));
+
+		branchColors.Add (new Color(d(102), d(102), 0f));
+		rootColors.Add (new Color(d(204), 1f, d(204)));
+		leafColors.Add (new Color(d(128), d(255), 0f));
+	}
+
+	float d(int v){
+		return ((float)v / 255f);
+	}
 }
 

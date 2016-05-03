@@ -3,14 +3,12 @@ using System.Collections;
 
 public class Sound : MonoBehaviour {
 
-	//public AudioManager audioM;
 	public AudioSource source;
 	public AudioClip c;
 	public bool fading;
 
-	public void init(string filename){
-		//this.audioM = audioM;
-
+	public void init(string filename)
+	{
 		source = this.gameObject.AddComponent<AudioSource> ();
 
 		c = Resources.Load<AudioClip>("Sounds/"+ filename);
@@ -47,15 +45,16 @@ public class Sound : MonoBehaviour {
 	public void fadeOut(){
 		fading = true;
 	}
+		
 
-	// Update is called once per frame
 	void Update () {
 		if (fading) {
-			source.volume = source.volume -= 0.05f;
+			source.volume -= 0.05f;
 			if (source.volume < 0.1f) {
 				fading = false;
 				source.Stop ();
 			}
 		}
 	}
+
 }

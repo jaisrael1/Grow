@@ -22,6 +22,7 @@ public class Hex : MonoBehaviour
 	public ArrayList branches_leaving;
 	public Hex hexFrom;
 	public Branch branchEntering;
+	public Tree tree;
 
 	//loads branch/root sounds
 	public ArrayList branchSounds;
@@ -98,6 +99,7 @@ public class Hex : MonoBehaviour
 		contains = WATER_SINGLE;
 		this.w = w;
 	}
+
 	public void orbInit(Orb o){
 		contains = ORB;
 		this.o = o;
@@ -137,6 +139,7 @@ public class Hex : MonoBehaviour
 				controller.audioM.randomRoot ();
 			}
 		}
+		hexTo.tree = this.tree;
 		hexTo.waterCheck ();
 		hexTo.orbCheck ();
 	}
