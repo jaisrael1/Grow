@@ -291,8 +291,8 @@ public class AudioManager : MonoBehaviour {
 			}
 		}
 
-		abovegroundBGFX.source.volume = 0.7f * Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
-		undergroundBGFX.source.volume = -0.2f * Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
+		abovegroundBGFX.source.volume = 0.7f * Camera.main.transform.position.y;//Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
+		undergroundBGFX.source.volume = -0.2f *  Camera.main.transform.position.y;//Camera.main.ScreenToWorldPoint (Input.mousePosition).y;
 
 		//if (Input.GetMouseButtonDown(0)) {
 		//	system.Play();

@@ -5,7 +5,8 @@ public class Sound : MonoBehaviour {
 
 	public AudioSource source;
 	public AudioClip c;
-	public bool fading;
+	public bool fadingOut;
+	public bool fadingIn;
 
 	public void init(string filename)
 	{
@@ -17,11 +18,11 @@ public class Sound : MonoBehaviour {
 	}
 
 	public void Start(){
-		fading = false;
+		fadingOut = false;
+		fadingIn = false;
 	}
 
 	public void play() {
-		source.volume = 1f;
 		source.Play ();
 	}
 
@@ -43,16 +44,31 @@ public class Sound : MonoBehaviour {
 	}
 		
 	public void fadeOut(){
-		fading = true;
+		fadingOut = true;
+		fadingIn = false;
 	}
 		
+	public void fadeIn(){
+		source.volume = 0f;
+		source.Play ();
+		fadingIn = true;
+		fadingOut = false;
+	}
 
 	void Update () {
-		if (fading) {
+		if (fadingOut) {
 			source.volume -= 0.05f;
 			if (source.volume < 0.1f) {
-				fading = false;
+				fadingOut = false;
 				source.Stop ();
+				source.volume = 1f;
+			}
+		}
+		if (fadingIn) {
+			source.volume += 0.5f;
+			if (source.volume >= 1f) {
+				source.volume = 1f;
+				fadingIn = false;
 			}
 		}
 	}
