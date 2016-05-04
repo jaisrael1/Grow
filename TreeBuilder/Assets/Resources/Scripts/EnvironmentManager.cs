@@ -279,4 +279,11 @@ public class EnvironmentManager : MonoBehaviour {
 		}
 	}
 
+	public void makeOrbEffect(Hex h, int type){
+
+		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+		OrbEffectModel m = modelObject.AddComponent<OrbEffectModel>();
+		m.init(this, h.realX, h.realY, type);
+
+	}
 }

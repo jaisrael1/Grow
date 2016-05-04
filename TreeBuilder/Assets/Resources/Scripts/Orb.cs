@@ -38,11 +38,13 @@ public class Orb : MonoBehaviour {
         {
             //currentTime = clock;
 			em.changeWeather (EnvironmentManager.SUNNY_WEATHER);
+			em.makeOrbEffect (h, EnvironmentManager.SUNNY_WEATHER);
         }
         if (type == 2)
         {
             //currentTime = clock;
 			em.changeWeather (EnvironmentManager.RAINY_WEATHER);
+			em.makeOrbEffect (h, EnvironmentManager.RAINY_WEATHER);
 		} if (type == 3)
 		{
 			//currentTime = clock;

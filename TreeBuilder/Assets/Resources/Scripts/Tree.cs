@@ -37,12 +37,11 @@ public class Tree : MonoBehaviour {
 		seed.init (this);
 
 		saplingHeight = 0f;
-
-		int i = Random.Range (0, c.branchColors.Count);
-		branchColor = c.branchColors[i];
-		leafColor   = c.leafColors[i];
-		rootColor   = c.rootColors[i];
-
+	
+		branchColor = c.branchColors[c.colorsArrayIndex];
+		leafColor   = c.leafColors[c.colorsArrayIndex];
+		rootColor   = c.rootColors[c.colorsArrayIndex];
+		c.colorsArrayIndex = (c.colorsArrayIndex + 1) % c.branchColors.Count;  
 	}
 
 	void Start () {
@@ -55,13 +54,13 @@ public class Tree : MonoBehaviour {
 			if (Camera.main.orthographicSize > 2.1f) {
 				Camera.main.orthographicSize -= 0.05f;
 			}
-			else if (Camera.main.orthographicSize < 2f) {
+			else if (Camera.main.orthographicSize < 1.9f) {
 				Camera.main.orthographicSize += 0.05f;
 			}
 
 			Camera.main.transform.position = Vector3.MoveTowards (Camera.main.transform.position, vectorize(this.transform.position), 0.1f);
 
-			if (Camera.main.orthographicSize > 1.9f && Camera.main.orthographicSize < 2.1f
+			if (Camera.main.orthographicSize >= 1.9f && Camera.main.orthographicSize <= 2.1f
 				&& Vector3.Distance(Camera.main.transform.position, vectorize(this.transform.position)) < 0.2f) {
 				stage = FLOAT_STAGE;
 			}

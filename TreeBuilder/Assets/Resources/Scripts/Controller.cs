@@ -38,6 +38,7 @@ public class Controller : MonoBehaviour {
 	public List<Color> branchColors;
 	public List<Color> leafColors;
 	public List<Color> rootColors;
+	public int colorsArrayIndex;
 
 	public bool flowering = false;
 
@@ -62,23 +63,7 @@ public class Controller : MonoBehaviour {
 		initialized = false;
 		inControl = false;
 		initTreeColors ();
-		/*
-		branchColors = new List<Color> ();
-		rootColors = new List<Color> ();
-		leafColors = new List<Color> ();
 
-		branchColors.Add (Color.blue);
-		rootColors.Add (Color.blue);
-		leafColors.Add (Color.blue);
-
-		branchColors.Add (Color.grey);
-		rootColors.Add (Color.grey);
-		leafColors.Add (Color.grey);
-
-		branchColors.Add (Color.black);
-		rootColors.Add (Color.black);
-		leafColors.Add (Color.black);
-*/
 		hexFolder = new GameObject();
 		populateTiles ();
 		placing = false;
@@ -386,6 +371,8 @@ public class Controller : MonoBehaviour {
 		branchColors.Add (new Color(d(102), d(102), 0f));
 		rootColors.Add (new Color(d(204), 1f, d(204)));
 		leafColors.Add (new Color(d(128), d(255), 0f));
+
+		colorsArrayIndex = UnityEngine.Random.Range (0, branchColors.Count);
 	}
 
 	float d(int v){
