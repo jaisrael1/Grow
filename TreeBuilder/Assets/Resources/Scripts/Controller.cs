@@ -316,7 +316,7 @@ public class Controller : MonoBehaviour {
 	}
 
 	public int findCost(Hex h){
-		return Math.Min(((int)Mathf.Pow (h.findHeight (), .5f+trees.Count/2) * COST_LIN), 500);
+		return Math.Min(((int)Mathf.Pow (h.findHeight (), .5f+trees.Count/2) * COST_LIN), 100);
 	}
 
 	public void flower(){
