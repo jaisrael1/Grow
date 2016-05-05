@@ -13,7 +13,7 @@ public class Bird : MonoBehaviour {
 	public void init (float x, float y, EnvironmentManager em) {
 		this.em = em;
 		this.c = em.c;
-		this.type = type;
+		//this.type = type;
 
 		this.transform.localPosition = new Vector3(x, y);
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -30,10 +30,10 @@ public class Bird : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (this.transform.position.x > Controller.WORLD_WIDTH / 2) {
-			Destroy (this);
-		} else {
-			this.transform.Translate (new Vector2 (1f, 0));
+		if (this.transform.position.x < 0.75f * -Controller.WORLD_WIDTH / 2) {
+			Destroy (this.gameObject);
 		}
+			this.transform.Translate (new Vector2 (-0.06f, 0));
+		
 	}
 }

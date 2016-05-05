@@ -22,7 +22,7 @@ public class EnvironmentManager : MonoBehaviour {
 	public float timeSinceLastCloud;
 	public int rainclouds;
 
-	public bool isBird = false;
+	//public bool isBird = false;
 
 	public static float ORB_BASE_PROB = 10f;
 	public static float WATER_BASE_PROB = 50f;
@@ -62,7 +62,9 @@ public class EnvironmentManager : MonoBehaviour {
 		waterDrops = new List<Light> ();
 
 		InvokeRepeating("sunGenerator", 0f, 0.25f);
-	}
+        InvokeRepeating("BirdGenerator", 0f, 16f);
+        InvokeRepeating("WormGenerator", 0f, 6f);
+    }
 
 
 	public void changeWeather (int type){
@@ -113,31 +115,10 @@ public class EnvironmentManager : MonoBehaviour {
 			}
 		}
 
-		if (!isBird) {
-			addBird ();
-		}
-
 	}
 
-	public void addBird()
-	{
-		
-		GameObject birdObject = new GameObject();
+	
 
-		Bird newBird = birdObject.AddComponent<Bird>();
-
-
-
-		int x = -Controller.WORLD_WIDTH/2;
-		int y = UnityEngine.Random.Range (5, 12);
-		Hex h = c.hexAt(x, y);
-		newBird.init (h.transform.position.x, h.transform.position.y, this);
-		isBird = true;
-	}
-	public void destroyBird(Bird b){
-		Destroy (b);
-		isBird = false;
-	}
 		
 	void createCloud(bool isRain){
 		int height = UnityEngine.Random.Range (Controller.WORLD_HEIGHT / 6, Controller.WORLD_HEIGHT / 2 - 1);
@@ -164,7 +145,39 @@ public class EnvironmentManager : MonoBehaviour {
 		}
 	}
 
-	public void createSun(float x, float y, int type)
+    void BirdGenerator()
+    {
+        float y = UnityEngine.Random.Range(5,24);
+        createBird(0.75f * Controller.WORLD_WIDTH/2, y * Mathf.Sqrt(3) / 2f);
+    }
+
+    void WormGenerator()
+    {
+        float y = UnityEngine.Random.Range(0, -70);
+        createWorm(0.75f * -Controller.WORLD_WIDTH / 2, y);
+    }
+
+    public void createBird(float x, float y)
+    {
+
+        GameObject birdObject = new GameObject();
+        birdObject.name = "Bird";
+
+        Bird newBird = birdObject.AddComponent<Bird>();
+        newBird.init(x, y, this);
+    }
+
+    public void createWorm(float x, float y)
+    {
+
+        GameObject wormObject = new GameObject();
+        wormObject.name = "Worm";
+
+        Worm newWorm = wormObject.AddComponent<Worm>();
+        newWorm.init(x, y, this);
+    }
+
+    public void createSun(float x, float y, int type)
 	{
 		GameObject lightObject = new GameObject();
 
