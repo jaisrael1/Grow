@@ -163,6 +163,9 @@ public class Controller : MonoBehaviour {
 			if (Input.GetMouseButtonUp (0)) {
 				if (placing) {
 					Hex end = mouseOver;
+					if (end != null) {
+						end.model.mat.color = new Color (0, 0, 0, 0.5f);
+					}
 					if (end != null && checkFinish (placingFrom, end)) {
 						placingFrom.addBranch (end, currentBranch);
 						currentBranch.confirm (end);
@@ -175,9 +178,7 @@ public class Controller : MonoBehaviour {
 						} else {
 							waterEnergy -= currentCost;
 						}
-						end.model.mat.color = new Color (0, 0, 0, 0.5f);
 						checkFarthests (end.coordX, end.coordY);
-
 					} else {
 						Destroy (currentBranch.gameObject);
 					}

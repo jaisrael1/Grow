@@ -164,7 +164,7 @@ public class Hex : MonoBehaviour
 		int d = findDistToRoot ();
 		branchEntering.leafModel.setScale (d);
 
-		if (hexFrom != null && hexFrom.branchEntering.leafModel != null && hexFrom.branchEntering.leafModel.targetScale < 0.8f) {
+		if (hexFrom != null && hexFrom.branchEntering.leafModel != null && hexFrom.branchEntering.leafModel.targetScale < 0.85f) {
 			hexFrom.branchEntering.leafModel.shrinking = true;
 		} else {
 			hexFrom.updateLeaf ();
@@ -176,6 +176,13 @@ public class Hex : MonoBehaviour
 		if (hexFrom != null) {
 			branchEntering.raiseWidth ();
 			hexFrom.updateWidth ();
+		} else {
+			if (tree.airRootBranch.tWidthS < tree.groundRootBranch.widthStart) {
+				tree.airRootBranch.tWidthS = tree.groundRootBranch.widthStart;
+			}
+			if (tree.airRootBranch.tWidthS > tree.groundRootBranch.widthStart) {
+				tree.groundRootBranch.tWidthS = tree.airRootBranch.widthStart;
+			}
 		}
 	}
 
@@ -184,9 +191,6 @@ public class Hex : MonoBehaviour
 			if (branchEntering != null && branchEntering.leafModel != null) {
 				branchEntering.leafModel.changeScale ();
 			}
-		if (branchEntering != null && branchEntering.leafModel != null) {
-			print (branchEntering.leafModel.shrinking);
-		}
 			if (hexFrom != null) {
 				hexFrom.updateLeaf ();
 			}

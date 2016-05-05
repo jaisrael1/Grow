@@ -39,8 +39,8 @@ public class Tree : MonoBehaviour {
 		saplingHeight = 0f;
 	
 		branchColor = c.branchColors[c.colorsArrayIndex];
-		leafColor   = c.leafColors[c.colorsArrayIndex];
-		rootColor   = c.rootColors[c.colorsArrayIndex];
+		leafColor   = c.leafColors  [c.colorsArrayIndex];
+		rootColor   = c.rootColors  [c.colorsArrayIndex];
 		c.colorsArrayIndex = (c.colorsArrayIndex + 1) % c.branchColors.Count;  
 	}
 

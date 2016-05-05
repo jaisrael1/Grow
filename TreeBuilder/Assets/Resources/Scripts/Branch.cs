@@ -22,6 +22,9 @@ public class Branch : MonoBehaviour {
 	public Color branchColor ;
 	public Color rootColor ;
 
+	public float tWidthS;
+	public float tWidthE;
+
 	// Use this for initialization
 	public void init(Hex hexStart, Controller controller, bool isRoot){
 		branchColor = hexStart.tree.branchColor;//new Color(d(139), d(69), d(19));
@@ -52,6 +55,8 @@ public class Branch : MonoBehaviour {
 	
 		widthStart = 0.085f;
 		widthEnd   = 0.07f;
+		tWidthE = widthEnd;
+		tWidthS = widthStart;
 		lr.SetWidth (widthStart, widthEnd);
 
 	}
@@ -93,19 +98,34 @@ public class Branch : MonoBehaviour {
     }
 
 	public void raiseWidth(){
-		if (widthStart < 0.45f) {
-			widthStart += 0.009f;
+		if (widthStart < 0.45f && widthStart - widthEnd <= 0.015f) {
+			//widthStart += 0.009f;
+			tWidthS = widthStart + 0.009f;
 		}
 		if (widthEnd < 0.45f) {
-			widthEnd += 0.009f;
+			//widthEnd += 0.009f;
+			tWidthE = widthEnd + 0.009f;
 		}
-		lr.SetWidth (widthStart, widthEnd);
-		joint.updateDiameter (widthEnd);
+		//lr.SetWidth (widthStart, widthEnd);
+		//joint.updateDiameter (widthEnd);
 	}
 
 	// Update is called once per frame
 	void Update () {
-		
+		bool shouldUpdate = false;
+		if (placedYet && tWidthE > widthEnd) {
+			shouldUpdate = true;
+			widthEnd += 0.0005f;
+		}
+		if (placedYet && tWidthS > widthStart) {
+			shouldUpdate = true;
+			widthStart += 0.0005f;
+		}
+		if (shouldUpdate) {
+			lr.SetWidth (widthStart, widthEnd);
+			joint.updateDiameter (widthEnd);
+		}
+
 		if (!placedYet && controller != null && !isRoot) {
 			worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			float mouseX = worldPos.x;
@@ -123,6 +143,7 @@ public class Branch : MonoBehaviour {
 		if (controller.flowering) {
 			flower ();
 		}
+
 	}
 
 	float d(int v){
