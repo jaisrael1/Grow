@@ -17,13 +17,12 @@ public class HexModel : MonoBehaviour {
 
 		mat = GetComponent<Renderer>().material;
 		mat.shader = Shader.Find ("Transparent/Diffuse");
-		mat.mainTexture = Resources.Load<Texture2D>("Textures/tile");	
-		mat.color = new Color(1,1,1,0.1f);		
+		mat.mainTexture = Resources.Load<Texture2D>("Textures/tile_white");	
+		mat.color = new Color(0,0,0,0.1f);		
 		if (h.coordY >= 0) {
 			mat.renderQueue = RenderCoordinator.HEX_BORDER_NA_A_RQ;
 		} else {
 			mat.renderQueue = RenderCoordinator.HEX_BORDER_NA_G_RQ;
 		}
-
 	}
 }

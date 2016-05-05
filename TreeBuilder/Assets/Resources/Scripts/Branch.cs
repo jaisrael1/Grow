@@ -94,10 +94,10 @@ public class Branch : MonoBehaviour {
 
 	public void raiseWidth(){
 		if (widthStart < 0.45f) {
-			widthStart += 0.004f;
+			widthStart += 0.009f;
 		}
 		if (widthEnd < 0.45f) {
-			widthEnd += 0.004f;
+			widthEnd += 0.009f;
 		}
 		lr.SetWidth (widthStart, widthEnd);
 		joint.updateDiameter (widthEnd);

@@ -109,12 +109,12 @@ public class Controller : MonoBehaviour {
 	void Update () {
 		if (inControl) {
 			//CAMERA STUFF
-			if (Input.GetKey (KeyCode.E)) {
+			if (Input.GetKey (KeyCode.E) || Input.GetAxis("Mouse ScrollWheel") < 0) {
 				if (!(Camera.main.orthographicSize < 0.5f && Input.GetAxis ("Vertical") < 0)) {
 					Camera.main.orthographicSize += 0.1f;
 				}
 			}
-			if (Input.GetKey (KeyCode.Q)) {
+			if (Input.GetKey (KeyCode.Q) || Input.GetAxis("Mouse ScrollWheel") > 0) {
 				if (!(Camera.main.orthographicSize < 1f)) {
 					Camera.main.orthographicSize -= 0.1f;
 				}
@@ -175,23 +175,13 @@ public class Controller : MonoBehaviour {
 						} else {
 							waterEnergy -= currentCost;
 						}
-
+						end.model.mat.color = new Color (0, 0, 0, 0.5f);
 						checkFarthests (end.coordX, end.coordY);
-						/*
-						if (end.coordX > farthestRight && (end.coordY == 0 || end.coordY == -1)) {
-							farthestRight += 2;
-							if (farthestRight == WORLD_WIDTH / 2 - 2) {
-								enviroManager.removeNewTreeOrbs ();
-							}
-						}
-						if (end.coordX < farthestLeft && (end.coordY == 0 || end.coordY == -1)) {
-							farthestLeft -= 2;
-						}
-						*/
 
 					} else {
 						Destroy (currentBranch.gameObject);
 					}
+
 					currentBranch = null;
 					placing = false;
 					currentCost = 0;
@@ -305,7 +295,7 @@ public class Controller : MonoBehaviour {
 		}
 	}
 
-	bool checkAdjacent(Hex start, Hex end){
+	public bool checkAdjacent(Hex start, Hex end){
 		float dist = Mathf.Sqrt (Mathf.Pow (end.realX - start.realX, 2) + Mathf.Pow (end.realY - start.realY, 2));
 		return (dist < 1f);
 	}

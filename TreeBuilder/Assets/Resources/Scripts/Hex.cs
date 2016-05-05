@@ -160,11 +160,15 @@ public class Hex : MonoBehaviour
 	}
 
 	public void makeLeaf(){
-		if (hexFrom != null && hexFrom.branchEntering.leafModel != null && hexFrom.branchEntering.leafModel.transform.localScale.x < 11.5f) {
-			Destroy (hexFrom.branchEntering.leafModel.gameObject);
-		}
+
 		int d = findDistToRoot ();
 		branchEntering.leafModel.setScale (d);
+
+		if (hexFrom != null && hexFrom.branchEntering.leafModel != null && hexFrom.branchEntering.leafModel.targetScale < 0.8f) {
+			hexFrom.branchEntering.leafModel.shrinking = true;
+		} else {
+			hexFrom.updateLeaf ();
+		}
 	}
 
 	public void updateWidth ()
@@ -177,10 +181,15 @@ public class Hex : MonoBehaviour
 
 	public void updateLeaf()
 	{
-		if (hexFrom != null){
-			branchEntering.leafModel.changeScale ();
-			hexFrom.updateLeaf ();
+			if (branchEntering != null && branchEntering.leafModel != null) {
+				branchEntering.leafModel.changeScale ();
+			}
+		if (branchEntering != null && branchEntering.leafModel != null) {
+			print (branchEntering.leafModel.shrinking);
 		}
+			if (hexFrom != null) {
+				hexFrom.updateLeaf ();
+			}
 	}
 
 	public int findDistToRoot(){
@@ -211,7 +220,18 @@ public class Hex : MonoBehaviour
 	void OnMouseEnter ()
 	{
 		controller.mouseOver = this;
-		model.mat.color = new Color (1, 1, 1 , 0.5f);
+		if (controller.placing && !controller.placingFrom.Equals(this)) {
+			if (((coordY >= 0 && controller.waterEnergy >= controller.currentCost) ||
+				(coordY < 0 && controller.sunEnergy >= controller.currentCost)) 
+				&& controller.checkAdjacent(controller.placingFrom, this)
+				&& this.type == controller.placingFrom.type && !occupied) {
+				model.mat.color = new Color (0.1f, 1f, 0.1f, 1f);
+			} else {
+				model.mat.color = new Color (1f, 0.2f, 0.2f, 1f);
+			}
+		} else {
+			model.mat.color = new Color (0, 0, 0, 0.5f);
+		}
 		model.mat.renderQueue = RenderCoordinator.HEX_BORDER_A_RQ;
 	}
 
@@ -220,7 +240,7 @@ public class Hex : MonoBehaviour
 		if (controller.mouseOver.Equals (this)) {
 			controller.mouseOver = null;
 		}
-		model.mat.color = new Color (1, 1, 1, 0.1f);
+		model.mat.color = new Color (0, 0, 0, 0.1f);
 		if (coordY >= 0) {
 			model.mat.renderQueue = RenderCoordinator.HEX_BORDER_NA_A_RQ;
 		} else {
