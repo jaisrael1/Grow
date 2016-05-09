@@ -32,8 +32,8 @@ public class Controller : MonoBehaviour {
 	public const int COST_LIN = 1;
 	public const float COST_EX = 1.0f;
 
-	public const int INITIAL_SUN_ENERGY = 20;
-	public const int INITIAL_WATER_ENERGY = 20;
+	public const int INITIAL_SUN_ENERGY = 50;
+	public const int INITIAL_WATER_ENERGY = 50;
 
 	public List<Color> branchColors;
 	public List<Color> leafColors;
@@ -51,7 +51,7 @@ public class Controller : MonoBehaviour {
 	public AudioManager audioM;
 	public GameObject audioObject;
 
-    public const int WORLD_HEIGHT = 80; // the number of vertical tiles
+    public const int WORLD_HEIGHT = 72; // the number of vertical tiles
 	public const int WORLD_WIDTH = 100;  // number of horizontal tiles 
 	public bool[] availableRoots;
 	public Hex[,] hexArray;
@@ -321,7 +321,7 @@ public class Controller : MonoBehaviour {
 	}
 
 	public int findCost(Hex h){
-		return Math.Min(((int)Mathf.Pow (h.findHeight (), .5f+trees.Count/2) * COST_LIN), 100);
+		return Math.Min(h.findHeight () * COST_LIN * trees.Count, 100);
 	}
 
 	public void flower(){

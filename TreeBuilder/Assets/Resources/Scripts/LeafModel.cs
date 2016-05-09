@@ -80,6 +80,6 @@ public class LeafModel : MonoBehaviour {
 	public void flower(){
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/Flower");
 		mat.color = Color.white;
-		transform.localScale = new Vector3 (5f, 5f, 0);
+		transform.localScale = new Vector3 (1f, 1f, 0);
 	}
 }

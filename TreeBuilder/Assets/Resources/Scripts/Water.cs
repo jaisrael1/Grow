@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Water : MonoBehaviour {
 
-	private int ADDED_WATER = 6;
+	private int ADDED_WATER = 10;
 
 	private Hex h;
 	private Controller c;
