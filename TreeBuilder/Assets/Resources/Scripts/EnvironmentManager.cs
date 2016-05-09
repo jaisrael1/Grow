@@ -153,7 +153,7 @@ public class EnvironmentManager : MonoBehaviour {
 
     void WormGenerator()
     {
-        float y = UnityEngine.Random.Range(0, -70);
+        float y = UnityEngine.Random.Range(-3, -70);
         createWorm(0.75f * -Controller.WORLD_WIDTH / 2, y);
     }
 
