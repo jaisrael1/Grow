@@ -191,7 +191,12 @@ public class Controller : MonoBehaviour {
 		}
         sunDisplay = "Sunlight: " + sunEnergy;
 		waterDisplay = "Water: " + waterEnergy;
-
+		if (placing && placingFrom != null && placingFrom.coordY >= 0) {
+			waterDisplay = "Water: " + waterEnergy + " - " + currentCost;
+		}
+		if (placing && placingFrom != null && placingFrom.coordY < 0) {
+			sunDisplay = "Sunlight: " + sunEnergy + " - " + currentCost;
+		}
 	}
 
 	void populateTiles(){
@@ -325,11 +330,11 @@ public class Controller : MonoBehaviour {
     
 	void OnGUI () {
         
-        GUI.contentColor = Color.yellow;
-        GUI.DrawTexture(new Rect(Screen.width - 140, Screen.height / 2 - 70, 150, 160), resourceBackground);
-        GUI.Label(new Rect(Screen.width -100, Screen.height/2, 100, 20), sunDisplay);
-        GUI.contentColor = new Color(0, 1, 1);
-        GUI.Label(new Rect(Screen.width -100, Screen.height/2-30, 100, 20), waterDisplay);
+		GUI.contentColor = Color.yellow;
+        GUI.DrawTexture(new Rect(Screen.width - 200, Screen.height / 2 - 70, 210, 160), resourceBackground);
+        GUI.Label(new Rect(Screen.width -160, Screen.height/2, 160, 20), sunDisplay);
+		GUI.contentColor = new Color(0, 1, 1);
+        GUI.Label(new Rect(Screen.width -160, Screen.height/2-30, 160, 20), waterDisplay);
        
 
     }
