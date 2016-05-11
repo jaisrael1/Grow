@@ -18,6 +18,9 @@ public class Orb : MonoBehaviour {
 		this.em = em;
 		this.c = em.c;
 		this.type = type;
+		if (type == -1) {
+			this.type = 1;
+		}
 		this.transform.localPosition = h.transform.localPosition;
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		model = modelObject.AddComponent<OrbModel>();

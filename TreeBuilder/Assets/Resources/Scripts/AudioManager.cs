@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour {
 
@@ -77,6 +78,7 @@ public class AudioManager : MonoBehaviour {
 	public void init(Controller c){
 		//load game controller
 		this.c = c;
+
 
 		changeSound = true;
 		maxBGM = false;
@@ -270,13 +272,14 @@ public class AudioManager : MonoBehaviour {
 		bgm2.setLoop(true);
 		bgm3.setLoop(true);
 
-		bgm1.play();
+		//Scene scene = SceneManager.GetActiveScene ();
+		bgm1.play ();
 
-		abovegroundBGFX.setLoop(true);
-		abovegroundBGFX.play();
+		abovegroundBGFX.setLoop (true);
+		abovegroundBGFX.play ();
 
-		undergroundBGFX.setLoop(true);
-		undergroundBGFX.play();
+		undergroundBGFX.setLoop (true);
+		undergroundBGFX.play ();
 	}
 
 	public void randomBranch () {

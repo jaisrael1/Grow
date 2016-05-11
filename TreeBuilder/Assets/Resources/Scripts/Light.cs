@@ -65,7 +65,7 @@ public class Light : MonoBehaviour {
 		if (col.gameObject.tag == "joint") {
 
 				if (type == EnvironmentManager.RAINY_WEATHER) {
-					int amount = (int)(this.transform.localScale.x * 10);
+					int amount = (int)(this.transform.localScale.x * 8);
 					c.SendMessage ("addWaterEnergy", amount);
 				} else {
 					c.SendMessage ("addSunEnergy", this.transform.localScale.x);

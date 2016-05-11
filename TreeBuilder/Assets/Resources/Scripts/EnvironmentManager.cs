@@ -278,7 +278,7 @@ public class EnvironmentManager : MonoBehaviour {
 		else if (h.transform.position.y <= -4) {
 			newOrb.init (h, UnityEngine.Random.Range (1, 3), this);
 		} else if (h.transform.position.y > 4) {
-			newOrb.init (h, UnityEngine.Random.Range (0, 2), this);
+			newOrb.init (h, UnityEngine.Random.Range (-1, 2), this);
 		}
 		newOrb.name = "Orb" + newOrb.type;
 		orbs.Add (newOrb);

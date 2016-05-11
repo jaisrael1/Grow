@@ -1,10 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Controller.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Orb.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Controller.cs" Line="43" Column="28" />
+      <File FileName="Assets\Resources\Scripts\EnvironmentManager.cs" Line="282" Column="4" />
+      <File FileName="Assets\Resources\Scripts\Controller.cs" Line="248" Column="34" />
       <File FileName="Assets\Resources\Scripts\LeafModel.cs" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Water.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\AudioManager.cs" Line="282" Column="3" />
+      <File FileName="Assets\Resources\Scripts\Light.cs" Line="67" Column="44" />
+      <File FileName="Assets\Resources\Scripts\OrbModel.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Orb.cs" Line="22" Column="18" />
+      <File FileName="Assets\Resources\Scripts\OrbEffectModel.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
